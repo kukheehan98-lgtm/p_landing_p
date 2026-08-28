@@ -1,0 +1,17 @@
+# OS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editor / tooling
+.vscode/
+.idea/
+*.log
+
+# Superseded v1 prototype (kept locally, not published)
+archive/
+assets/
+
+# Internal planning docs — kept local, not published
+caud_md.md
+landing_page.json

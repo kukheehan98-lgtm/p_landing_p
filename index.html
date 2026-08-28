@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>착실한 내일 | 한 세대의 착실함, 다음 세대의 자산이 되다</title>
+<meta name="description" content="시니어의 산업 실무 경험과 착실함을 AI로 채집해 청소년의 진로 나침반으로 잇는 세대 상생 멘토링 프로젝트 「착실한 브릿지」" />
+
+<meta property="og:title" content="착실한 내일 — 한 세대의 착실함, 다음 세대의 자산이 되다" />
+<meta property="og:description" content="평생 쌓아온 현장의 실무 지혜가 청소년의 미래를 여는 나침반이 됩니다." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['"Noto Sans KR"', 'system-ui', 'sans-serif'],
+          serif: ['"Noto Serif KR"', 'serif'],
+        },
+        colors: {
+          navy: { 900: '#0F172A', 800: '#1E293B', 700: '#334155', 600: '#475569', 400: '#94A3B8' },
+          amber: { 700: '#B45309', 600: '#D97706', 500: '#F59E0B', 100: '#FEF3C7', 50: '#FFFBEB' },
+          cream: '#FFFBEB',
+          mist: '#F8FAFC',
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  /* ---- Senior-friendly base: 17px+ body, generous line-height ---- */
+  html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+  body { font-size: 18px; line-height: 1.75; letter-spacing: -0.01em; }
+  @media (max-width: 640px) { body { font-size: 17px; } }
+
+  /* ---- Focus visibility (WCAG 2.1 AA) ---- */
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible {
+    outline: 3px solid #B45309;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* ---- Scroll reveal ---- */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+  .reveal.is-visible { opacity: 1; transform: none; }
+
+  /* ---- Modal ---- */
+  .modal { opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+  .modal.is-open { opacity: 1; pointer-events: auto; }
+  .modal-panel { transform: translateY(24px) scale(.98); transition: transform .35s cubic-bezier(.16,1,.3,1); }
+  .modal.is-open .modal-panel { transform: none; }
+  body.modal-locked { overflow: hidden; }
+
+  /* ---- Quiz option button ---- */
+  .quiz-option {
+    transition: border-color .2s ease, background-color .2s ease, transform .2s ease;
+  }
+  .quiz-option:hover { border-color: #D97706; background-color: #FFFBEB; transform: translateY(-2px); }
+  .quiz-option.is-picked { border-color: #B45309; background-color: #FEF3C7; }
+
+  /* ---- Hero image treatment ---- */
+  .hero-media::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(100deg, rgba(15,23,42,.94) 0%, rgba(15,23,42,.86) 45%, rgba(15,23,42,.55) 100%);
+  }
+  @media (max-width: 1024px) {
+    .hero-media::after { background: linear-gradient(180deg, rgba(15,23,42,.90) 0%, rgba(15,23,42,.93) 100%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+</style>
+</head>
+
+<body class="bg-cream text-navy-900 font-sans antialiased">
+
+<!-- ══════════════════ SECTION 0 · Sticky GNB ══════════════════ -->
+<header id="gnb" class="fixed top-0 inset-x-0 z-40 bg-cream/95 backdrop-blur border-b border-navy-900/10">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8 h-[72px] lg:h-[80px] flex items-center justify-between gap-4">
+
+    <a href="#hero" class="flex items-baseline gap-2 shrink-0">
+      <span class="text-[22px] lg:text-[24px] font-black tracking-tight">착실한 내일</span>
+      <span class="hidden sm:inline font-serif text-[15px] text-amber-700">着實</span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8 text-[17px] font-medium text-navy-700">
+      <a href="#hero" class="hover:text-amber-700 transition-colors">서비스 소개</a>
+      <a href="#process" class="hover:text-amber-700 transition-colors">3단계 프로세스</a>
+      <a href="#mbti-test" class="hover:text-amber-700 transition-colors">멘토 성향 테스트</a>
+      <a href="#outputs" class="hover:text-amber-700 transition-colors">산출물 미리보기</a>
+      <a href="#partnership" class="hover:text-amber-700 transition-colors">제휴 문의</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <button data-open-modal="mentor-apply-modal"
+              class="hidden sm:inline-flex items-center gap-2 bg-amber-700 hover:bg-amber-600 text-white font-bold text-[17px] px-6 py-3 rounded-xl transition-colors shadow-sm">
+        <i data-lucide="hand-heart" class="w-5 h-5"></i>
+        멘토 신청하기
+      </button>
+      <button id="navToggle" class="lg:hidden w-12 h-12 grid place-items-center rounded-xl border border-navy-900/15" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mobileNav">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <nav id="mobileNav" class="lg:hidden hidden border-t border-navy-900/10 bg-cream px-5 pb-6 pt-2">
+    <a href="#hero" class="block py-4 text-[19px] font-medium border-b border-navy-900/10">서비스 소개</a>
+    <a href="#process" class="block py-4 text-[19px] font-medium border-b border-navy-900/10">3단계 프로세스</a>
+    <a href="#mbti-test" class="block py-4 text-[19px] font-medium border-b border-navy-900/10">멘토 성향 테스트</a>
+    <a href="#outputs" class="block py-4 text-[19px] font-medium border-b border-navy-900/10">산출물 미리보기</a>
+    <a href="#partnership" class="block py-4 text-[19px] font-medium border-b border-navy-900/10">제휴 문의</a>
+    <button data-open-modal="mentor-apply-modal"
+            class="mt-5 w-full inline-flex items-center justify-center gap-2 bg-amber-700 text-white font-bold text-[18px] px-6 py-4 rounded-xl">
+      <i data-lucide="hand-heart" class="w-5 h-5"></i>
+      멘토 신청하기
+    </button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══════════════════ SECTION 1 · Hero ══════════════════ -->
+<section id="hero" class="relative pt-[72px] lg:pt-[80px] overflow-hidden">
+  <div class="hero-media absolute inset-0">
+    <img src="image/1.png" alt="시니어 멘토와 청소년이 태블릿을 함께 보며 대화하는 모습" class="w-full h-full object-cover object-center" />
+  </div>
+
+  <div class="relative mx-auto max-w-7xl px-5 lg:px-8 py-20 lg:py-32">
+    <div class="max-w-3xl">
+      <p class="inline-flex items-center gap-2 bg-amber-600/15 border border-amber-500/40 text-amber-500 rounded-full px-4 py-2 text-[15px] font-bold tracking-wide">
+        <i data-lucide="sparkles" class="w-4 h-4"></i>
+        세대 상생 실무 노하우 아카이빙 · 「착실한 브릿지」
+      </p>
+
+      <h1 class="mt-7 text-white font-black tracking-tight leading-[1.25] text-[36px] sm:text-[46px] lg:text-[60px]">
+        한 세대의 착실함,<br />
+        다음 세대의 <span class="text-amber-500">자산</span>이 되다
+      </h1>
+
+      <p class="mt-7 text-[19px] lg:text-[21px] leading-[1.8] text-slate-200 max-w-2xl">
+        평생 땀 흘려 일군 현장의 실무 지혜와 위기 극복 노하우가 AI를 만나
+        청소년의 미래를 여는 <strong class="text-white font-bold">단단한 나침반</strong>이 됩니다.
+      </p>
+
+      <!-- Value cards -->
+      <ul class="mt-11 grid gap-4 sm:grid-cols-3 max-w-3xl">
+        <li class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5">
+          <i data-lucide="users-round" class="w-8 h-8 text-amber-500"></i>
+          <h2 class="mt-3 text-white font-bold text-[19px]">1:1 실무 멘토링</h2>
+          <p class="mt-1.5 text-[16px] leading-relaxed text-slate-300">역발상 세대 교류</p>
+        </li>
+        <li class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5">
+          <i data-lucide="library-big" class="w-8 h-8 text-amber-500"></i>
+          <h2 class="mt-3 text-white font-bold text-[19px]">무부담 노하우 아카이빙</h2>
+          <p class="mt-1.5 text-[16px] leading-relaxed text-slate-300">대화로 완성되는 디지털 자서전 &amp; 숏폼</p>
+        </li>
+        <li class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5">
+          <i data-lucide="handshake" class="w-8 h-8 text-amber-500"></i>
+          <h2 class="mt-3 text-white font-bold text-[19px]">공공·ESG 연계</h2>
+          <p class="mt-1.5 text-[16px] leading-relaxed text-slate-300">사회적 자본 선순환 생태계</p>
+        </li>
+      </ul>
+
+      <!-- Dual CTA -->
+      <div class="mt-11 flex flex-col sm:flex-row gap-4">
+        <button data-open-modal="mentor-apply-modal"
+                class="inline-flex items-center justify-center gap-2.5 bg-amber-600 hover:bg-amber-500 text-navy-900 font-black text-[18px] lg:text-[19px] px-8 py-5 rounded-2xl transition-colors shadow-lg shadow-black/25">
+          <i data-lucide="hand-heart" class="w-6 h-6"></i>
+          내 인생의 착실 노하우 전수하기
+        </button>
+        <a href="#mbti-test"
+           class="inline-flex items-center justify-center gap-2.5 bg-white/10 hover:bg-white/20 border-2 border-white/40 text-white font-bold text-[18px] px-8 py-5 rounded-2xl transition-colors">
+          3분 만에 알아보는 나의 멘토 성향 테스트
+          <i data-lucide="arrow-down" class="w-5 h-5"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 2 · Problem & Empathy ══════════════════ -->
+<section id="problem" class="bg-mist py-20 lg:py-28">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+
+    <div class="text-center max-w-3xl mx-auto reveal">
+      <p class="text-amber-700 font-bold text-[17px] tracking-wide">WHY WE BRIDGE</p>
+      <h2 class="mt-3 text-[30px] lg:text-[42px] font-black tracking-tight leading-tight">
+        두 세대가 마주한, 서로 다른 결핍
+      </h2>
+    </div>
+
+    <div class="mt-14 grid gap-7 lg:grid-cols-2">
+
+      <!-- Senior -->
+      <article class="reveal bg-white rounded-3xl overflow-hidden shadow-sm border border-navy-900/10">
+        <div class="relative h-56 sm:h-64">
+          <img src="image/2.png" alt="노년의 기술자가 오래된 설계 도면을 손으로 짚으며 살펴보는 모습" class="w-full h-full object-cover" />
+          <span class="absolute top-5 left-5 bg-navy-900 text-white text-[15px] font-bold px-4 py-2 rounded-full">시니어의 현실</span>
+        </div>
+        <div class="p-7 lg:p-9">
+          <h3 class="text-[22px] lg:text-[26px] font-bold leading-snug">
+            “평생을 바쳐 쌓아온 내 기술과 노하우,<br class="hidden sm:block" />
+            은퇴와 함께 사라질까요?”
+          </h3>
+          <p class="mt-5 text-[18px] leading-[1.85] text-navy-700">
+            산업 현장을 지켜온 묵묵한 근면과 성실. 하지만 은퇴 후 단순 노무에 머물며
+            소중한 실무 자산이 유실되고 있습니다.
+          </p>
+        </div>
+      </article>
+
+      <!-- Youth -->
+      <article class="reveal bg-white rounded-3xl overflow-hidden shadow-sm border border-navy-900/10">
+        <div class="relative h-56 sm:h-64">
+          <img src="image/3.png" alt="청소년과 시니어가 카페에서 함께 웃으며 휴대폰 화면을 보는 모습" class="w-full h-full object-cover" />
+          <span class="absolute top-5 left-5 bg-amber-700 text-white text-[15px] font-bold px-4 py-2 rounded-full">청소년의 현실</span>
+        </div>
+        <div class="p-7 lg:p-9">
+          <h3 class="text-[22px] lg:text-[26px] font-bold leading-snug">
+            “진로를 고민할 때, 진짜 현장의 이야기를<br class="hidden sm:block" />
+            들려줄 어른이 필요합니다.”
+          </h3>
+          <p class="mt-5 text-[18px] leading-[1.85] text-navy-700">
+            경제적 어려움을 넘어 삶의 방향과 현실적 조언, 따뜻한 응원을 건네줄
+            든든한 사회적 멘토의 결핍을 겪고 있습니다.
+          </p>
+        </div>
+      </article>
+    </div>
+
+    <!-- Bridge message -->
+    <div class="reveal mt-14 bg-navy-900 rounded-3xl px-7 py-12 lg:px-16 lg:py-16 text-center">
+      <div class="inline-flex items-center gap-3 text-amber-500">
+        <span class="h-px w-10 bg-amber-500/50"></span>
+        <i data-lucide="link" class="w-6 h-6"></i>
+        <span class="h-px w-10 bg-amber-500/50"></span>
+      </div>
+      <p class="mt-6 font-serif text-[44px] lg:text-[64px] font-bold text-white leading-none tracking-widest">着實</p>
+      <p class="mt-6 text-[19px] lg:text-[23px] font-bold text-amber-500">
+        실속과 실제에 발을 붙이고 알차게 열매 맺다
+      </p>
+      <p class="mt-4 text-[18px] lg:text-[20px] leading-[1.85] text-slate-300 max-w-2xl mx-auto">
+        착실한 브릿지는 한 세대가 평생에 걸쳐 증명한 <strong class="text-white">착실함</strong>을
+        다음 세대가 물려받을 수 있는 <strong class="text-white">사회적 유산</strong>으로 바꿉니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 3 · 3-Step Process ══════════════════ -->
+<section id="process" class="py-20 lg:py-28">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+
+    <div class="text-center max-w-3xl mx-auto reveal">
+      <p class="text-amber-700 font-bold text-[17px] tracking-wide">HOW IT WORKS</p>
+      <h2 class="mt-3 text-[30px] lg:text-[42px] font-black tracking-tight leading-tight">
+        착실한 브릿지 3단계 운영 방식
+      </h2>
+      <p class="mt-5 text-[18px] lg:text-[20px] leading-[1.85] text-navy-700">
+        신청부터 나만의 노하우북 발간까지, 어렵지 않게 차근차근 진행됩니다.
+      </p>
+    </div>
+
+    <ol class="mt-14 grid gap-7 lg:grid-cols-3">
+      <li class="reveal bg-white rounded-3xl p-8 lg:p-9 border border-navy-900/10 shadow-sm">
+        <div class="flex items-center gap-4">
+          <span class="w-14 h-14 shrink-0 grid place-items-center rounded-2xl bg-amber-700 text-white text-[24px] font-black">1</span>
+          <i data-lucide="git-compare-arrows" class="w-8 h-8 text-amber-700"></i>
+        </div>
+        <h3 class="mt-6 text-[22px] lg:text-[24px] font-bold leading-snug">정밀 성향 &amp; 직무 매칭</h3>
+        <p class="mt-4 text-[18px] leading-[1.85] text-navy-700">
+          시니어의 커리어 데이터와 청소년의 관심사를 AI가 정밀 분석하여
+          서로에게 가장 필요한 1:1 결연을 제공합니다.
+        </p>
+      </li>
+
+      <li class="reveal bg-white rounded-3xl p-8 lg:p-9 border border-navy-900/10 shadow-sm">
+        <div class="flex items-center gap-4">
+          <span class="w-14 h-14 shrink-0 grid place-items-center rounded-2xl bg-amber-700 text-white text-[24px] font-black">2</span>
+          <i data-lucide="messages-square" class="w-8 h-8 text-amber-700"></i>
+        </div>
+        <h3 class="mt-6 text-[22px] lg:text-[24px] font-bold leading-snug">부담 없는 대화 &amp; 역멘토링</h3>
+        <p class="mt-4 text-[18px] leading-[1.85] text-navy-700">
+          시니어는 현장 지혜와 위기 극복법을, 청소년은 최신 디지털 도구와 트렌드를
+          서로 나누는 수평적 소통을 합니다.
+        </p>
+      </li>
+
+      <li class="reveal bg-white rounded-3xl p-8 lg:p-9 border border-navy-900/10 shadow-sm">
+        <div class="flex items-center gap-4">
+          <span class="w-14 h-14 shrink-0 grid place-items-center rounded-2xl bg-amber-700 text-white text-[24px] font-black">3</span>
+          <i data-lucide="package-check" class="w-8 h-8 text-amber-700"></i>
+        </div>
+        <h3 class="mt-6 text-[22px] lg:text-[24px] font-bold leading-snug">착실 노하우 자산화</h3>
+        <p class="mt-4 text-[18px] leading-[1.85] text-navy-700">
+          멘토링 대화 기록이 AI를 통해 『실무 트러블슈팅 카드』, 『인생 자서전』,
+          『숏폼 영상』으로 자동 발간됩니다.
+        </p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 4 · Interactive Mentor Type Test ══════════════════ -->
+<section id="mbti-test" class="bg-navy-900 py-20 lg:py-28">
+  <div class="mx-auto max-w-4xl px-5 lg:px-8">
+
+    <div class="text-center reveal">
+      <p class="text-amber-500 font-bold text-[17px] tracking-wide">MENTOR TYPE TEST</p>
+      <h2 class="mt-3 text-[30px] lg:text-[42px] font-black tracking-tight leading-tight text-white">
+        나의 은퇴 후 멘토 유형은?
+      </h2>
+      <p class="mt-5 text-[18px] lg:text-[20px] leading-[1.85] text-slate-300">
+        5개 문항, 약 3분이면 충분합니다. 결과에 맞는 멘토링 방식을 추천해 드립니다.
+      </p>
+    </div>
+
+    <div class="mt-12 bg-white rounded-3xl p-7 sm:p-10 lg:p-12 shadow-2xl shadow-black/30">
+
+      <!-- ---- Quiz stage ---- -->
+      <div id="quizStage">
+        <div class="flex items-center justify-between gap-4">
+          <p class="text-[17px] font-bold text-amber-700">
+            <span id="quizStep">1</span> / 5
+          </p>
+          <button id="quizBack" class="hidden items-center gap-1.5 text-[16px] font-medium text-navy-600 hover:text-amber-700 transition-colors">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>이전 문항
+          </button>
+        </div>
+
+        <div class="mt-3 h-2.5 w-full rounded-full bg-navy-900/10 overflow-hidden">
+          <div id="quizBar" class="h-full bg-amber-600 rounded-full transition-all duration-500" style="width:20%"></div>
+        </div>
+
+        <h3 id="quizQuestion" class="mt-8 text-[22px] sm:text-[26px] lg:text-[28px] font-bold leading-snug"></h3>
+
+        <div id="quizOptions" class="mt-7 grid gap-4"></div>
+      </div>
+
+      <!-- ---- Result stage ---- -->
+      <div id="resultStage" class="hidden">
+        <div class="text-center">
+          <p class="text-[17px] font-bold text-amber-700">나의 멘토 유형</p>
+          <p id="resultCode" class="mt-4 inline-block bg-navy-900 text-amber-500 font-black text-[17px] tracking-widest px-5 py-2 rounded-full"></p>
+          <h3 id="resultName" class="mt-5 text-[28px] sm:text-[34px] lg:text-[38px] font-black leading-tight"></h3>
+          <p id="resultSummary" class="mt-4 text-[19px] lg:text-[21px] leading-[1.8] text-navy-700 max-w-xl mx-auto"></p>
+        </div>
+
+        <div class="mt-9 bg-amber-50 border-2 border-amber-500/40 rounded-2xl p-7">
+          <p class="flex items-center gap-2 text-[17px] font-bold text-amber-700">
+            <i data-lucide="compass" class="w-5 h-5"></i>
+            추천 멘토링 방식
+          </p>
+          <p id="resultRecommend" class="mt-3 text-[18px] lg:text-[19px] leading-[1.85]"></p>
+        </div>
+
+        <div class="mt-9 grid gap-4 sm:grid-cols-2">
+          <button data-open-modal="mentor-apply-modal"
+                  class="inline-flex items-center justify-center gap-2.5 bg-amber-700 hover:bg-amber-600 text-white font-bold text-[18px] px-6 py-5 rounded-2xl transition-colors">
+            <i data-lucide="hand-heart" class="w-5 h-5"></i>
+            내 맞춤형 멘토링 신청하기
+          </button>
+          <button id="shareResult"
+                  class="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-mist border-2 border-navy-900/20 text-navy-900 font-bold text-[18px] px-6 py-5 rounded-2xl transition-colors">
+            <i data-lucide="share-2" class="w-5 h-5"></i>
+            <span id="shareLabel">결과 공유하기</span>
+          </button>
+        </div>
+
+        <button id="quizRestart" class="mt-6 w-full text-[17px] font-medium text-navy-600 hover:text-amber-700 transition-colors">
+          다시 테스트하기
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 5 · Outputs Preview ══════════════════ -->
+<section id="outputs" class="py-20 lg:py-28">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+
+    <div class="text-center max-w-3xl mx-auto reveal">
+      <p class="text-amber-700 font-bold text-[17px] tracking-wide">OUTPUTS</p>
+      <h2 class="mt-3 text-[30px] lg:text-[42px] font-black tracking-tight leading-tight">
+        대화가 끝나면, 이렇게 남습니다
+      </h2>
+      <p class="mt-5 text-[18px] lg:text-[20px] leading-[1.85] text-navy-700">
+        멘토링 기록은 AI가 자동으로 정리해 세 가지 형태의 자산으로 발간됩니다.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-7 lg:grid-cols-3">
+
+      <!-- 트러블슈팅 카드 -->
+      <article class="reveal bg-white rounded-3xl border border-navy-900/10 shadow-sm overflow-hidden">
+        <div class="bg-navy-900 px-7 py-5 flex items-center gap-3">
+          <i data-lucide="wrench" class="w-6 h-6 text-amber-500"></i>
+          <h3 class="text-white font-bold text-[20px]">실무 트러블슈팅 카드</h3>
+        </div>
+        <div class="p-7">
+          <div class="rounded-2xl border-2 border-dashed border-navy-900/20 p-6 bg-mist">
+            <p class="text-[15px] font-bold text-amber-700">CASE 014 · 제조/엔지니어링</p>
+            <p class="mt-3 text-[19px] font-bold leading-snug">설비가 새벽에 멈췄을 때, 가장 먼저 확인할 세 가지</p>
+            <ul class="mt-4 space-y-2 text-[17px] leading-relaxed text-navy-700">
+              <li class="flex gap-2"><span class="text-amber-700 font-bold">1</span> 전원 계통과 차단기 상태</li>
+              <li class="flex gap-2"><span class="text-amber-700 font-bold">2</span> 직전 교체 부품의 규격</li>
+              <li class="flex gap-2"><span class="text-amber-700 font-bold">3</span> 야간 근무자 인수인계 기록</li>
+            </ul>
+          </div>
+          <p class="mt-5 text-[17px] leading-relaxed text-navy-600">
+            현장에서만 얻을 수 있는 판단 순서를 한 장의 카드로 정리합니다.
+          </p>
+        </div>
+      </article>
+
+      <!-- 인생 자서전 -->
+      <article class="reveal bg-white rounded-3xl border border-navy-900/10 shadow-sm overflow-hidden">
+        <div class="bg-navy-900 px-7 py-5 flex items-center gap-3">
+          <i data-lucide="book-open" class="w-6 h-6 text-amber-500"></i>
+          <h3 class="text-white font-bold text-[20px]">미니 인생 자서전</h3>
+        </div>
+        <div class="p-7">
+          <div class="rounded-2xl border-2 border-dashed border-navy-900/20 p-6 bg-mist">
+            <p class="font-serif text-[15px] text-amber-700">제 3 장</p>
+            <p class="mt-3 font-serif text-[21px] font-bold leading-snug">“가장 오래 버틴 사람이 결국 가장 잘 아는 사람이 되더라”</p>
+            <p class="mt-4 text-[17px] leading-[1.85] text-navy-700">
+              스물여덟에 처음 공장 문을 열고 들어섰을 때, 나는 아무것도 몰랐다.
+              다만 남들보다 삼십 분 일찍 나왔을 뿐이다…
+            </p>
+          </div>
+          <p class="mt-5 text-[17px] leading-relaxed text-navy-600">
+            대화만 나누면 자서전이 됩니다. 글을 쓰실 필요가 없습니다.
+          </p>
+        </div>
+      </article>
+
+      <!-- 숏폼 카드뉴스 -->
+      <article class="reveal bg-white rounded-3xl border border-navy-900/10 shadow-sm overflow-hidden">
+        <div class="bg-navy-900 px-7 py-5 flex items-center gap-3">
+          <i data-lucide="clapperboard" class="w-6 h-6 text-amber-500"></i>
+          <h3 class="text-white font-bold text-[20px]">숏폼 &amp; 카드뉴스</h3>
+        </div>
+        <div class="p-7">
+          <div class="rounded-2xl overflow-hidden border-2 border-navy-900/10 relative">
+            <img src="image/4.png" alt="시니어가 인터뷰 형식으로 자신의 경험을 이야기하고, 녹음기로 기록되는 모습" class="w-full h-52 object-cover" />
+            <div class="absolute inset-0 bg-navy-900/45 grid place-items-center">
+              <span class="w-16 h-16 grid place-items-center rounded-full bg-amber-600 text-navy-900">
+                <i data-lucide="play" class="w-7 h-7"></i>
+              </span>
+            </div>
+            <p class="absolute bottom-3 left-4 right-4 text-white font-bold text-[17px] leading-snug drop-shadow">
+              “30년 차 반장이 말하는 신입 때 꼭 알았어야 할 것”
+            </p>
+          </div>
+          <p class="mt-5 text-[17px] leading-relaxed text-navy-600">
+            청소년이 실제로 보는 형식으로 재가공해 더 멀리 전달됩니다.
+          </p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ SECTION 6 · Partnership ══════════════════ -->
+<section id="partnership" class="bg-mist py-20 lg:py-28">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+
+    <div class="text-center max-w-3xl mx-auto reveal">
+      <p class="text-amber-700 font-bold text-[17px] tracking-wide">PARTNERSHIP</p>
+      <h2 class="mt-3 text-[30px] lg:text-[42px] font-black tracking-tight leading-tight">
+        기관 및 기업 파트너십
+      </h2>
+    </div>
+
+    <div class="mt-14 grid gap-7 lg:grid-cols-2">
+
+      <article class="reveal bg-white rounded-3xl p-8 lg:p-10 border border-navy-900/10 shadow-sm">
+        <span class="inline-flex items-center gap-2 bg-navy-900 text-white text-[15px] font-bold px-4 py-2 rounded-full">
+          <i data-lucide="landmark" class="w-4 h-4"></i> B2G
+        </span>
+        <h3 class="mt-6 text-[23px] lg:text-[26px] font-bold leading-snug">지자체 · 교육청 · 복지관</h3>
+        <p class="mt-4 text-[18px] leading-[1.85] text-navy-700">
+          노인 일자리 사업 고도화, 저소득층 청소년 바우처 연계,
+          세대 통합 프로그램 위탁 운영을 지원합니다.
+        </p>
+        <ul class="mt-6 space-y-3 text-[17px] leading-relaxed">
+          <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-amber-700 shrink-0 mt-1"></i>노인 일자리 사업 고도화</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-amber-700 shrink-0 mt-1"></i>저소득층 청소년 바우처 연계</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-amber-700 shrink-0 mt-1"></i>세대 통합 프로그램 위탁 운영</li>
+        </ul>
+      </article>
+
+      <article class="reveal bg-white rounded-3xl p-8 lg:p-10 border border-navy-900/10 shadow-sm">
+        <span class="inline-flex items-center gap-2 bg-amber-700 text-white text-[15px] font-bold px-4 py-2 rounded-full">
+          <i data-lucide="building-2" class="w-4 h-4"></i> B2B
+        </span>
+        <h3 class="mt-6 text-[23px] lg:text-[26px] font-bold leading-snug">기업 ESG &amp; 은퇴 예정자 지원팀</h3>
+        <p class="mt-4 text-[18px] leading-[1.85] text-navy-700">
+          임직원 퇴직 전직 지원 프로그램과 기업 후원형 세대공감
+          사회공헌(CSR) 패키지를 제공합니다.
+        </p>
+        <ul class="mt-6 space-y-3 text-[17px] leading-relaxed">
+          <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-amber-700 shrink-0 mt-1"></i>임직원 퇴직 전직 지원 프로그램</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-amber-700 shrink-0 mt-1"></i>세대공감 CSR 패키지 설계</li>
+          <li class="flex gap-3"><i data-lucide="check" class="w-5 h-5 text-amber-700 shrink-0 mt-1"></i>ESG 성과 리포트 연계</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="reveal mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+      <button data-open-modal="partner-modal" data-partner-intent="download"
+              class="inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold text-[18px] px-8 py-5 rounded-2xl transition-colors">
+        <i data-lucide="file-down" class="w-5 h-5"></i>
+        제휴 안내서(소개서) 받기
+      </button>
+      <button data-open-modal="partner-modal" data-partner-intent="consult"
+              class="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-cream border-2 border-navy-900/20 text-navy-900 font-bold text-[18px] px-8 py-5 rounded-2xl transition-colors">
+        <i data-lucide="calendar-check" class="w-5 h-5"></i>
+        도입 상담 신청
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ Final CTA ══════════════════ -->
+<section class="bg-navy-900 py-20 lg:py-28">
+  <div class="mx-auto max-w-4xl px-5 lg:px-8 text-center reveal">
+    <p class="font-serif text-[36px] lg:text-[44px] font-bold text-white leading-tight">
+      당신의 착실한 이야기가<br />아이들의 <span class="text-amber-500">내일</span>이 됩니다.
+    </p>
+    <p class="mt-6 text-[18px] lg:text-[20px] leading-[1.85] text-slate-300">
+      복잡한 준비는 필요 없습니다. 살아온 이야기를 들려주시는 것만으로 시작됩니다.
+    </p>
+    <button data-open-modal="mentor-apply-modal"
+            class="mt-10 inline-flex items-center justify-center gap-2.5 bg-amber-600 hover:bg-amber-500 text-navy-900 font-black text-[19px] lg:text-[21px] px-10 py-6 rounded-2xl transition-colors shadow-lg shadow-black/30">
+      <i data-lucide="hand-heart" class="w-6 h-6"></i>
+      착실 멘토 신청하기
+    </button>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════════ Footer ══════════════════ -->
+<footer class="bg-navy-800 text-slate-300 py-14">
+  <div class="mx-auto max-w-7xl px-5 lg:px-8">
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+      <div>
+        <p class="flex items-baseline gap-2">
+          <span class="text-[24px] font-black text-white">착실한 내일</span>
+          <span class="font-serif text-[16px] text-amber-500">着實</span>
+        </p>
+        <p class="mt-3 text-[17px] leading-relaxed">
+          세대 상생 실무 노하우 아카이빙 &amp; 멘토링 프로젝트 「착실한 브릿지」
+        </p>
+      </div>
+      <nav class="flex flex-wrap gap-x-7 gap-y-3 text-[17px]">
+        <a href="#hero" class="hover:text-amber-500 transition-colors">서비스 소개</a>
+        <a href="#process" class="hover:text-amber-500 transition-colors">3단계 프로세스</a>
+        <a href="#mbti-test" class="hover:text-amber-500 transition-colors">멘토 성향 테스트</a>
+        <a href="#outputs" class="hover:text-amber-500 transition-colors">산출물 미리보기</a>
+        <a href="#partnership" class="hover:text-amber-500 transition-colors">제휴 문의</a>
+      </nav>
+    </div>
+    <p class="mt-12 pt-7 border-t border-white/15 text-[16px]">
+      © 2026 착실한 내일. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+<!-- ══════════════════ MODAL · 멘토 신청 ══════════════════ -->
+<div id="mentor-apply-modal" class="modal fixed inset-0 z-50 bg-navy-900/70 backdrop-blur-sm overflow-y-auto p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="mentorModalTitle">
+  <div class="modal-panel mx-auto my-6 w-full max-w-xl bg-white rounded-3xl shadow-2xl">
+    <div class="flex items-start justify-between gap-4 px-7 pt-7 sm:px-9 sm:pt-9">
+      <div>
+        <h2 id="mentorModalTitle" class="text-[24px] sm:text-[28px] font-black leading-tight">착실 멘토 참여 신청</h2>
+        <p class="mt-2 text-[17px] leading-relaxed text-navy-700">
+          간단한 정보만 남겨주시면 담당자가 직접 연락드립니다.
+        </p>
+      </div>
+      <button data-close-modal class="w-11 h-11 shrink-0 grid place-items-center rounded-xl hover:bg-mist transition-colors" aria-label="닫기">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <form id="mentorForm" class="px-7 pb-8 pt-6 sm:px-9 sm:pb-10 grid gap-5" novalidate>
+      <div>
+        <label for="m-name" class="block text-[17px] font-bold">성함 <span class="text-amber-700">*</span></label>
+        <input id="m-name" name="name" type="text" required autocomplete="name"
+               class="mt-2 w-full text-[18px] px-4 py-4 rounded-xl border-2 border-navy-900/15 focus:border-amber-700 outline-none transition-colors" />
+      </div>
+
+      <div>
+        <label for="m-phone" class="block text-[17px] font-bold">연락처 <span class="text-amber-700">*</span></label>
+        <input id="m-phone" name="phone" type="tel" required autocomplete="tel" placeholder="010-0000-0000"
+               class="mt-2 w-full text-[18px] px-4 py-4 rounded-xl border-2 border-navy-900/15 focus:border-amber-700 outline-none transition-colors" />
+      </div>
+
+      <div>
+        <label for="m-field" class="block text-[17px] font-bold">주요 경력 분야 <span class="text-amber-700">*</span></label>
+        <select id="m-field" name="career_field" required
+                class="mt-2 w-full text-[18px] px-4 py-4 rounded-xl border-2 border-navy-900/15 focus:border-amber-700 outline-none transition-colors bg-white">
+          <option value="">선택해 주세요</option>
+          <option>제조/엔지니어링</option>
+          <option>IT/디지털</option>
+          <option>교육/학습</option>
+          <option>행정/경영</option>
+          <option>영업/서비스</option>
+          <option>기타</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="m-exp" class="block text-[17px] font-bold">들려주고 싶은 나만의 착실 경험 <span class="text-amber-700">*</span></label>
+        <textarea id="m-exp" name="experience_summary" rows="3" required
+                  placeholder="예: 첫 직장에서 위기를 극복했던 원칙, 30년간 지켜온 시간 관리 습관 등"
+                  class="mt-2 w-full text-[18px] px-4 py-4 rounded-xl border-2 border-navy-900/15 focus:border-amber-700 outline-none transition-colors leading-relaxed"></textarea>
+      </div>
+
+      <input type="hidden" id="m-type" name="mentor_type" />
+
+      <button type="submit"
+              class="mt-2 w-full inline-flex items-center justify-center gap-2.5 bg-amber-700 hover:bg-amber-600 text-white font-bold text-[19px] px-6 py-5 rounded-2xl transition-colors">
+        <i data-lucide="send" class="w-5 h-5"></i>
+        신청 완료하기
+      </button>
+
+      <p id="mentorFormNote" class="text-[16px] leading-relaxed text-navy-600" role="status">
+        입력하신 정보는 멘토 매칭 목적으로만 사용됩니다.
+      </p>
+    </form>
+  </div>
+</div>
+
+<!-- ══════════════════ MODAL · 제휴 문의 ══════════════════ -->
+<div id="partner-modal" class="modal fixed inset-0 z-50 bg-navy-900/70 backdrop-blur-sm overflow-y-auto p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="partnerModalTitle">
+  <div class="modal-panel mx-auto my-6 w-full max-w-xl bg-white rounded-3xl shadow-2xl">
+    <div class="flex items-start justify-between gap-4 px-7 pt-7 sm:px-9 sm:pt-9">
+      <div>
+        <h2 id="partnerModalTitle" class="text-[24px] sm:text-[28px] font-black leading-tight">기관 · 기업 제휴 문의</h2>
+        <p id="partnerModalDesc" class="mt-2 text-[17px] leading-relaxed text-navy-700">
+          담당자 정보를 남겨주시면 제휴 안내서와 함께 회신드립니다.
+        </p>
+      </div>
+      <button data-close-modal class="w-11 h-11 shrink-0 grid place-items-center rounded-xl hover:bg-mist transition-colors" aria-label="닫기">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <form id="partnerForm" class="px-7 pb-8 pt-6 sm:px-9 sm:pb-10 grid gap-5" novalidate>
+      <div>
+        <label for="p-org" class="block text-[17px] font-bold">기관/기업명 <span class="text-amber-700">*</span></label>
+        <input id="p-org" name="org" type="text" required
+               class="mt-2 w-full text-[18px] px-4 py-4 rounded-xl border-2 border-navy-900/15 focus:border-amber-700 outline-none transition-colors" />
+      </div>
+      <div>
+        <label for="p-name" class="block text-[17px] font-bold">담당자 성함 <span class="text-amber-700">*</span></label>
+        <input id="p-name" name="name" type="text" required autocomplete="name"
+               class="mt-2 w-full text-[18px] px-4 py-4 rounded-xl border-2 border-navy-900/15 focus:border-amber-700 outline-none transition-colors" />
+      </div>
+      <div>
+        <label for="p-email" class="block text-[17px] font-bold">이메일 <span class="text-amber-700">*</span></label>
+        <input id="p-email" name="email" type="email" required autocomplete="email"
+               class="mt-2 w-full text-[18px] px-4 py-4 rounded-xl border-2 border-navy-900/15 focus:border-amber-700 outline-none transition-colors" />
+      </div>
+      <div>
+        <label for="p-type" class="block text-[17px] font-bold">문의 유형</label>
+        <select id="p-type" name="inquiry_type"
+                class="mt-2 w-full text-[18px] px-4 py-4 rounded-xl border-2 border-navy-900/15 focus:border-amber-700 outline-none transition-colors bg-white">
+          <option value="download">제휴 안내서(소개서) 요청</option>
+          <option value="consult">도입 상담 신청</option>
+        </select>
+      </div>
+
+      <button type="submit"
+              class="mt-2 w-full inline-flex items-center justify-center gap-2.5 bg-navy-900 hover:bg-navy-800 text-white font-bold text-[19px] px-6 py-5 rounded-2xl transition-colors">
+        <i data-lucide="send" class="w-5 h-5"></i>
+        문의 보내기
+      </button>
+
+      <p id="partnerFormNote" class="text-[16px] leading-relaxed text-navy-600" role="status">
+        영업일 기준 2일 이내에 회신드립니다.
+      </p>
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ═══════════ Icons ═══════════ */
+  function renderIcons() { if (window.lucide) lucide.createIcons(); }
+  renderIcons();
+
+  /* ═══════════ Mobile nav ═══════════ */
+  var navToggle = document.getElementById('navToggle');
+  var mobileNav = document.getElementById('mobileNav');
+
+  navToggle.addEventListener('click', function () {
+    var open = mobileNav.classList.toggle('hidden') === false;
+    navToggle.setAttribute('aria-expanded', String(open));
+  });
+  mobileNav.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      mobileNav.classList.add('hidden');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  /* ═══════════ Scroll reveal ═══════════ */
+  var revealObserver = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function (el) { revealObserver.observe(el); });
+
+  /* ═══════════ Modals ═══════════ */
+  var lastFocused = null;
+
+  function openModal(id, trigger) {
+    var modal = document.getElementById(id);
+    if (!modal) return;
+    lastFocused = trigger || document.activeElement;
+    modal.classList.add('is-open');
+    document.body.classList.add('modal-locked');
+    mobileNav.classList.add('hidden');
+    var first = modal.querySelector('input, select, textarea, button');
+    if (first) setTimeout(function () { first.focus(); }, 120);
+  }
+
+  function closeModal(modal) {
+    modal.classList.remove('is-open');
+    document.body.classList.remove('modal-locked');
+    if (lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('[data-open-modal]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var id = btn.dataset.openModal;
+      // Partnership buttons preselect the inquiry type
+      var intent = btn.dataset.partnerIntent;
+      if (intent) {
+        var select = document.getElementById('p-type');
+        if (select) select.value = intent;
+        var desc = document.getElementById('partnerModalDesc');
+        if (desc) {
+          desc.textContent = intent === 'consult'
+            ? '도입 상담을 원하시는 내용을 남겨주시면 담당자가 연락드립니다.'
+            : '담당자 정보를 남겨주시면 제휴 안내서와 함께 회신드립니다.';
+        }
+      }
+      // Carry the quiz result into the mentor form, if any
+      if (id === 'mentor-apply-modal' && quizState.resultCode) {
+        document.getElementById('m-type').value = quizState.resultCode;
+      }
+      openModal(id, btn);
+    });
+  });
+
+  document.querySelectorAll('.modal').forEach(function (modal) {
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) closeModal(modal);
+    });
+    modal.querySelectorAll('[data-close-modal]').forEach(function (btn) {
+      btn.addEventListener('click', function () { closeModal(modal); });
+    });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape') return;
+    var open = document.querySelector('.modal.is-open');
+    if (open) closeModal(open);
+  });
+
+  /* ═══════════ Mentor type test ═══════════ */
+  var QUESTIONS = [
+    {
+      q: '은퇴 후 나에게 가장 가치 있는 시간은?',
+      options: [
+        { text: '내가 평생 쌓아온 전문 지식과 노하우를 체계적으로 정리해줄 때', type: 'P' },
+        { text: '사람들과 마음을 나누며 따뜻한 온기와 활력을 주고받을 때', type: 'E' }
+      ]
+    },
+    {
+      q: '고민 상담을 요청한 청소년을 대할 때 나의 기본 스타일은?',
+      options: [
+        { text: '“이렇게 해보는 건 어떨까?” 명확한 해결책과 다음 단계를 짚어준다.', type: 'G' },
+        { text: '“그랬구나, 많이 힘들었지?” 우선 묵묵히 끝까지 들어주고 공감해준다.', type: 'S' }
+      ]
+    },
+    {
+      q: '내가 생각하는 나의 가장 큰 인생 자산은?',
+      options: [
+        { text: '치열한 현장에서 끝까지 버텨낸 실무 기술과 위기 해결력', type: 'P' },
+        { text: '다양한 인간관계를 겪으며 터득한 배려와 삶을 대하는 유연한 태도', type: 'E' }
+      ]
+    },
+    {
+      q: '청소년과 멘토링 프로젝트를 함께 한다면 선호하는 방식은?',
+      options: [
+        { text: '목표를 정해두고 단계별 계획에 맞춰 차근차근 결과물을 만들어가기', type: 'G' },
+        { text: '부담 없는 대화와 소소한 교류를 통해 아이의 속도에 맞춰 함께 걷기', type: 'S' }
+      ]
+    },
+    {
+      q: '다음 세대에게 가장 물려주고 싶은 나의 모습은?',
+      options: [
+        { text: '전문 분야에서 끝까지 실력을 갈고닦은 장인정신', type: 'P' },
+        { text: '실패와 좌절 속에서도 다시 일어선 마음의 뚝심', type: 'E' }
+      ]
+    }
+  ];
+
+  var RESULTS = {
+    PG: {
+      name: '등대 나침반형',
+      role: '실무 가이드',
+      summary: '체계적인 실무 커리어와 명확한 방향 제시가 강점인 멘토입니다.',
+      recommendation: 'IT·디자인·전문직 등 실무 기술 전수와 함께, 청소년의 포트폴리오와 진로 로드맵을 단계별로 코칭하는 멘토링을 추천드립니다.'
+    },
+    PS: {
+      name: '만능 장인형',
+      role: '실무 서포터',
+      summary: '현장 경험을 바탕으로 직접 보여주며 함께 만드는 장인형 멘토입니다.',
+      recommendation: '실습 위주의 프로젝트 코칭과 실무 과제 피드백으로, 옆에서 함께 만들며 가르쳐주는 멘토링을 추천드립니다.'
+    },
+    EG: {
+      name: '인생 현자형',
+      role: '정서 가이드',
+      summary: '풍부한 위기 극복 경험과 거시적인 삶의 철학을 전하는 멘토입니다.',
+      recommendation: '청소년의 진로 가치관 정립을 돕고, 인생 스토리텔링을 함께 풀어가는 멘토링을 추천드립니다.'
+    },
+    ES: {
+      name: '따뜻한 품형',
+      role: '정서 서포터',
+      summary: '높은 공감 능력과 든든한 경청으로 마음을 여는 버팀목 같은 멘토입니다.',
+      recommendation: '심리·정서적 지지와 고민 상담을 중심으로, 일상 루틴 형성을 함께하는 멘토링을 추천드립니다.'
+    }
+  };
+
+  var quizState = { index: 0, answers: [], resultCode: null };
+
+  var elStage = document.getElementById('quizStage');
+  var elResult = document.getElementById('resultStage');
+  var elStep = document.getElementById('quizStep');
+  var elBar = document.getElementById('quizBar');
+  var elQuestion = document.getElementById('quizQuestion');
+  var elOptions = document.getElementById('quizOptions');
+  var elBack = document.getElementById('quizBack');
+
+  function renderQuestion() {
+    var q = QUESTIONS[quizState.index];
+    elStep.textContent = String(quizState.index + 1);
+    elBar.style.width = ((quizState.index + 1) / QUESTIONS.length * 100) + '%';
+    elQuestion.textContent = 'Q' + (quizState.index + 1) + '. ' + q.q;
+    elBack.classList.toggle('hidden', quizState.index === 0);
+    elBack.classList.toggle('flex', quizState.index > 0);
+
+    elOptions.innerHTML = '';
+    q.options.forEach(function (opt, i) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'quiz-option flex items-start gap-4 text-left w-full border-2 border-navy-900/15 rounded-2xl px-5 sm:px-6 py-6 text-[18px] sm:text-[19px] leading-[1.7] font-medium';
+      if (quizState.answers[quizState.index] === opt.type) btn.classList.add('is-picked');
+      var badge = document.createElement('span');
+      badge.className = 'shrink-0 grid place-items-center w-9 h-9 rounded-full bg-navy-900 text-white text-[16px] font-bold';
+      badge.textContent = i === 0 ? 'A' : 'B';
+      var label = document.createElement('span');
+      label.textContent = opt.text;
+      btn.append(badge, label);
+      btn.addEventListener('click', function () { pick(opt.type); });
+      elOptions.appendChild(btn);
+    });
+  }
+
+  function pick(type) {
+    quizState.answers[quizState.index] = type;
+    if (quizState.index < QUESTIONS.length - 1) {
+      quizState.index += 1;
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  function showResult() {
+    var answers = quizState.answers;
+    var p = answers.filter(function (a) { return a === 'P'; }).length;
+    var e = answers.filter(function (a) { return a === 'E'; }).length;
+    var g = answers.filter(function (a) { return a === 'G'; }).length;
+    var s = answers.filter(function (a) { return a === 'S'; }).length;
+
+    // Q1/Q3/Q5 decide P–E (3 items, no tie). Q2/Q4 decide G–S; a 1:1 tie leans Supporter.
+    var code = (p >= e ? 'P' : 'E') + (g > s ? 'G' : 'S');
+    var result = RESULTS[code];
+    quizState.resultCode = code;
+
+    document.getElementById('resultCode').textContent = '[' + code + '형] ' + result.role;
+    document.getElementById('resultName').textContent = result.name;
+    document.getElementById('resultSummary').textContent = result.summary;
+    document.getElementById('resultRecommend').textContent = result.recommendation;
+
+    elStage.classList.add('hidden');
+    elResult.classList.remove('hidden');
+    renderIcons();
+    elResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  elBack.addEventListener('click', function () {
+    if (quizState.index > 0) { quizState.index -= 1; renderQuestion(); }
+  });
+
+  document.getElementById('quizRestart').addEventListener('click', function () {
+    quizState = { index: 0, answers: [], resultCode: null };
+    elResult.classList.add('hidden');
+    elStage.classList.remove('hidden');
+    renderQuestion();
+    elStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  /* ---- Share result ---- */
+  document.getElementById('shareResult').addEventListener('click', async function () {
+    var result = RESULTS[quizState.resultCode];
+    if (!result) return;
+    var label = document.getElementById('shareLabel');
+    var text = '나의 멘토 유형은 「' + result.name + '(' + result.role + ')」입니다. — 착실한 내일';
+    var url = location.href.split('#')[0];
+
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: '착실한 내일 · 멘토 성향 테스트', text: text, url: url });
+        return;
+      } catch (err) {
+        if (err && err.name === 'AbortError') return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(text + '\n' + url);
+      label.textContent = '결과가 복사되었습니다';
+      setTimeout(function () { label.textContent = '결과 공유하기'; }, 2400);
+    } catch (err) {
+      label.textContent = '복사에 실패했습니다';
+      setTimeout(function () { label.textContent = '결과 공유하기'; }, 2400);
+    }
+  });
+
+  renderQuestion();
+
+  /* ═══════════ Forms (demo — no backend wired yet) ═══════════ */
+  function handleDemoSubmit(form, noteId, message) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      var note = document.getElementById(noteId);
+      note.textContent = message;
+      note.className = 'text-[17px] font-bold leading-relaxed text-amber-700';
+      form.querySelector('button[type="submit"]').disabled = true;
+      form.querySelector('button[type="submit"]').classList.add('opacity-60');
+    });
+  }
+
+  handleDemoSubmit(
+    document.getElementById('mentorForm'),
+    'mentorFormNote',
+    '✓ 신청이 접수되었습니다. 담당자가 3일 이내에 연락드리겠습니다.'
+  );
+  handleDemoSubmit(
+    document.getElementById('partnerForm'),
+    'partnerFormNote',
+    '✓ 문의가 접수되었습니다. 영업일 기준 2일 이내에 회신드리겠습니다.'
+  );
+})();
+</script>
+
+</body>
+</html>
