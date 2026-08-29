@@ -29,9 +29,14 @@ while ($listener.IsListening) {
   $response = $context.Response
   try {
     $path = $request.Url.LocalPath
-    if ($path -eq "/") { $path = "/index.html" }
+    if ($path.EndsWith("/")) { $path = $path + "index.html" }
     $filePath = Join-Path $Root ($path.TrimStart("/"))
     $filePath = [System.IO.Path]::GetFullPath($filePath)
+
+    # /pohang -> /pohang/index.html
+    if (Test-Path $filePath -PathType Container) {
+      $filePath = Join-Path $filePath "index.html"
+    }
 
     if (-not $filePath.StartsWith([System.IO.Path]::GetFullPath($Root))) {
       $response.StatusCode = 403

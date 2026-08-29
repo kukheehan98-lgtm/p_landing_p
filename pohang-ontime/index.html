@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>포항 키즈 &amp; 패밀리 온-타임 | 주말에 아이와 뭐 하지?</title>
+<meta name="description" content="1분 만에 마감되는 포항 도서관 무료 키즈 체험과 평일 오전 힐링 강좌를, 접수 열리는 날 아침에 알려드리는 학부모 맞춤 큐레이션 서비스." />
+
+<meta property="og:title" content="포항 키즈 & 패밀리 온-타임 — 주말에 아이와 뭐 하지?" />
+<meta property="og:description" content="선착순 1분 컷 도서관 무료 체험, 접수 열리기 전에 미리 알려드려요." />
+<meta property="og:type" content="website" />
+
+<!-- Pretendard -->
+<link rel="stylesheet" as="style" crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" />
+
+<!-- Tailwind CSS v3 -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Pretendard Variable', 'Pretendard', '-apple-system', 'BlinkMacSystemFont',
+                 'system-ui', 'Roboto', '"Malgun Gothic"', 'sans-serif'],
+        },
+        keyframes: {
+          'toast-in': {
+            '0%':   { opacity: '0', transform: 'translate(-50%, 12px) scale(.96)' },
+            '100%': { opacity: '1', transform: 'translate(-50%, 0) scale(1)' },
+          },
+        },
+        animation: { 'toast-in': 'toast-in .28s cubic-bezier(.16,1,.3,1)' },
+      },
+    },
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { -webkit-font-smoothing: antialiased; letter-spacing: -0.02em; }
+
+  /* 접근성: 포커스 링 */
+  a:focus-visible, button:focus-visible, input:focus-visible, label:focus-visible {
+    outline: 2px solid #2563EB; outline-offset: 2px; border-radius: 10px;
+  }
+
+  /* 가로 스크롤 영역의 스크롤바 감추기 */
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+
+  /* ── 프리셋 칩 (Tailwind 유틸리티와 겹치지 않게 여기서 전부 정의) ── */
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    white-space: nowrap; flex: none;
+    border: 1px solid #E2E8F0; background: #fff; color: #475569;
+    font-size: 14px; font-weight: 600; line-height: 1;
+    padding: 10px 14px; border-radius: 9999px; cursor: pointer;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease, transform .18s ease;
+  }
+  .chip:hover { border-color: #CBD5E1; }
+  .chip:active { transform: scale(.97); }
+  .chip.is-on {
+    background: #0F172A; border-color: #0F172A; color: #fff;
+    box-shadow: 0 4px 12px -4px rgba(15,23,42,.4);
+  }
+
+  /* ── 선호 시간대 세그먼트 ── */
+  .seg { display: block; cursor: pointer; }
+  .seg > input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .seg > span {
+    display: block; text-align: center;
+    border: 1px solid #E2E8F0; background: #fff; color: #475569;
+    font-size: 14px; font-weight: 600; padding: 11px 8px; border-radius: 12px;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .seg.is-on > span { background: #EFF6FF; border-color: #2563EB; color: #1D4ED8; }
+  .seg.is-focus > span { outline: 2px solid #2563EB; outline-offset: 2px; }
+
+  /* ── 무한 롤링 마퀴 ── */
+  .marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+             mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); }
+  .marquee-track { display: flex; width: max-content; animation: marquee 32s linear infinite; }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee-group { display: flex; flex: none; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── 카드 포커스 강조 ── */
+  .card { scroll-margin-top: 84px; transition: box-shadow .3s ease, border-color .3s ease, transform .3s ease; }
+  .card.is-focused {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 4px rgba(37,99,235,.14), 0 12px 28px -12px rgba(37,99,235,.45);
+    transform: translateY(-2px);
+  }
+
+  /* ── 찜 하트 ── */
+  .like-btn { transition: transform .18s cubic-bezier(.16,1,.3,1), background-color .18s ease; }
+  .like-btn:active { transform: scale(.88); }
+  .like-btn.is-on { background: #FFF1F2; }
+  .like-btn.is-on svg { fill: #E11D48; stroke: #E11D48; }
+  @keyframes pop { 0%{transform:scale(1)} 45%{transform:scale(1.28)} 100%{transform:scale(1)} }
+  .like-btn.pop svg { animation: pop .34s cubic-bezier(.16,1,.3,1); }
+
+  /* ── 플로팅 바 ── */
+  .floating-bar {
+    background: rgba(15, 23, 42, .82);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 16px 40px -12px rgba(15,23,42,.55);
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  .floating-bar.is-hidden { opacity: 0; transform: translateY(140%); pointer-events: none; }
+
+  @keyframes live-dot { 0%,100%{opacity:1} 50%{opacity:.25} }
+  .live-dot { animation: live-dot 1.6s ease-in-out infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .marquee-track { animation: none; }
+    .live-dot, .like-btn.pop svg { animation: none; }
+    .card, .chip, .floating-bar { transition: none; }
+  }
+</style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 font-sans">
+
+<div class="max-w-md mx-auto bg-slate-50 min-h-screen pb-32">
+
+  <!-- ══════════════ 1. HEADER ══════════════ -->
+  <header class="px-5 pt-9 pb-6">
+    <span class="inline-flex items-center gap-1.5 text-[12px] font-bold text-blue-700 bg-blue-50 border border-blue-100 rounded-full px-3 py-1.5">
+      🏛️ 포항 도서관·문화재단 무료 프로그램 큐레이션
+    </span>
+
+    <h1 class="mt-4 text-[26px] font-extrabold leading-[1.32] tracking-tight">
+      주말에 아이와 뭐 하지?<br />포항 키즈 &amp; 패밀리 캘린더
+    </h1>
+
+    <p class="mt-2.5 text-[15px] text-slate-500 leading-relaxed">
+      1분이면 마감되는 도서관 무료 체험, <b class="text-slate-700">접수 열리는 날 아침</b>에 알려드릴게요.
+    </p>
+
+    <div class="mt-5 flex items-center gap-4 text-[13px] text-slate-500">
+      <span class="flex items-center gap-1.5">
+        <span class="live-dot w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+        접수중 <b id="statOpen" class="text-slate-900">0</b>건
+      </span>
+      <span class="w-px h-3 bg-slate-200"></span>
+      <span>곧 접수 시작 <b id="statUrgent" class="text-blue-600">0</b>건</span>
+      <span class="w-px h-3 bg-slate-200"></span>
+      <span>도서관 <b id="statHosts" class="text-slate-900">0</b>곳</span>
+    </div>
+  </header>
+
+  <!-- ══════════════ 2. 원클릭 시간 프리셋 필터 칩 ══════════════ -->
+  <nav aria-label="시간 프리셋 필터"
+       class="sticky top-0 z-30 bg-slate-50/92 backdrop-blur border-b border-slate-200/70 py-3">
+    <div id="chipRow" class="no-scrollbar flex gap-2 overflow-x-auto px-5"></div>
+  </nav>
+
+  <!-- ══════════════ 3. 큐레이션 카드 리스트 ══════════════ -->
+  <main class="px-5 pt-5">
+    <div class="flex items-baseline justify-between mb-3">
+      <h2 id="listTitle" class="text-[17px] font-bold">전체 프로그램</h2>
+      <p id="listCount" class="text-[13px] text-slate-400"></p>
+    </div>
+
+    <div id="cardList" class="space-y-3.5"></div>
+
+    <div id="emptyState" class="hidden bg-white rounded-2xl border border-dashed border-slate-300 py-14 text-center">
+      <i data-lucide="calendar-search" class="w-8 h-8 mx-auto text-slate-300"></i>
+      <p class="mt-3 text-[15px] font-bold text-slate-700">지금은 해당하는 프로그램이 없어요</p>
+      <p class="mt-1 text-[13px] text-slate-400">알림을 신청하시면 새로 열릴 때 가장 먼저 알려드릴게요.</p>
+      <button type="button" data-goto-form
+              class="mt-4 inline-flex items-center gap-1.5 bg-blue-600 text-white text-[14px] font-bold px-4 py-2.5 rounded-xl">
+        <i data-lucide="bell-plus" class="w-4 h-4"></i> 알림 신청하기
+      </button>
+    </div>
+  </main>
+
+  <!-- ══════════════ 4. 알림 신청 폼 ══════════════ -->
+  <section id="notifySection" class="px-5 pt-10">
+    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-5">
+      <div class="flex items-start gap-3">
+        <span class="w-10 h-10 grid place-items-center rounded-xl bg-blue-600 text-white shrink-0">
+          <i data-lucide="bell-ring" class="w-5 h-5"></i>
+        </span>
+        <div>
+          <h2 class="text-[18px] font-extrabold leading-snug">접수 열리는 날 아침, 카톡 알림</h2>
+          <p class="mt-1 text-[13.5px] text-slate-500 leading-relaxed">
+            선착순은 시작 10분이 전부입니다. 아이 나이에 맞는 프로그램의
+            <b class="text-slate-700">접수 시작 시각</b>을 미리 알려드릴게요.
+          </p>
+        </div>
+      </div>
+
+      <form id="notifyForm" class="mt-5 space-y-4" novalidate>
+        <label class="block">
+          <span class="block text-[13.5px] font-bold mb-1.5">이름</span>
+          <input name="name" type="text" autocomplete="name" placeholder="홍길동"
+                 class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-[15px]
+                        placeholder:text-slate-400 focus:bg-white focus:border-blue-600 outline-none transition-colors" />
+        </label>
+
+        <label class="block">
+          <span class="block text-[13.5px] font-bold mb-1.5">휴대폰 번호</span>
+          <input name="phone" type="tel" autocomplete="tel" inputmode="numeric" placeholder="010-1234-5678"
+                 class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-[15px]
+                        placeholder:text-slate-400 focus:bg-white focus:border-blue-600 outline-none transition-colors" />
+        </label>
+
+        <fieldset>
+          <legend class="text-[13.5px] font-bold mb-1.5">언제 주로 다니시나요?</legend>
+          <div id="slotPicker" class="grid grid-cols-3 gap-2"></div>
+        </fieldset>
+
+        <label class="flex items-start gap-2.5 bg-slate-50 border border-slate-200 rounded-xl p-3.5 cursor-pointer">
+          <input name="consent" type="checkbox"
+                 class="w-[18px] h-[18px] mt-0.5 shrink-0 accent-blue-600 cursor-pointer" />
+          <span class="text-[13px] text-slate-600 leading-relaxed">
+            <b class="text-blue-700">[필수]</b> 포항 도서관·문화 프로그램 무료 알림 수신 및 번호 수집에 동의합니다.
+            <span class="text-slate-400">(수신거부 시 즉시 파기)</span>
+            <button type="button" id="consentPolicy"
+                    class="block mt-1 text-slate-500 underline underline-offset-2 hover:text-blue-700">
+              개인정보 처리방침 보기
+            </button>
+          </span>
+        </label>
+
+        <button type="submit"
+                class="w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 active:scale-[.985]
+                       text-white text-[16px] font-bold py-4 rounded-xl transition-all">
+          <i data-lucide="bell-plus" class="w-[18px] h-[18px]"></i>
+          무료 알림 신청하기
+        </button>
+
+        <p id="formError" class="hidden text-[13px] font-bold text-rose-600 text-center" role="alert"></p>
+
+        <p id="optOutNote" class="text-[12px] text-slate-400 leading-relaxed text-center">
+          ※ 본 알림은 100% 무료이며, 광고 문자는 보내지 않습니다.
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- ══════════════ 5. 연계 기관 무한 롤링 배너 ══════════════ -->
+  <section class="pt-10">
+    <p class="px-5 text-[12.5px] font-bold text-slate-400 tracking-wide">정보를 모으는 기관</p>
+    <div class="marquee mt-3 py-1">
+      <div class="marquee-track" id="marqueeTrack"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════ 운영자 패널 (?admin=1) ══════════════ -->
+  <section id="adminPanel" class="hidden px-5 pt-10">
+    <div class="bg-slate-900 text-white rounded-2xl p-5">
+      <h2 class="text-[16px] font-extrabold flex items-center gap-2">
+        <i data-lucide="wrench" class="w-[18px] h-[18px]"></i> 운영자 패널
+      </h2>
+      <p class="mt-1 text-[12.5px] text-slate-400">이 브라우저에 쌓인 실측 데이터입니다.</p>
+      <div id="adminBody" class="mt-4 space-y-4 text-[13px]"></div>
+      <div class="mt-4 grid grid-cols-2 gap-2">
+        <button id="adminCsv"   class="bg-white text-slate-900 text-[13px] font-bold py-2.5 rounded-xl">CSV 내려받기</button>
+        <button id="adminCopy"  class="bg-white/10 border border-white/20 text-white text-[13px] font-bold py-2.5 rounded-xl">CSV 복사</button>
+        <button id="adminRetry" class="bg-blue-600 text-white text-[13px] font-bold py-2.5 rounded-xl">미전송분 재전송</button>
+        <button id="adminClear" class="bg-white/10 border border-white/20 text-rose-300 text-[13px] font-bold py-2.5 rounded-xl">데이터 초기화</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="px-5 pt-9 pb-4">
+    <div class="border-t border-slate-200 pt-5 space-y-2">
+      <p class="text-[13px] font-bold text-slate-700">포항 키즈 & 패밀리 온-타임</p>
+      <p class="text-[12px] text-slate-400 leading-relaxed">
+        공공기관이 공개한 정보를 정리해 안내하는 큐레이션 서비스입니다.
+        접수 인원·일정은 기관 사정으로 변경될 수 있으니 <b class="text-slate-500">최종 신청은 반드시 각 기관 공식 페이지에서</b> 확인해 주세요.
+      </p>
+      <p class="text-[12px] text-slate-400 leading-relaxed">
+        정보 기준일 <b class="text-slate-500">2026년 8월 29일</b> · 포항시립도서관 문화행사신청 및 포항문화포털 공개 정보 기준
+      </p>
+
+      <div class="flex items-center gap-2.5 pt-1.5 text-[12px]">
+        <button type="button" id="privacyOpen"
+                class="font-bold text-slate-600 underline underline-offset-2 hover:text-blue-700 transition-colors">
+          개인정보 처리방침
+        </button>
+        <span class="w-px h-3 bg-slate-200"></span>
+        <a id="contactMail" href="#" class="text-slate-400 hover:text-blue-700 transition-colors">문의</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════════ 6. 하단 추천 플로팅 바 ══════════════ -->
+<div id="floatingBar" class="fixed bottom-4 inset-x-0 z-40 px-4 pointer-events-none">
+  <div class="max-w-md mx-auto pointer-events-auto">
+    <div class="floating-bar rounded-2xl px-3 py-2.5 flex items-center gap-2.5">
+      <button type="button" id="floatingBody" class="flex-1 min-w-0 text-left">
+        <span class="flex items-center gap-1.5">
+          <span class="text-[10.5px] font-extrabold text-amber-300 bg-amber-400/15 border border-amber-300/25 rounded-md px-1.5 py-0.5 whitespace-nowrap">
+            🔥 이번 주 1위 추천
+          </span>
+          <span id="floatingDday" class="text-[10.5px] font-extrabold text-rose-200 bg-rose-500/25 border border-rose-300/25 rounded-md px-1.5 py-0.5 whitespace-nowrap">
+            마감 D-
+          </span>
+        </span>
+        <span class="mt-1 block text-[13.5px] font-bold text-white truncate">
+          <span id="floatingOrg" class="text-slate-300 font-semibold"></span>
+          <span id="floatingTitle"></span>
+        </span>
+      </button>
+
+      <a id="floatingCta" href="https://phlib.pohang.go.kr" target="_blank" rel="noopener noreferrer"
+         class="shrink-0 inline-flex items-center gap-1 bg-white text-slate-900 text-[13.5px] font-extrabold
+                px-3.5 py-2.5 rounded-xl active:scale-95 transition-transform">
+        신청 <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ 개인정보 처리방침 모달 ══════════════ -->
+<div id="privacyModal" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+  <div class="absolute inset-0 bg-slate-900/50" data-privacy-close></div>
+
+  <div class="absolute inset-x-0 bottom-0 max-w-md mx-auto bg-white rounded-t-2xl max-h-[86vh] flex flex-col">
+    <div class="flex items-center justify-between px-5 py-4 border-b border-slate-200 shrink-0">
+      <h2 id="privacyTitle" class="text-[16px] font-extrabold">개인정보 처리방침</h2>
+      <button type="button" data-privacy-close aria-label="닫기"
+              class="w-9 h-9 grid place-items-center rounded-full hover:bg-slate-100 transition-colors">
+        <i data-lucide="x" class="w-5 h-5 text-slate-500"></i>
+      </button>
+    </div>
+
+    <div id="privacyBody" class="overflow-y-auto px-5 py-5 text-[13.5px] text-slate-600 leading-relaxed space-y-4"></div>
+
+    <div class="px-5 py-3 border-t border-slate-200 shrink-0">
+      <button type="button" data-privacy-close
+              class="w-full bg-slate-900 text-white text-[15px] font-bold py-3 rounded-xl">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ TOAST ══════════════ -->
+<div id="toast" class="hidden fixed left-1/2 bottom-24 z-50 -translate-x-1/2 w-[calc(100%-48px)] max-w-[344px]">
+  <div class="bg-slate-900 text-white text-[14px] font-semibold rounded-xl px-4 py-3.5
+              shadow-[0_12px_32px_-8px_rgba(15,23,42,.6)] flex items-center gap-2.5">
+    <i data-lucide="check-circle-2" class="w-[18px] h-[18px] text-emerald-400 shrink-0" id="toastIcon"></i>
+    <span id="toastText" class="flex-1 leading-snug"></span>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ═══════════════════════════════════════════════════════════
+     데이터 — 운영자는 이 배열만 갱신하면 됩니다.
+     status : 'dday'(마감일 기준 D-Day) | 'firstcome'(선착순 마감중) | 'always'(상시)
+     presets: 프리셋 칩 키 배열
+     ═══════════════════════════════════════════════════════════ */
+
+  /* ═══════════════════════════════════════════════════════════
+     ★ 알림 신청 전송 설정 — 여기 두 줄만 채우면 연결 완료됩니다.
+       provider : 'none' | 'appsscript' | 'formspree' | 'web3forms'
+       endpoint : Apps Script /exec 주소 또는 Formspree 주소
+       accessKey: Web3Forms 전용 액세스 키
+
+       설정 방법은 같은 폴더의 SETUP.md 를 참고하세요.
+       'none' 이어도 신청 데이터는 브라우저에 저장되고 ?admin=1 에서 확인·CSV 저장이 됩니다.
+     ═══════════════════════════════════════════════════════════ */
+  var SUBMIT = {
+    provider:  'none',
+    endpoint:  '',
+    accessKey: ''
+  };
+
+  /* ★ 공개될 연락처 — 푸터와 개인정보 처리방침에 그대로 노출됩니다.
+     스팸이 걱정되면 이 서비스 전용 주소를 새로 만들어 넣으세요. */
+  var CONTACT = {
+    email:   'petercat2004@daum.net',
+    optOut:  "받으신 알림에 '그만' 이라고 회신",
+    updated: '2026년 8월 29일'
+  };
+
+  var PRESETS = [
+    { key: 'all',      label: '전체보기',             emoji: ''   },
+    { key: 'weekend',  label: '이번 주말 아이와 함께',  emoji: '🔥' },
+    { key: 'kid',      label: '유아 (6~7세)',          emoji: '👶' },
+    { key: 'elem',     label: '초등',                 emoji: '🎒' },
+    { key: 'morning',  label: '평일 오전 힐링',        emoji: '☕' },
+    { key: 'outing',   label: '무료 전시 나들이',       emoji: '🎨' }
+  ];
+
+  var SLOTS = ['주말 아이와', '평일 오전', '평일 방과후'];
+
+  var EVENTS = [
+    /* ── 접수중 ── */
+    {
+      id: 'phlib-3543',
+      org: '포은오천도서관', orgShort: '포은오천',
+      title: '퍼즐로 이어가는 재미있는 한국사',
+      place: '포은오천도서관 2층 상상1뜰',
+      target: '초등 2~5학년 · 정원 12명 (현재 4명 · 여유 있음)',
+      fee: '무료 (준비물 필기구)',
+      status: 'dday', openAt: '2026-08-26', deadline: '2026-09-04',
+      applyPeriod: '2026.08.26(수) 10:00 ~ 09.04(금) 17:00 · 인터넷접수',
+      schedule: '2026.09.08 ~ 12.22 매주 화 16:10~17:40 · 강사 남미진',
+      presets: ['elem'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3543&menu_idx=24'
+    },
+    {
+      id: 'phlib-3573',
+      org: '연일 미르작은도서관', orgShort: '연일 미르',
+      title: '꽃을 만나다 — 원데이 플라워 클래스',
+      place: '연일 미르작은도서관',
+      target: '성인 · 정원 6명 (현재 5명 · 잔여 1석)',
+      fee: '무료',
+      status: 'dday', openAt: '2026-08-27', deadline: '2026-09-09',
+      applyPeriod: '2026.08.27(목) 10:00 ~ 09.09(수) 18:00 · 방문/전화/인터넷',
+      schedule: '2026.09.11(금) 10:00~12:00 (1회) · 강사 장미경',
+      presets: ['morning'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=98&teach_idx=3573&menu_idx=24'
+    },
+    {
+      id: 'phlib-3561',
+      org: '포은중앙도서관', orgShort: '포은중앙',
+      title: '독서대전 작가와의 만남 2 — 박정우 작가',
+      place: '포은중앙도서관 3층 배움1터',
+      target: '누구나 (아이 동반 가능) · 정원 20명 (현재 8명)',
+      fee: '무료',
+      status: 'dday', openAt: '2026-08-27', deadline: '2026-09-09',
+      applyPeriod: '2026.08.27(목) 10:00 ~ 09.09(수) 23:59 · 인터넷접수',
+      schedule: '2026.09.12(토) 13:00~14:00 (1회)',
+      presets: ['weekend'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=136&teach_idx=3561&menu_idx=24'
+    },
+    {
+      id: 'phlib-3527',
+      org: '포은오천도서관', orgShort: '포은오천',
+      title: '작가와의 만남 — 진수경 작가 (부모 동반)',
+      place: '포은오천도서관 2층 소리마루',
+      target: '초등 1~6학년 및 학부모 · 정원 60명 (현재 34명)',
+      fee: '무료',
+      status: 'dday', openAt: '2026-08-25', deadline: '2026-09-10',
+      applyPeriod: '2026.08.25(화) 10:00 ~ 09.10(목) 17:00 · 인터넷접수',
+      schedule: '2026.09.12(토) 14:00~15:30 (1회)',
+      presets: ['weekend', 'elem'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3527&menu_idx=24'
+    },
+    {
+      id: 'phlib-3574',
+      org: '효곡 행복작은도서관', orgShort: '효곡 행복',
+      title: '행복한 그림책 독서회 (하반기 정규)',
+      place: '효곡 행복작은도서관',
+      target: '성인 · 정원 6명 (현재 3명)',
+      fee: '무료',
+      status: 'dday', openAt: '2026-08-26', deadline: '2026-09-10',
+      applyPeriod: '2026.08.26(수) 15:30 ~ 09.10(목) 10:00 · 방문/인터넷',
+      schedule: '2026.09.11 ~ 12.11 매주 금 10:00~12:00 · 강사 옥혜정',
+      presets: ['morning'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=93&teach_idx=3574&menu_idx=24'
+    },
+    {
+      id: 'phlib-3575',
+      org: '연일 미르작은도서관', orgShort: '연일 미르',
+      title: '옛이야기에서 얻는 삶의 지혜 (그림책 독서회)',
+      place: '연일 미르작은도서관',
+      target: '성인 · 정원 8명 (현재 2명 · 여유 있음)',
+      fee: '무료',
+      status: 'dday', openAt: '2026-08-27', deadline: '2026-09-16',
+      applyPeriod: '2026.08.27(목) 10:00 ~ 09.16(수) 18:00 · 방문/전화/인터넷',
+      schedule: '2026.09.18 ~ 12.18 매주 금 10:00~12:00 · 강사 장미경',
+      presets: ['morning'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=98&teach_idx=3575&menu_idx=24'
+    },
+
+    /* ── 접수 예정 (선착순 · 오픈 알림이 필요한 건) ── */
+    {
+      id: 'phlib-3571',
+      org: '포은중앙도서관', orgShort: '포은중앙',
+      title: '9월 책놀이터 (7세)',
+      place: '포은중앙도서관 1층 이야기방',
+      target: '7세(2020년생) · 정원 8명',
+      fee: '무료',
+      status: 'dday', openAt: '2026-09-01', deadline: '2026-09-18',
+      applyPeriod: '2026.09.01(화) 10:00 접수 시작 ~ 09.18(금) 18:00',
+      schedule: '2026.09.19(토) 10:20~11:20 (1회) · 강사 이승희',
+      presets: ['weekend', 'kid'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=62&teach_idx=3571&menu_idx=24'
+    },
+    {
+      id: 'phlib-3569',
+      org: '포은중앙도서관', orgShort: '포은중앙',
+      title: '9월 책놀이터 (6세)',
+      place: '포은중앙도서관 1층 이야기방',
+      target: '6세(2021년생) · 정원 8명',
+      fee: '무료',
+      status: 'dday', openAt: '2026-09-01', deadline: '2026-09-18',
+      applyPeriod: '2026.09.01(화) 10:00 접수 시작 ~ 09.18(금) 18:00',
+      schedule: '2026.09.19(토) 11:30~12:20 (1회) · 강사 이승희',
+      presets: ['weekend', 'kid'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=62&teach_idx=3569&menu_idx=24'
+    },
+    {
+      id: 'phlib-3553',
+      org: '포은오천도서관', orgShort: '포은오천',
+      title: '네트망 위빙아트 (저학년)',
+      place: '포은오천도서관 2층 상상1뜰',
+      target: '초등 1~3학년 · 정원 10명',
+      fee: '무료',
+      status: 'dday', openAt: '2026-09-01', deadline: '2026-09-16',
+      applyPeriod: '2026.09.01(화) 10:00 접수 시작 ~ 09.16(수) 12:00',
+      schedule: '2026.09.20(일) 14:00~15:30 (1회) · 강사 박명주',
+      presets: ['weekend', 'elem'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3553&menu_idx=24'
+    },
+    {
+      id: 'phlib-3554',
+      org: '포은오천도서관', orgShort: '포은오천',
+      title: '네트망 위빙아트 (고학년)',
+      place: '포은오천도서관 2층 상상1뜰',
+      target: '초등 4~6학년 · 정원 10명',
+      fee: '무료',
+      status: 'dday', openAt: '2026-09-01', deadline: '2026-09-16',
+      applyPeriod: '2026.09.01(화) 10:00 접수 시작 ~ 09.16(수) 12:00',
+      schedule: '2026.09.20(일) 16:00~17:30 (1회) · 강사 박명주',
+      presets: ['weekend', 'elem'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3554&menu_idx=24'
+    },
+    {
+      id: 'phlib-3552',
+      org: '포은오천도서관', orgShort: '포은오천',
+      title: '스토리텔링 그림책놀이 (정규 10주)',
+      place: '포은오천도서관 1층 실감놀이터',
+      target: '6~7세 · 정원 10명',
+      fee: '무료',
+      status: 'dday', openAt: '2026-09-02', deadline: '2026-09-09',
+      applyPeriod: '2026.09.02(수) 10:00 접수 시작 ~ 09.09(수) 12:00',
+      schedule: '2026.09.13 ~ 11.22 매주 일 14:00~15:00 · 강사 신민정',
+      presets: ['weekend', 'kid'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3552&menu_idx=24'
+    },
+    {
+      id: 'phlib-3540',
+      org: '구룡포도서관', orgShort: '구룡포',
+      title: '두근두근 세계 여행 (독서의 달 프로그램)',
+      place: '구룡포도서관 1층 다목적실',
+      target: '초등 2~5학년 · 정원 10명',
+      fee: '무료',
+      status: 'dday', openAt: '2026-09-04', deadline: '2026-09-18',
+      applyPeriod: '2026.09.04(금) 10:00 접수 시작 ~ 09.18(금) 18:00',
+      schedule: '2026.09.19(토) 14:00~16:00 (1회) · 강사 남미진',
+      presets: ['weekend', 'elem'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=134&teach_idx=3540&menu_idx=24'
+    },
+    {
+      id: 'phlib-3539',
+      org: '어린이영어도서관', orgShort: '어린이영어',
+      title: '독서의 달 영어 프로그램 (초등 1~2)',
+      place: '어린이영어도서관 다목적실',
+      target: '초등 1~2학년(2018~19년생) · 정원 15명',
+      fee: '무료',
+      status: 'dday', openAt: '2026-09-07', deadline: '2026-09-11',
+      applyPeriod: '2026.09.07(월) 10:00 접수 시작 ~ 09.11(금) 18:00',
+      schedule: '2026.09.12(토) 13:30~15:00 (1회) · 강사 서예은(Grace)',
+      presets: ['weekend', 'elem'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=92&teach_idx=3539&menu_idx=24'
+    },
+    {
+      id: 'phlib-3538',
+      org: '어린이영어도서관', orgShort: '어린이영어',
+      title: '독서의 달 영어 프로그램 (유아 6~7세)',
+      place: '어린이영어도서관 다목적실',
+      target: '유아 6~7세(2020~21년생) · 정원 10명',
+      fee: '무료',
+      status: 'dday', openAt: '2026-09-07', deadline: '2026-09-18',
+      applyPeriod: '2026.09.07(월) 10:00 접수 시작 ~ 09.18(금) 18:00',
+      schedule: '2026.09.19(토) 14:00~15:00 (1회) · 강사 이아영(Norie)',
+      presets: ['weekend', 'kid'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=92&teach_idx=3538&menu_idx=24'
+    },
+    {
+      id: 'phlib-3549',
+      org: '포은흥해도서관', orgShort: '포은흥해',
+      title: '[독서의 달] 북 퍼퓸 만들기 (일반)',
+      place: '포은흥해도서관 2층 프로그램실3',
+      target: '일반 · 회차당 10명 (3개 회차 각각 신청)',
+      fee: '무료',
+      status: 'dday', openAt: '2026-09-11', deadline: '2026-09-17',
+      applyPeriod: '2026.09.11(금) 10:00 접수 시작 ~ 09.17(목) 18:00',
+      schedule: '2026.09.20(일) 10:00 / 13:00 / 15:00 중 택1 (2시간)',
+      presets: ['weekend'],
+      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=140&teach_idx=3549&menu_idx=24'
+    },
+
+    /* ── 상시 (접수 없이 언제든) ── */
+    {
+      id: 'phcf-achim',
+      org: '동빈문화창고1969', orgShort: '동빈창고',
+      title: '2026 지역전시 <아침놀>',
+      place: '동빈문화창고1969',
+      target: '전체관람가 · 정원 제한 없음 (아이 동반 가능)',
+      fee: '무료',
+      status: 'always', openAt: null, deadline: null,
+      applyPeriod: '접수 없이 현장 관람 · 도슨트 상시 (문의 054-289-7823)',
+      schedule: '2026.08.21 ~ 09.30 10:00~18:00 · 월요일·추석 당일 휴관',
+      presets: ['weekend', 'outing'],
+      url: 'https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260811_001&menu_site_id=performance_detail'
+    },
+    {
+      id: 'phcf-kkum',
+      org: 'SPACE 298 꿈틀로', orgShort: 'SPACE 298',
+      title: '꿈틀로 기획전시 <꿈의 항로>',
+      place: 'SPACE 298 (북구 중앙로298번길 13)',
+      target: '누구나 · 정원 제한 없음',
+      fee: '무료',
+      status: 'always', openAt: null, deadline: null,
+      applyPeriod: '접수 없이 현장 관람 (문의 054-289-7874)',
+      schedule: '2026.07.28 ~ 09.26 10:00~18:00 · 일·월요일 및 공휴일 휴관',
+      presets: ['outing'],
+      url: 'https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260728_001&menu_site_id=performance_detail'
+    }
+  ];
+
+  var TIP = '💡 Tip: 아이 이름으로 도서관 회원가입·로그인을 미리 해두세요. 선착순은 로그인 시간에서 갈립니다.';
+
+  var PARTNERS = [
+    '포은중앙도서관', '포은오천도서관', '포은흥해도서관', '어린이영어도서관',
+    '구룡포도서관', '대잠도서관', '영암도서관', '동해석곡도서관',
+    '연일 미르작은도서관', '효곡 행복작은도서관', '(재)포항문화재단',
+    '동빈문화창고1969', 'SPACE 298 꿈틀로', '포항문화예술회관', '포항시립미술관(POMA)'
+  ];
+
+  var LS_LIKE = 'ontime.likes';
+
+  /* ═══════════════ 유틸 ═══════════════ */
+  var $  = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+  function readLS(k, fb) { try { return JSON.parse(localStorage.getItem(k)) || fb; } catch (e) { return fb; } }
+  function writeLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+
+  function daysUntil(iso) {
+    var t = new Date(); t.setHours(0, 0, 0, 0);
+    var p = iso.split('-');
+    var d = new Date(+p[0], +p[1] - 1, +p[2]);
+    return Math.round((d - t) / 86400000);
+  }
+
+  var likes = readLS(LS_LIKE, []);
+
+  /* ═══════════════ 신청 전송 (무료 서비스 어댑터 + 재전송 큐) ═══════════════
+     외부 전송이 실패해도 브라우저에 남겨두고 다음 방문 때 자동으로 재시도합니다.
+     즉, 엔드포인트를 나중에 연결해도 그 사이 신청자를 잃지 않습니다. */
+
+  var LS_SIGNUP = 'ontime.signups';
+  var LS_QUEUE  = 'ontime.queue';
+
+  function isConnected() {
+    if (SUBMIT.provider === 'web3forms') return !!SUBMIT.accessKey;
+    return SUBMIT.provider !== 'none' && !!SUBMIT.endpoint;
+  }
+
+  /* 전송 1건. 성공하면 resolve, 실패하면 reject */
+  function postSignup(entry) {
+    if (!isConnected()) return Promise.reject(new Error('not-configured'));
+
+    if (SUBMIT.provider === 'appsscript') {
+      /* Google Apps Script — 프리플라이트를 피하려고 폼 인코딩 + no-cors 로 보냅니다.
+         응답은 읽을 수 없지만(opaque) 네트워크 실패는 reject 로 잡힙니다. */
+      var body = new URLSearchParams({
+        name: entry.name, phone: entry.phone, slot: entry.slot,
+        likes: (entry.likeTitles || entry.likes || []).join(' / '),
+        likeIds: (entry.likes || []).join('|'),
+        at: entry.at, ref: location.href
+      });
+      return fetch(SUBMIT.endpoint, { method: 'POST', mode: 'no-cors', body: body });
+    }
+
+    if (SUBMIT.provider === 'formspree') {
+      return fetch(SUBMIT.endpoint, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          이름: entry.name, 휴대폰: entry.phone, 선호시간대: entry.slot,
+          찜한강좌: entry.likes.join('|'), 신청시각: entry.at
+        })
+      }).then(function (r) { if (!r.ok) throw new Error('http-' + r.status); return r; });
+    }
+
+    if (SUBMIT.provider === 'web3forms') {
+      return fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: SUBMIT.accessKey,
+          subject: '[포항 키즈&패밀리 온-타임] 새 알림 신청 — ' + entry.name,
+          이름: entry.name, 휴대폰: entry.phone, 선호시간대: entry.slot,
+          찜한강좌: entry.likes.join('|'), 신청시각: entry.at
+        })
+      }).then(function (r) { if (!r.ok) throw new Error('http-' + r.status); return r; });
+    }
+
+    return Promise.reject(new Error('unknown-provider'));
+  }
+
+  /* 큐에 쌓인 미전송 건을 순차 재시도 */
+  function flushQueue() {
+    var queue = readLS(LS_QUEUE, []);
+    if (!queue.length || !isConnected()) return Promise.resolve(0);
+
+    var sent = 0;
+    return queue.reduce(function (chain, entry) {
+      return chain.then(function () {
+        return postSignup(entry).then(function () { sent++; });
+      });
+    }, Promise.resolve())
+    .then(function () { writeLS(LS_QUEUE, []); return sent; })
+    .catch(function () {
+      /* 실패 지점부터 남겨두고 다음 기회에 다시 시도 */
+      writeLS(LS_QUEUE, queue.slice(sent));
+      return sent;
+    });
+  }
+
+  /* 신청 저장 + 전송. 전송 실패 시 큐에 적재 */
+  function saveSignup(entry) {
+    writeLS(LS_SIGNUP, readLS(LS_SIGNUP, []).concat([entry]));
+    if (!isConnected()) {
+      writeLS(LS_QUEUE, readLS(LS_QUEUE, []).concat([entry]));
+      return Promise.resolve('local');
+    }
+    return postSignup(entry)
+      .then(function () { return 'sent'; })
+      .catch(function () {
+        writeLS(LS_QUEUE, readLS(LS_QUEUE, []).concat([entry]));
+        return 'queued';
+      });
+  }
+
+  /* ═══════════════ 토스트 ═══════════════ */
+  var toastEl = $('#toast'), toastTimer = null;
+  function toast(msg, icon) {
+    $('#toastText').textContent = msg;
+    var ic = $('#toastIcon');
+    ic.setAttribute('data-lucide', icon || 'check-circle-2');
+    toastEl.classList.remove('hidden');
+    toastEl.classList.add('animate-toast-in');
+    if (window.lucide) lucide.createIcons();
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      toastEl.classList.add('hidden');
+      toastEl.classList.remove('animate-toast-in');
+    }, 2400);
+  }
+
+  /* ═══════════════ D-Day 배지 ═══════════════ */
+  /* 이 서비스의 핵심은 '마감'보다 '접수 오픈'입니다.
+     선착순 1분 컷 프로그램은 접수가 열리는 순간을 알아야 신청할 수 있기 때문에,
+     아직 접수 전인 건은 'upcoming' 으로 따로 표시합니다. */
+  function phase(ev) {
+    if (ev.status === 'always')    return 'always';
+    if (ev.status === 'firstcome') return 'open';
+    if (ev.openAt && daysUntil(ev.openAt) > 0) return 'upcoming';
+    if (ev.deadline && daysUntil(ev.deadline) < 0) return 'closed';
+    return 'open';
+  }
+
+  function ddayBadge(ev) {
+    var p = phase(ev);
+    if (p === 'always')   return { text: '🗓️ 상시 관람', cls: 'bg-slate-100 text-slate-500 border-slate-200' };
+    if (p === 'closed')   return { text: '접수 마감',     cls: 'bg-slate-100 text-slate-400 border-slate-200' };
+    if (p === 'upcoming') {
+      var o = daysUntil(ev.openAt);
+      return { text: '🔔 D-' + o + ' 접수 시작', cls: 'bg-blue-50 text-blue-700 border-blue-200' };
+    }
+    if (ev.status === 'firstcome') return { text: '⚠️ 선착순 마감중', cls: 'bg-rose-50 text-rose-600 border-rose-200' };
+    var d = daysUntil(ev.deadline);
+    if (d === 0) return { text: '⚠️ 오늘 마감',   cls: 'bg-rose-50 text-rose-600 border-rose-200' };
+    if (d <= 3)  return { text: '⚠️ 마감 D-' + d, cls: 'bg-rose-50 text-rose-600 border-rose-200' };
+    if (d <= 7)  return { text: '마감 D-' + d,    cls: 'bg-amber-50 text-amber-700 border-amber-200' };
+    return { text: '마감 D-' + d, cls: 'bg-slate-100 text-slate-500 border-slate-200' };
+  }
+
+  function isUrgent(ev) {
+    if (phase(ev) !== 'open') return false;
+    if (ev.status === 'firstcome') return true;
+    var d = daysUntil(ev.deadline);
+    return d >= 0 && d <= 3;
+  }
+  function isOpen(ev)     { return phase(ev) === 'open' || phase(ev) === 'always'; }
+  function isUpcoming(ev) { return phase(ev) === 'upcoming'; }
+
+  /* ═══════════════ 카드 렌더 ═══════════════ */
+  function cardHtml(ev) {
+    var b = ddayBadge(ev);
+    var liked = likes.indexOf(ev.id) !== -1;
+
+    return '' +
+    '<article id="card-' + ev.id + '" class="card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-4">' +
+
+      /* 상단: 기관 배지 + D-Day + 찜 */
+      '<div class="flex items-center gap-1.5">' +
+        '<span class="text-[11.5px] font-bold text-slate-600 bg-slate-100 border border-slate-200 rounded-md px-2 py-1 truncate max-w-[46%]">' +
+          esc(ev.org) +
+        '</span>' +
+        '<span class="text-[11.5px] font-bold border rounded-md px-2 py-1 whitespace-nowrap ' + b.cls + '">' +
+          esc(b.text) +
+        '</span>' +
+        '<button type="button" data-like="' + esc(ev.id) + '" aria-pressed="' + liked + '" ' +
+                'aria-label="찜하기" title="찜하기" ' +
+                'class="like-btn ' + (liked ? 'is-on ' : '') + 'ml-auto shrink-0 w-9 h-9 grid place-items-center rounded-full border border-slate-200">' +
+          '<i data-lucide="heart" class="w-[18px] h-[18px] text-slate-400"></i>' +
+        '</button>' +
+      '</div>' +
+
+      /* 제목 */
+      '<h3 class="mt-3 text-[16.5px] font-extrabold leading-[1.4]">' + esc(ev.title) + '</h3>' +
+
+      /* 장소 · 대상 · 참가비 */
+      '<div class="mt-2.5 space-y-1.5 text-[13.5px] text-slate-500">' +
+        '<p class="flex items-start gap-1.5"><i data-lucide="map-pin" class="w-4 h-4 mt-0.5 shrink-0 text-slate-400"></i><span>' + esc(ev.place) + '</span></p>' +
+        '<p class="flex items-start gap-1.5"><i data-lucide="users" class="w-4 h-4 mt-0.5 shrink-0 text-slate-400"></i><span>' + esc(ev.target) + '</span></p>' +
+        '<p class="flex items-start gap-1.5"><i data-lucide="wallet" class="w-4 h-4 mt-0.5 shrink-0 text-slate-400"></i><span class="font-bold text-blue-700">' + esc(ev.fee) + '</span></p>' +
+      '</div>' +
+
+      /* 이중 타임라인 박스 */
+      '<div class="mt-3.5 bg-slate-50 border border-slate-200/80 rounded-xl p-3 space-y-2.5">' +
+        '<div class="flex gap-2.5">' +
+          '<span class="text-[12px] font-bold ' + (phase(ev) === 'upcoming' ? 'text-blue-700' : 'text-rose-600') + ' whitespace-nowrap shrink-0">⏰ 접수 기간</span>' +
+          '<span class="text-[12.5px] text-slate-600 leading-snug">' + esc(ev.applyPeriod) + '</span>' +
+        '</div>' +
+        '<div class="h-px bg-slate-200"></div>' +
+        '<div class="flex gap-2.5">' +
+          '<span class="text-[12px] font-bold text-blue-700 whitespace-nowrap shrink-0">🗓️ 진행 일정</span>' +
+          '<span class="text-[12.5px] text-slate-600 leading-snug">' + esc(ev.schedule) + '</span>' +
+        '</div>' +
+      '</div>' +
+
+      /* 접수 팁 */
+      '<p class="mt-2.5 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-2 leading-relaxed">' +
+        esc(TIP) +
+      '</p>' +
+
+      /* 하단 버튼 */
+      /* 아직 접수 전이면 '오픈 알림받기'가 주 버튼 — 지금 링크를 눌러도 신청할 수 없기 때문 */
+      (phase(ev) === 'upcoming'
+        ? '<div class="mt-3.5 flex gap-2">' +
+            '<button type="button" data-notify="' + esc(ev.id) + '" ' +
+               'class="flex-1 inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:scale-[.98] ' +
+               'text-white text-[14px] font-bold py-3 rounded-xl transition-all">' +
+              '🔔 오픈 알림받기' +
+            '</button>' +
+            '<a href="' + esc(ev.url) + '" target="_blank" rel="noopener noreferrer" data-apply="' + esc(ev.id) + '" ' +
+               'class="shrink-0 inline-flex items-center justify-center gap-1.5 bg-white border border-slate-200 hover:border-blue-600 ' +
+               'text-slate-700 text-[14px] font-bold px-3.5 py-3 rounded-xl transition-colors">' +
+              '🔗 공고 보기' +
+            '</a>' +
+          '</div>'
+        : '<div class="mt-3.5 flex gap-2">' +
+            '<a href="' + esc(ev.url) + '" target="_blank" rel="noopener noreferrer" data-apply="' + esc(ev.id) + '" ' +
+               'class="flex-1 inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:scale-[.98] ' +
+               'text-white text-[14px] font-bold py-3 rounded-xl transition-all">' +
+              '🔗 공식 접수처 바로가기' +
+            '</a>' +
+            '<button type="button" data-notify="' + esc(ev.id) + '" ' +
+               'class="shrink-0 inline-flex items-center justify-center gap-1.5 bg-white border border-slate-200 hover:border-blue-600 ' +
+               'text-slate-700 text-[14px] font-bold px-3.5 py-3 rounded-xl transition-colors">' +
+              '🔔 알림받기' +
+            '</button>' +
+          '</div>') +
+    '</article>';
+  }
+
+  /* ═══════════════ 상태 & 렌더 ═══════════════ */
+  var activePreset = 'all';
+
+  function renderChips() {
+    $('#chipRow').innerHTML = PRESETS.map(function (p) {
+      return '<button type="button" class="chip' + (p.key === activePreset ? ' is-on' : '') + '" ' +
+             'data-preset="' + p.key + '" aria-pressed="' + (p.key === activePreset) + '">' +
+             (p.emoji ? '<span aria-hidden="true">' + p.emoji + '</span>' : '') +
+             esc(p.label) + '</button>';
+    }).join('');
+  }
+
+  function renderCards() {
+    var list = activePreset === 'all'
+      ? EVENTS.slice()
+      : EVENTS.filter(function (e) { return e.presets.indexOf(activePreset) !== -1; });
+
+    /* 접수중(마감 임박순) → 접수 예정(오픈 임박순) → 상시 → 마감 */
+    var RANK = { open: 0, upcoming: 1, always: 2, closed: 3 };
+    function key(ev) {
+      var p = phase(ev);
+      if (p === 'open')     return daysUntil(ev.deadline || '2999-12-31');
+      if (p === 'upcoming') return daysUntil(ev.openAt);
+      return 0;
+    }
+    list.sort(function (a, b) {
+      var ra = RANK[phase(a)], rb = RANK[phase(b)];
+      if (ra !== rb) return ra - rb;
+      return key(a) - key(b);
+    });
+
+    $('#cardList').innerHTML = list.map(cardHtml).join('');
+    $('#emptyState').classList.toggle('hidden', list.length > 0);
+
+    var preset = PRESETS.filter(function (p) { return p.key === activePreset; })[0];
+    $('#listTitle').textContent = activePreset === 'all' ? '전체 프로그램' : preset.label;
+    $('#listCount').textContent = list.length ? list.length + '건' : '';
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  function renderStats() {
+    $('#statOpen').textContent = EVENTS.filter(isOpen).length;
+    $('#statUrgent').textContent = EVENTS.filter(isUpcoming).length;
+    var hosts = {};
+    EVENTS.forEach(function (e) { hosts[e.org] = 1; });
+    $('#statHosts').textContent = Object.keys(hosts).length;
+  }
+
+  function renderMarquee() {
+    var group = '<div class="marquee-group">' + PARTNERS.map(function (n) {
+      return '<span class="flex items-center gap-2 px-4 text-[13px] font-semibold text-slate-400 whitespace-nowrap">' +
+             esc(n) + '<span class="w-1 h-1 rounded-full bg-slate-300"></span></span>';
+    }).join('') + '</div>';
+    /* 두 벌을 이어 붙이고 -50% 이동 → 이음매 없는 무한 롤링 */
+    $('#marqueeTrack').innerHTML = group + group;
+  }
+
+  function renderSlots() {
+    $('#slotPicker').innerHTML = SLOTS.map(function (s, i) {
+      return '<label class="seg" data-slot="' + i + '">' +
+               '<input type="radio" name="slot" value="' + esc(s) + '" />' +
+               '<span>' + esc(s) + '</span>' +
+             '</label>';
+    }).join('');
+  }
+
+  /* ═══════════════ 이벤트 위임 ═══════════════ */
+
+  /* 프리셋 칩 */
+  $('#chipRow').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-preset]');
+    if (!btn) return;
+    activePreset = btn.dataset.preset;
+    $$('#chipRow .chip').forEach(function (c) {
+      var on = c.dataset.preset === activePreset;
+      c.classList.toggle('is-on', on);
+      c.setAttribute('aria-pressed', on);
+    });
+    renderCards();
+    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  });
+
+  /* 찜 · 알림받기 · 폼 이동 */
+  document.addEventListener('click', function (e) {
+    var likeBtn = e.target.closest('[data-like]');
+    if (likeBtn) {
+      var id = likeBtn.dataset.like;
+      var i = likes.indexOf(id);
+      var on = i === -1;
+      if (on) likes.push(id); else likes.splice(i, 1);
+      writeLS(LS_LIKE, likes);
+      likeBtn.classList.toggle('is-on', on);
+      likeBtn.setAttribute('aria-pressed', on);
+      likeBtn.classList.remove('pop');
+      void likeBtn.offsetWidth;
+      likeBtn.classList.add('pop');
+      toast(on ? '찜 목록에 담았어요 ❤️' : '찜을 해제했어요', on ? 'heart' : 'heart-off');
+      return;
+    }
+
+    var notifyBtn = e.target.closest('[data-notify]');
+    if (notifyBtn) {
+      var ev = EVENTS.filter(function (x) { return x.id === notifyBtn.dataset.notify; })[0];
+      $('#notifySection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(function () { $('#notifyForm').name.focus({ preventScroll: true }); syncBar(); }, 520);
+      toast((ev ? '「' + ev.orgShort + '」 ' : '') + '알림 신청 폼으로 이동했어요', 'bell-plus');
+      return;
+    }
+
+    if (e.target.closest('[data-goto-form]')) {
+      $('#notifySection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(syncBar, 520);
+    }
+  });
+
+  /* 선호 시간대 세그먼트 */
+  var slotPicker = $('#slotPicker');
+  slotPicker.addEventListener('change', function () {
+    $$('.seg', slotPicker).forEach(function (l) {
+      l.classList.toggle('is-on', l.querySelector('input').checked);
+    });
+  });
+  slotPicker.addEventListener('focusin',  function (e) { e.target.closest('.seg').classList.add('is-focus'); });
+  slotPicker.addEventListener('focusout', function (e) { e.target.closest('.seg').classList.remove('is-focus'); });
+
+  /* ═══════════════ 알림 신청 폼 ═══════════════ */
+  var form = $('#notifyForm'), errEl = $('#formError');
+
+  function showErr(msg) {
+    errEl.textContent = msg;
+    errEl.classList.remove('hidden');
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errEl.classList.add('hidden');
+
+    var name  = form.name.value.trim();
+    var phone = form.phone.value.trim();
+    var slot  = form.querySelector('input[name="slot"]:checked');
+
+    if (!name)  { showErr('이름을 입력해 주세요.'); form.name.focus(); return; }
+    if (!/^01[016789][-\s]?\d{3,4}[-\s]?\d{4}$/.test(phone)) {
+      showErr('휴대폰 번호 형식을 확인해 주세요. (예: 010-1234-5678)'); form.phone.focus(); return;
+    }
+    if (!slot) { showErr('선호 시간대를 선택해 주세요.'); return; }
+    if (!form.consent.checked) { showErr('[필수] 알림 수신 동의가 필요합니다.'); form.consent.focus(); return; }
+
+    /* 찜한 프로그램은 id 뿐 아니라 제목까지 함께 보냅니다.
+       시트에서 'phlib-3571' 대신 '포은중앙 · 9월 책놀이터 (7세)' 로 읽히도록. */
+    var likeTitles = likes.map(function (id) {
+      var ev = EVENTS.filter(function (x) { return x.id === id; })[0];
+      return ev ? ev.orgShort + ' · ' + ev.title : id;
+    });
+
+    var entry = {
+      name: name, phone: phone, slot: slot.value,
+      likes: likes.slice(), likeTitles: likeTitles,
+      at: new Date().toISOString()
+    };
+
+    /* 전송 중 잠금 — 중복 제출 방지 */
+    var btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.classList.add('opacity-60');
+    btn.textContent = '신청 처리 중…';
+
+    saveSignup(entry).then(function () {
+      $$('input', form).forEach(function (i) { i.disabled = true; });
+      btn.innerHTML = '✓ 신청이 완료되었습니다';
+      toast(name + '님, ' + slot.value + ' 강좌 알림을 신청했어요!', 'party-popper');
+      if (window.lucide) lucide.createIcons();
+    });
+  });
+
+  /* ═══════════════ 플로팅 바 ═══════════════ */
+  /* 추천 = 접수중인 것 중 마감이 가장 임박한 강좌 (데이터가 바뀌어도 자동으로 따라감) */
+  var FEATURED = EVENTS.filter(isOpen).sort(function (a, b) {
+    var da = a.status === 'dday' ? daysUntil(a.deadline) : 999;
+    var db = b.status === 'dday' ? daysUntil(b.deadline) : 999;
+    return da - db;
+  })[0] || EVENTS[0];
+
+  var bar = $('#floatingBar .floating-bar');
+
+  $('#floatingCta').href = FEATURED.url;
+  $('#floatingOrg').textContent = '[' + FEATURED.orgShort + ']';
+  $('#floatingTitle').textContent = FEATURED.title;
+  $('#floatingDday').textContent = ddayBadge(FEATURED).text.replace('⚠️ ', '');
+
+  $('#floatingBody').addEventListener('click', function () {
+    /* 추천 강좌가 현재 필터에서 빠져 있으면 전체보기로 되돌린 뒤 이동 */
+    if (activePreset !== 'all' && FEATURED.presets.indexOf(activePreset) === -1) {
+      activePreset = 'all';
+      renderChips();
+      renderCards();
+    }
+    var card = document.getElementById('card-' + FEATURED.id);
+    if (!card) return;
+    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    card.classList.remove('is-focused');
+    void card.offsetWidth;
+    card.classList.add('is-focused');
+    setTimeout(function () { card.classList.remove('is-focused'); }, 2200);
+  });
+
+  /* 신청 버튼이 화면에 들어오면 플로팅 바를 숨겨 CTA 충돌 방지.
+     섹션이 화면보다 길어 IntersectionObserver 의 threshold 가 맞지 않으므로
+     버튼 위치를 직접 계산한다. */
+  var submitBtn = form.querySelector('button[type="submit"]');
+  function syncBar() {
+    var r = submitBtn.getBoundingClientRect();
+    var visible = r.top < window.innerHeight - 24 && r.bottom > 0;
+    bar.classList.toggle('is-hidden', visible);
+  }
+  window.addEventListener('scroll', syncBar, { passive: true });
+  window.addEventListener('resize', syncBar);
+  syncBar();
+
+  /* ═══════════════ 개인정보 처리방침 ═══════════════ */
+  var PRIVACY = [
+    ['1. 수집하는 개인정보 항목',
+     '이름, 휴대폰 번호 두 가지만 수집합니다. 주소·생년월일·아이 정보 등 그 밖의 항목은 수집하지 않습니다.'],
+    ['2. 수집 및 이용 목적',
+     '포항 지역 도서관·문화기관의 무료 프로그램 접수 시작일과 마감일을 알려드리기 위해서만 사용합니다. 그 외 목적으로는 쓰지 않습니다.'],
+    ['3. 보유 및 이용 기간',
+     '수신거부를 요청하시면 지체 없이 파기합니다. 서비스가 종료되는 경우에도 보관 중인 개인정보를 모두 파기합니다.'],
+    ['4. 제3자 제공',
+     '이용자의 개인정보를 제3자에게 제공하거나 판매하지 않습니다.'],
+    ['5. 처리 위탁',
+     '알림 발송을 위해 문자·알림톡 발송 대행사를 이용할 수 있으며, 이 경우 발송에 필요한 최소한의 정보만 전달합니다. 위탁사가 확정되면 이 항목에 업체명을 명시합니다.'],
+    ['6. 동의를 거부할 권리',
+     '개인정보 수집·이용 동의를 거부하실 수 있습니다. 다만 이 경우 알림 발송이 불가능하여 서비스 이용이 제한됩니다.'],
+    ['7. 수신거부 방법',
+     CONTACT.optOut + '하시거나, 아래 이메일로 알려주시면 즉시 처리해 드립니다.'],
+    ['8. 개인정보 보호책임자',
+     '운영자 · ' + CONTACT.email + '\n개인정보 관련 문의·열람·정정·삭제 요청을 이 주소로 받습니다.'],
+    ['9. 고지 의무',
+     '이 처리방침의 내용이 변경되는 경우 시행일과 변경 내용을 이 화면에 공지합니다.']
+  ];
+
+  function renderPrivacy() {
+    $('#privacyBody').innerHTML =
+      PRIVACY.map(function (s) {
+        return '<section><h3 class="text-[14px] font-bold text-slate-900 mb-1">' + esc(s[0]) + '</h3>' +
+               '<p class="whitespace-pre-line">' + esc(s[1]) + '</p></section>';
+      }).join('') +
+      '<p class="pt-2 border-t border-slate-200 text-[12.5px] text-slate-400">시행일 ' + esc(CONTACT.updated) + '</p>';
+
+    $('#contactMail').href = 'mailto:' + CONTACT.email;
+    $('#contactMail').textContent = '문의 ' + CONTACT.email;
+  }
+
+  var privacyModal = $('#privacyModal');
+  function openPrivacy() {
+    privacyModal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    if (window.lucide) lucide.createIcons();
+  }
+  function closePrivacy() {
+    privacyModal.classList.add('hidden');
+    document.body.style.overflow = '';
+  }
+  $('#privacyOpen').addEventListener('click', openPrivacy);
+  privacyModal.addEventListener('click', function (e) {
+    if (e.target.closest('[data-privacy-close]')) closePrivacy();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !privacyModal.classList.contains('hidden')) closePrivacy();
+  });
+
+  /* 신청 폼의 동의 문구에서도 처리방침을 열 수 있게 */
+  var consentLink = $('#consentPolicy');
+  if (consentLink) consentLink.addEventListener('click', function (e) { e.preventDefault(); openPrivacy(); });
+
+  /* ═══════════════ 운영자 패널 ═══════════════ */
+  function buildCsv() {
+    var rows = readLS(LS_SIGNUP, []);
+    var head = '﻿이름,휴대폰,선호 시간대,찜한 강좌,신청시각';   /* BOM: 엑셀 한글 깨짐 방지 */
+    return [head].concat(rows.map(function (s) {
+      return [s.name, s.phone, s.slot, (s.likes || []).join('|'), s.at]
+        .map(function (v) { return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"'; })
+        .join(',');
+    })).join('\r\n');
+  }
+
+  function renderAdmin() {
+    if (new URLSearchParams(location.search).get('admin') !== '1') return;
+    var panel = $('#adminPanel');
+    panel.classList.remove('hidden');
+
+    var signups = readLS(LS_SIGNUP, []);
+    var queue   = readLS(LS_QUEUE, []);
+
+    var slotCount = {};
+    signups.forEach(function (s) { slotCount[s.slot] = (slotCount[s.slot] || 0) + 1; });
+    var slotRows = SLOTS.map(function (s) {
+      return '<li class="flex justify-between"><span class="text-slate-400">' + esc(s) + '</span>' +
+             '<b>' + (slotCount[s] || 0) + '명</b></li>';
+    }).join('');
+
+    var likeCount = {};
+    signups.forEach(function (s) { (s.likes || []).forEach(function (id) { likeCount[id] = (likeCount[id] || 0) + 1; }); });
+    var likeRows = Object.keys(likeCount)
+      .sort(function (a, b) { return likeCount[b] - likeCount[a]; })
+      .map(function (id) {
+        var ev = EVENTS.filter(function (x) { return x.id === id; })[0];
+        return '<li class="flex justify-between gap-3"><span class="text-slate-400 truncate">' +
+               esc(ev ? ev.orgShort + ' · ' + ev.title : id) + '</span><b class="shrink-0">' + likeCount[id] + '</b></li>';
+      }).join('') || '<li class="text-slate-500">아직 없음</li>';
+
+    var conn = isConnected()
+      ? '<span class="text-emerald-400">● 연결됨 (' + esc(SUBMIT.provider) + ')</span>'
+      : '<span class="text-amber-400">● 미연결 — 브라우저에만 저장 중</span>';
+
+    $('#adminBody').innerHTML =
+      '<div class="bg-white/10 rounded-xl px-3.5 py-3 flex items-center justify-between">' +
+        '<span class="text-slate-400">전송 상태</span><b>' + conn + '</b>' +
+      '</div>' +
+      '<div class="grid grid-cols-2 gap-2">' +
+        '<div class="bg-white/10 rounded-xl p-3"><p class="text-slate-400 text-[12px]">알림 신청</p>' +
+          '<p class="text-[26px] font-extrabold leading-tight">' + signups.length + '</p></div>' +
+        '<div class="bg-white/10 rounded-xl p-3"><p class="text-slate-400 text-[12px]">미전송 대기</p>' +
+          '<p class="text-[26px] font-extrabold leading-tight ' + (queue.length ? 'text-amber-400' : '') + '">' + queue.length + '</p></div>' +
+      '</div>' +
+      '<div><p class="font-bold mb-1.5">선호 시간대</p><ul class="space-y-1">' + slotRows + '</ul></div>' +
+      '<div><p class="font-bold mb-1.5">많이 찜한 강좌</p><ul class="space-y-1">' + likeRows + '</ul></div>';
+
+    $('#adminCsv').onclick = function () {
+      var blob = new Blob([buildCsv()], { type: 'text/csv;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'ontime-signups.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+      toast('CSV를 내려받았어요', 'download');
+    };
+
+    $('#adminCopy').onclick = function () {
+      navigator.clipboard.writeText(buildCsv())
+        .then(function () { toast('CSV를 복사했어요', 'clipboard-check'); },
+              function () { toast('복사에 실패했어요', 'x-circle'); });
+    };
+
+    $('#adminRetry').onclick = function () {
+      if (!isConnected()) { toast('엔드포인트가 아직 연결되지 않았어요', 'plug-zap'); return; }
+      flushQueue().then(function (sent) {
+        toast(sent + '건을 전송했어요', 'send');
+        renderAdmin();
+      });
+    };
+
+    $('#adminClear').onclick = function () {
+      if (!confirm('이 브라우저에 저장된 신청·찜 데이터를 모두 지웁니다. 계속할까요?')) return;
+      [LS_SIGNUP, LS_QUEUE, LS_LIKE].forEach(function (k) { localStorage.removeItem(k); });
+      location.reload();
+    };
+  }
+
+  /* ═══════════════ 초기화 ═══════════════ */
+  renderChips();
+  renderCards();
+  renderStats();
+  renderMarquee();
+  renderSlots();
+  renderPrivacy();
+  $('#optOutNote').innerHTML =
+    '※ 본 알림은 100% 무료이며, 광고 문자는 보내지 않습니다.<br />' +
+    '수신거부는 ' + esc(CONTACT.optOut) + '하시면 됩니다.';
+  renderAdmin();
+  if (window.lucide) lucide.createIcons();
+
+  /* 지난 방문에서 전송하지 못한 신청이 있으면 조용히 재시도 */
+  flushQueue();
+})();
+</script>
+
+</body>
+</html>

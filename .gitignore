@@ -15,3 +15,10 @@ assets/
 # Internal planning docs — kept local, not published
 caud_md.md
 landing_page.json
+
+# Netlify drag-and-drop deploy output
+dist/
+*.zip
+
+# 강의자료 (대용량, 프로젝트 파일 아님)
+image/*.pptx

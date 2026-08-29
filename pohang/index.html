@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>배움알림 포항 | 포항의 무료 강연, 마감 전에 알려드립니다</title>
+<meta name="description" content="포항 도서관·평생학습원·문화재단에 흩어져 있는 무료 강연을 한 곳에 모아, 신청 마감 전에 카카오톡으로 알려드립니다." />
+
+<meta property="og:title" content="배움알림 포항 — 무료 강연, 마감 전에 알려드립니다" />
+<meta property="og:description" content="흩어진 지역 무료 강연을 한 곳에. 관심 테마만 고르면 마감 3일 전에 알림이 갑니다." />
+<meta property="og:type" content="website" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: { sans: ['"Noto Sans KR"', 'system-ui', 'sans-serif'] },
+        colors: {
+          ink:   { 900:'#0B1220', 800:'#1E293B', 700:'#334155', 600:'#475569', 500:'#64748B', 300:'#CBD5E1', 100:'#E2E8F0' },
+          brand: { 900:'#083A63', 800:'#0A4F8A', 700:'#0B5FA5', 500:'#2E86C8', 100:'#DCEAF6', 50:'#F0F6FB' },
+          alert: { 700:'#B91C1C', 600:'#DC2626', 100:'#FEE2E2' },
+          warm:  { 700:'#C2410C', 600:'#EA580C', 100:'#FFEDD5' },
+          paper: '#F7F8FA',
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+  body { font-size: 17px; line-height: 1.7; letter-spacing: -0.015em; }
+  @media (max-width: 640px) { body { font-size: 16px; } }
+
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  select:focus-visible, textarea:focus-visible {
+    outline: 3px solid #0B5FA5; outline-offset: 3px; border-radius: 8px;
+  }
+
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1); }
+  .reveal.is-visible { opacity: 1; transform: none; }
+
+  /* 필터 칩 — Tailwind 유틸리티와 겹치지 않도록 모양을 여기서 전부 정의합니다 */
+  .chip {
+    border:2px solid #E2E8F0; background:#fff; color:#334155;
+    font-weight:700; font-size:15px; padding:8px 16px; border-radius:9999px;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .chip:hover { border-color:#2E86C8; }
+  .chip[aria-pressed="true"] { background:#0B5FA5; border-color:#0B5FA5; color:#fff; }
+
+  /* 체크박스 칩 — 선택 상태는 JS 가 .is-on 을 붙여 표시합니다.
+     Tailwind 유틸리티와 겹치지 않도록 모양을 여기서 전부 정의합니다. */
+  .pick { display:inline-block; cursor:pointer; }
+  .pick > span {
+    display:block; border:2px solid #E2E8F0; background:#fff; color:#334155;
+    font-weight:700; font-size:15px; padding:8px 16px; border-radius:9999px;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .pick.is-on > span { background:#0B5FA5; border-color:#0B5FA5; color:#fff; }
+  .pick.is-focus > span { outline:3px solid #0B5FA5; outline-offset:3px; }
+
+  .card { transition: transform .22s cubic-bezier(.16,1,.3,1), box-shadow .22s ease, border-color .22s ease; }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 32px -12px rgba(11,18,32,.22); border-color:#2E86C8; }
+  .card.is-closed { opacity: .52; }
+  .card.is-closed:hover { transform: none; box-shadow: none; border-color:#E2E8F0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .card:hover { transform: none; }
+  }
+</style>
+</head>
+
+<body class="bg-paper text-ink-900 font-sans antialiased">
+
+<!-- ══════════════ GNB ══════════════ -->
+<header class="fixed top-0 inset-x-0 z-40 bg-white/95 backdrop-blur border-b border-ink-100">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8 h-[68px] flex items-center justify-between gap-4">
+    <a href="#top" class="flex items-center gap-2.5 shrink-0">
+      <span class="w-9 h-9 grid place-items-center rounded-lg bg-brand-700 text-white">
+        <i data-lucide="bell-ring" class="w-5 h-5"></i>
+      </span>
+      <span class="text-[20px] font-black tracking-tight">배움알림 <span class="text-brand-700">포항</span></span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-7 text-[16px] font-medium text-ink-600">
+      <a href="#list" class="hover:text-brand-700 transition-colors">이번 달 강연</a>
+      <a href="#how" class="hover:text-brand-700 transition-colors">작동 방식</a>
+      <a href="#faq" class="hover:text-brand-700 transition-colors">자주 묻는 질문</a>
+      <a href="#partner" class="hover:text-brand-700 transition-colors">주최기관 문의</a>
+    </nav>
+
+    <a href="#subscribe"
+       class="inline-flex items-center gap-2 bg-brand-700 hover:bg-brand-800 text-white font-bold text-[15px] lg:text-[16px] px-4 lg:px-5 py-2.5 rounded-xl transition-colors">
+      <i data-lucide="message-circle" class="w-4 h-4"></i>
+      무료 알림 신청
+    </a>
+  </div>
+</header>
+
+<main id="top" class="pt-[68px]">
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="bg-white border-b border-ink-100">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8 py-14 lg:py-20 grid lg:grid-cols-[1.15fr_.85fr] gap-12 items-center">
+
+    <div class="reveal">
+      <p class="inline-flex items-center gap-2 text-[14px] font-bold text-brand-700 bg-brand-50 border border-brand-100 rounded-full px-3.5 py-1.5">
+        <i data-lucide="map-pin" class="w-4 h-4"></i>
+        포항시 전역 · 도서관 · 평생학습원 · 문화재단
+      </p>
+
+      <h1 class="mt-5 text-[28px] sm:text-[40px] lg:text-[52px] font-black leading-[1.24] tracking-tight">
+        좋은 강연은 늘 있었습니다.<br />
+        <span class="text-brand-700">몰라서 못 갔을 뿐입니다.</span>
+      </h1>
+
+      <p class="mt-6 text-[18px] lg:text-[19px] text-ink-600 leading-[1.8] max-w-[36rem]">
+        포항의 무료 강연·강좌는 기관 홈페이지 7~8곳에 흩어져 있습니다.
+        저희가 매주 대신 돌아보고 정리해서, <strong class="text-ink-900 font-bold">신청 마감 3일 전</strong>에
+        관심 테마만 골라 알려드립니다. 요금은 없습니다.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="#subscribe"
+           class="inline-flex items-center gap-2 bg-brand-700 hover:bg-brand-800 text-white font-bold text-[17px] px-7 py-4 rounded-xl transition-colors shadow-sm">
+          <i data-lucide="bell-plus" class="w-5 h-5"></i>
+          1분 만에 알림 신청하기
+        </a>
+        <a href="#list"
+           class="inline-flex items-center gap-2 border-2 border-ink-100 hover:border-brand-500 bg-white text-ink-800 font-bold text-[17px] px-6 py-4 rounded-xl transition-colors">
+          먼저 강연 목록 보기
+          <i data-lucide="arrow-down" class="w-5 h-5"></i>
+        </a>
+      </div>
+
+      <p class="mt-5 text-[15px] text-ink-500 flex items-center gap-2">
+        <i data-lucide="users" class="w-4 h-4"></i>
+        지금까지 <strong id="signupCount" class="text-brand-700 font-bold">0</strong>명이 알림을 신청했습니다.
+      </p>
+    </div>
+
+    <!-- 지표 카드 -->
+    <div class="reveal grid grid-cols-2 lg:grid-cols-1 gap-3">
+      <div class="bg-brand-50 border border-brand-100 rounded-2xl p-5 lg:p-6">
+        <p class="text-[14px] font-bold text-brand-800">지금 신청 가능한 강연</p>
+        <p class="mt-1 text-[38px] lg:text-[44px] font-black leading-none text-brand-900"><span id="statOpen">0</span><span class="text-[20px] font-bold ml-1">개</span></p>
+      </div>
+      <div class="bg-alert-100 border border-alert-100 rounded-2xl p-5 lg:p-6">
+        <p class="text-[14px] font-bold text-alert-700">마감 임박 (D-3 이내)</p>
+        <p class="mt-1 text-[38px] lg:text-[44px] font-black leading-none text-alert-700"><span id="statUrgent">0</span><span class="text-[20px] font-bold ml-1">개</span></p>
+      </div>
+      <div class="bg-white border border-ink-100 rounded-2xl p-5 lg:p-6 col-span-2 lg:col-span-1">
+        <p class="text-[14px] font-bold text-ink-600">모니터링 중인 기관</p>
+        <p class="mt-1 text-[38px] lg:text-[44px] font-black leading-none"><span id="statHosts">0</span><span class="text-[20px] font-bold ml-1">곳</span></p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════ 샘플 데이터 배너 ══════════════ -->
+<div id="sampleBanner" class="hidden bg-warm-100 border-b border-warm-600/30">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8 py-3 flex items-start gap-2.5 text-[15px] text-warm-700 font-medium">
+    <i data-lucide="flask-conical" class="w-5 h-5 shrink-0 mt-0.5"></i>
+    <p>현재 표시된 강연은 <strong>서비스 구조 확인용 샘플</strong>입니다. 실제 모집 정보가 아니며, 신청은 각 기관 홈페이지에서 확인해 주세요.</p>
+  </div>
+</div>
+
+<!-- ══════════════ 문제 정의 ══════════════ -->
+<section class="py-14 lg:py-20">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8">
+    <h2 class="reveal text-[26px] lg:text-[32px] font-black tracking-tight text-center">이런 경험, 한 번쯤 있으셨을 겁니다</h2>
+    <div class="mt-10 grid md:grid-cols-3 gap-4">
+      <div class="reveal bg-white border border-ink-100 rounded-2xl p-6">
+        <span class="w-11 h-11 grid place-items-center rounded-xl bg-ink-100 text-ink-700"><i data-lucide="search-x" class="w-5 h-5"></i></span>
+        <h3 class="mt-4 text-[19px] font-bold">있는 줄도 몰랐다</h3>
+        <p class="mt-2 text-ink-600 text-[16px] leading-relaxed">도서관·평생학습원·문화재단·보건소가 각자 홈페이지에만 공지합니다. 매주 7~8곳을 직접 돌아볼 사람은 없습니다.</p>
+      </div>
+      <div class="reveal bg-white border border-ink-100 rounded-2xl p-6">
+        <span class="w-11 h-11 grid place-items-center rounded-xl bg-alert-100 text-alert-700"><i data-lucide="timer-off" class="w-5 h-5"></i></span>
+        <h3 class="mt-4 text-[19px] font-bold">알았을 땐 이미 마감</h3>
+        <p class="mt-2 text-ink-600 text-[16px] leading-relaxed">정원 20~30명 강좌는 선착순 하루 만에 닫힙니다. 우연히 발견했을 땐 대기 순번뿐입니다.</p>
+      </div>
+      <div class="reveal bg-white border border-ink-100 rounded-2xl p-6">
+        <span class="w-11 h-11 grid place-items-center rounded-xl bg-brand-100 text-brand-800"><i data-lucide="list-filter" class="w-5 h-5"></i></span>
+        <h3 class="mt-4 text-[19px] font-bold">내게 맞는 걸 고르기 어렵다</h3>
+        <p class="mt-2 text-ink-600 text-[16px] leading-relaxed">공지문만 봐서는 몇 시간 걸리는지, 실습인지 강의인지 알 수 없습니다. 그래서 신청을 미루게 됩니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 강연 목록 ══════════════ -->
+<section id="list" class="pb-16 lg:pb-24">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8">
+
+    <div class="reveal flex flex-wrap items-end justify-between gap-4">
+      <div>
+        <h2 class="text-[26px] lg:text-[32px] font-black tracking-tight">이번 달 포항 무료 강연</h2>
+        <p class="mt-2 text-ink-600">사람이 직접 확인하고 3줄로 정리했습니다. 매주 월요일 갱신됩니다.</p>
+      </div>
+      <p class="text-[15px] text-ink-500">최종 갱신 <span id="updatedAt" class="font-bold text-ink-700">—</span></p>
+    </div>
+
+    <!-- 필터 -->
+    <div class="reveal mt-8 bg-white border border-ink-100 rounded-2xl p-5 lg:p-6 space-y-5">
+      <div>
+        <p class="text-[14px] font-bold text-ink-500 mb-2.5">지역</p>
+        <div id="districtFilters" class="flex flex-wrap gap-2"></div>
+      </div>
+      <div>
+        <p class="text-[14px] font-bold text-ink-500 mb-2.5">테마</p>
+        <div id="categoryFilters" class="flex flex-wrap gap-2"></div>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3 pt-1">
+        <label class="relative flex-1">
+          <i data-lucide="search" class="w-5 h-5 absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-500"></i>
+          <input id="searchInput" type="search" placeholder="강연명 · 기관 · 해시태그 검색"
+                 class="w-full border-2 border-ink-100 rounded-xl pl-11 pr-4 py-3 text-[16px] focus:border-brand-500 outline-none" />
+        </label>
+        <label class="inline-flex items-center gap-2.5 text-[16px] font-medium select-none cursor-pointer shrink-0">
+          <input id="urgentOnly" type="checkbox" class="w-5 h-5 accent-brand-700 cursor-pointer" />
+          마감 임박만 보기
+        </label>
+        <button id="resetFilters" type="button"
+                class="shrink-0 text-[15px] font-bold text-ink-500 hover:text-brand-700 underline underline-offset-4">
+          초기화
+        </button>
+      </div>
+    </div>
+
+    <p id="resultCount" class="mt-6 text-[15px] text-ink-500"></p>
+
+    <div id="cardGrid" class="mt-4 grid md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+
+    <div id="emptyState" class="hidden mt-4 bg-white border border-dashed border-ink-300 rounded-2xl py-16 text-center">
+      <i data-lucide="calendar-off" class="w-10 h-10 mx-auto text-ink-300"></i>
+      <p class="mt-4 text-[18px] font-bold">조건에 맞는 강연이 없습니다</p>
+      <p class="mt-1.5 text-ink-500">필터를 줄이거나, 알림을 신청해 새 강연이 열릴 때 받아보세요.</p>
+      <a href="#subscribe" class="mt-5 inline-flex items-center gap-2 bg-brand-700 hover:bg-brand-800 text-white font-bold px-5 py-3 rounded-xl transition-colors">
+        <i data-lucide="bell-plus" class="w-4 h-4"></i> 알림 신청하기
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 작동 방식 ══════════════ -->
+<section id="how" class="bg-brand-900 text-white py-16 lg:py-24">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8">
+    <h2 class="reveal text-[26px] lg:text-[34px] font-black tracking-tight text-center">신청하면, 이렇게 굴러갑니다</h2>
+    <p class="reveal mt-3 text-center text-white/70 text-[17px]">앱 설치도, 회원가입도 없습니다.</p>
+
+    <div class="mt-12 grid md:grid-cols-3 gap-5">
+      <div class="reveal bg-white/[.07] border border-white/15 rounded-2xl p-7">
+        <p class="text-[14px] font-black text-brand-500 tracking-widest">STEP 01</p>
+        <h3 class="mt-3 text-[21px] font-bold">저희가 매주 돌아봅니다</h3>
+        <p class="mt-3 text-white/75 leading-relaxed text-[16px]">시립도서관 4곳, 평생학습원, 문화재단, 보건소, 창업지원센터의 새 공지를 월요일마다 수집합니다.</p>
+      </div>
+      <div class="reveal bg-white/[.07] border border-white/15 rounded-2xl p-7">
+        <p class="text-[14px] font-black text-brand-500 tracking-widest">STEP 02</p>
+        <h3 class="mt-3 text-[21px] font-bold">3줄로 줄여 정리합니다</h3>
+        <p class="mt-3 text-white/75 leading-relaxed text-[16px]">긴 공지문에서 &lsquo;누구에게 맞는지 · 몇 분 걸리는지 · 무엇을 준비해야 하는지&rsquo;만 남깁니다.</p>
+      </div>
+      <div class="reveal bg-white/[.07] border border-white/15 rounded-2xl p-7">
+        <p class="text-[14px] font-black text-brand-500 tracking-widest">STEP 03</p>
+        <h3 class="mt-3 text-[21px] font-bold">마감 3일 전 카톡으로</h3>
+        <p class="mt-3 text-white/75 leading-relaxed text-[16px]">고르신 테마·지역에 해당하는 강연만 골라 보냅니다. 해당 없는 주에는 아무것도 보내지 않습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ 알림 신청 ══════════════ -->
+<section id="subscribe" class="py-16 lg:py-24">
+  <div class="mx-auto max-w-3xl px-5 lg:px-8">
+    <div class="reveal text-center">
+      <h2 class="text-[26px] lg:text-[34px] font-black tracking-tight">무료 알림 신청</h2>
+      <p class="mt-3 text-ink-600 text-[17px]">관심 테마만 고르시면 됩니다. 언제든 &lsquo;그만&rsquo; 한마디로 해지됩니다.</p>
+    </div>
+
+    <form id="subscribeForm" class="reveal mt-9 bg-white border border-ink-100 rounded-2xl p-6 lg:p-9 space-y-7" novalidate>
+
+      <div class="grid sm:grid-cols-2 gap-5">
+        <label class="block">
+          <span class="block text-[15px] font-bold mb-2">이름 <span class="text-alert-600">*</span></span>
+          <input name="name" type="text" required autocomplete="name" placeholder="홍길동"
+                 class="w-full border-2 border-ink-100 rounded-xl px-4 py-3 text-[16px] focus:border-brand-500 outline-none" />
+        </label>
+        <label class="block">
+          <span class="block text-[15px] font-bold mb-2">휴대폰 번호 <span class="text-alert-600">*</span></span>
+          <input name="phone" type="tel" required autocomplete="tel" inputmode="numeric" placeholder="010-1234-5678"
+                 class="w-full border-2 border-ink-100 rounded-xl px-4 py-3 text-[16px] focus:border-brand-500 outline-none" />
+        </label>
+      </div>
+
+      <fieldset>
+        <legend class="text-[15px] font-bold mb-2.5">관심 테마 <span class="text-alert-600">*</span> <span class="font-normal text-ink-500">(복수 선택)</span></legend>
+        <div id="themePicker" class="flex flex-wrap gap-2"></div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="text-[15px] font-bold mb-2.5">받고 싶은 지역</legend>
+        <div id="regionPicker" class="flex flex-wrap gap-2"></div>
+      </fieldset>
+
+      <label class="flex items-start gap-3 bg-paper border border-ink-100 rounded-xl p-4 cursor-pointer">
+        <input name="consent" type="checkbox" required class="w-5 h-5 mt-0.5 accent-brand-700 shrink-0 cursor-pointer" />
+        <span class="text-[15px] text-ink-600 leading-relaxed">
+          강연 알림 발송을 위해 이름·휴대폰 번호를 수집하는 데 동의합니다.
+          수집한 정보는 알림 발송에만 쓰이며, 해지 요청 시 즉시 삭제합니다. <span class="text-alert-600 font-bold">(필수)</span>
+        </span>
+      </label>
+
+      <button type="submit"
+              class="w-full inline-flex items-center justify-center gap-2 bg-brand-700 hover:bg-brand-800 text-white font-bold text-[18px] px-6 py-4 rounded-xl transition-colors">
+        <i data-lucide="bell-plus" class="w-5 h-5"></i>
+        알림 받기
+      </button>
+
+      <p id="formNote" class="text-[16px] text-center text-ink-500 leading-relaxed" role="status" aria-live="polite">
+        무료입니다. 광고 문자는 보내지 않습니다.
+      </p>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════════ 주최기관 문의 ══════════════ -->
+<section id="partner" class="bg-white border-y border-ink-100 py-16 lg:py-24">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8 grid lg:grid-cols-[1fr_1fr] gap-12 items-start">
+    <div class="reveal">
+      <p class="inline-flex items-center gap-2 text-[14px] font-bold text-ink-600 bg-paper border border-ink-100 rounded-full px-3.5 py-1.5">
+        <i data-lucide="building-2" class="w-4 h-4"></i> 기관 · 강사 · 출판사
+      </p>
+      <h2 class="mt-5 text-[26px] lg:text-[34px] font-black tracking-tight leading-snug">모객이 안 되거나,<br />노쇼가 많으신가요?</h2>
+      <p class="mt-5 text-ink-600 text-[17px] leading-relaxed">
+        배움알림 포항은 <strong class="text-ink-900">배움에 돈이 아니라 시간을 쓰는 사람들</strong>의 명단을 모으고 있습니다.
+        테마·지역·연령대로 나눠 필요한 분들에게만 알림을 보냅니다.
+      </p>
+      <ul class="mt-7 space-y-3.5">
+        <li class="flex gap-3"><i data-lucide="target" class="w-5 h-5 text-brand-700 shrink-0 mt-1"></i><span><strong>타깃 모객 대행</strong> — 정원 미달 강좌를 해당 테마 구독자에게만 발송</span></li>
+        <li class="flex gap-3"><i data-lucide="calendar-check" class="w-5 h-5 text-brand-700 shrink-0 mt-1"></i><span><strong>노쇼 방지 리마인드</strong> — 전일·당일 2회 참석 확인 알림</span></li>
+        <li class="flex gap-3"><i data-lucide="bar-chart-3" class="w-5 h-5 text-brand-700 shrink-0 mt-1"></i><span><strong>수요 리포트</strong> — 어떤 테마·시간대가 실제로 클릭되는지 월간 집계</span></li>
+      </ul>
+    </div>
+
+    <form id="partnerForm" class="reveal bg-paper border border-ink-100 rounded-2xl p-6 lg:p-8 space-y-5" novalidate>
+      <h3 class="text-[20px] font-bold">제휴 문의</h3>
+      <label class="block">
+        <span class="block text-[15px] font-bold mb-2">기관 / 소속 <span class="text-alert-600">*</span></span>
+        <input name="org" type="text" required placeholder="○○도서관"
+               class="w-full border-2 border-ink-100 rounded-xl px-4 py-3 text-[16px] bg-white focus:border-brand-500 outline-none" />
+      </label>
+      <label class="block">
+        <span class="block text-[15px] font-bold mb-2">담당자 연락처 <span class="text-alert-600">*</span></span>
+        <input name="contact" type="text" required placeholder="이메일 또는 전화번호"
+               class="w-full border-2 border-ink-100 rounded-xl px-4 py-3 text-[16px] bg-white focus:border-brand-500 outline-none" />
+      </label>
+      <label class="block">
+        <span class="block text-[15px] font-bold mb-2">문의 내용</span>
+        <textarea name="message" rows="4" placeholder="예) 9월 개설 강좌 3건 모객을 요청드립니다."
+                  class="w-full border-2 border-ink-100 rounded-xl px-4 py-3 text-[16px] bg-white focus:border-brand-500 outline-none resize-y"></textarea>
+      </label>
+      <button type="submit" class="w-full bg-ink-900 hover:bg-ink-800 text-white font-bold text-[17px] px-6 py-3.5 rounded-xl transition-colors">
+        문의 보내기
+      </button>
+      <p id="partnerNote" class="text-[15px] text-center text-ink-500" role="status" aria-live="polite">영업일 기준 2일 이내 회신드립니다.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ══════════════ FAQ ══════════════ -->
+<section id="faq" class="py-16 lg:py-24">
+  <div class="mx-auto max-w-3xl px-5 lg:px-8">
+    <h2 class="reveal text-[26px] lg:text-[32px] font-black tracking-tight text-center">자주 묻는 질문</h2>
+    <div id="faqList" class="mt-10 space-y-3"></div>
+  </div>
+</section>
+
+<!-- ══════════════ 운영자 패널 (?admin=1) ══════════════ -->
+<section id="adminPanel" class="hidden bg-ink-900 text-white py-14">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8">
+    <h2 class="text-[22px] font-black flex items-center gap-2"><i data-lucide="wrench" class="w-5 h-5"></i> 운영자 패널</h2>
+    <p class="mt-2 text-white/60 text-[15px]">이 브라우저에 쌓인 실측 데이터입니다. 수요 검증 지표로 쓰세요.</p>
+    <div id="adminBody" class="mt-6 space-y-6 text-[15px]"></div>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <button id="copyCsv" class="bg-white text-ink-900 font-bold px-4 py-2.5 rounded-xl">신청자 CSV 복사</button>
+      <button id="clearData" class="border border-white/30 text-white font-bold px-4 py-2.5 rounded-xl">데이터 초기화</button>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer class="bg-white border-t border-ink-100 pt-10 pb-28 lg:pb-10">
+  <div class="mx-auto max-w-6xl px-5 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-[15px] text-ink-500">
+    <p class="font-bold text-ink-700">배움알림 포항</p>
+    <p>공공기관이 공개한 정보를 정리해 안내하는 비영리 큐레이션 서비스입니다. 최종 신청 정보는 각 기관 공지를 확인해 주세요.</p>
+  </div>
+</footer>
+
+<!-- 모바일 하단 고정 CTA -->
+<a href="#subscribe" id="mobileCta"
+   class="lg:hidden fixed bottom-4 inset-x-4 z-30 inline-flex items-center justify-center gap-2 bg-brand-700 text-white font-bold text-[17px] py-4 rounded-2xl shadow-lg shadow-brand-900/25">
+  <i data-lucide="bell-plus" class="w-5 h-5"></i> 무료 알림 신청
+</a>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ═════════ 상수 ═════════ */
+  var CATEGORIES = ['인문·교양','건강·의학','재테크·경제','디지털·AI','자녀교육','문화·예술','창업·취업'];
+  var DISTRICTS  = ['남구','북구','온라인'];
+  var URGENT_DAYS = 3;
+  var LS_SIGNUP = 'pl.signups';
+  var LS_CLICK  = 'pl.clicks';
+  var LS_WATCH  = 'pl.watch';
+
+  var CATEGORY_STYLE = {
+    '인문·교양':   'bg-brand-100 text-brand-800',
+    '건강·의학':   'bg-emerald-100 text-emerald-800',
+    '재테크·경제': 'bg-amber-100 text-amber-800',
+    '디지털·AI':   'bg-violet-100 text-violet-800',
+    '자녀교육':    'bg-pink-100 text-pink-800',
+    '문화·예술':   'bg-sky-100 text-sky-800',
+    '창업·취업':   'bg-teal-100 text-teal-800'
+  };
+
+  /* ═════════ 유틸 ═════════ */
+  function todayMidnight() { var d = new Date(); d.setHours(0,0,0,0); return d; }
+  function parseDate(s) { var p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+  function daysUntil(s) { return Math.round((parseDate(s) - todayMidnight()) / 86400000); }
+  function fmtDate(s) {
+    var d = parseDate(s), w = ['일','월','화','수','목','금','토'][d.getDay()];
+    return (d.getMonth()+1) + '월 ' + d.getDate() + '일(' + w + ')';
+  }
+  function fmtDuration(m) {
+    if (m < 60) return m + '분';
+    var h = Math.floor(m/60), r = m%60;
+    return r ? h + '시간 ' + r + '분' : h + '시간';
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c];
+    });
+  }
+  function read(key) { try { return JSON.parse(localStorage.getItem(key)) || null; } catch (e) { return null; } }
+  function write(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
+
+  /* ═════════ 상태 ═════════ */
+  var state = {
+    districts: new Set(),
+    categories: new Set(),
+    query: '',
+    urgentOnly: false
+  };
+
+  /* ═════════ 통계 ═════════ */
+  function isOpen(l) { return daysUntil(l.deadline) >= 0; }
+  function isUrgent(l) { var d = daysUntil(l.deadline); return d >= 0 && d <= URGENT_DAYS; }
+
+  function renderStats() {
+    var open = LECTURES.filter(isOpen);
+    document.getElementById('statOpen').textContent = open.length;
+    document.getElementById('statUrgent').textContent = open.filter(isUrgent).length;
+    var hosts = {};
+    LECTURES.forEach(function (l) { hosts[l.host.split(' ')[0]] = 1; });
+    document.getElementById('statHosts').textContent = Object.keys(hosts).length;
+
+    var t = new Date();
+    document.getElementById('updatedAt').textContent =
+      (t.getMonth()+1) + '월 ' + t.getDate() + '일';
+  }
+
+  function renderSignupCount() {
+    var list = read(LS_SIGNUP) || [];
+    document.getElementById('signupCount').textContent =
+      (SIGNUP_BASELINE + list.length).toLocaleString('ko-KR');
+  }
+
+  /* ═════════ 필터 칩 ═════════ */
+  function buildChips(container, values, set) {
+    container.innerHTML = values.map(function (v) {
+      return '<button type="button" class="chip" aria-pressed="false" data-value="' + esc(v) + '">' + esc(v) + '</button>';
+    }).join('');
+    container.addEventListener('click', function (e) {
+      var btn = e.target.closest('button[data-value]');
+      if (!btn) return;
+      var v = btn.dataset.value;
+      if (set.has(v)) { set.delete(v); btn.setAttribute('aria-pressed','false'); }
+      else            { set.add(v);    btn.setAttribute('aria-pressed','true'); }
+      renderCards();
+    });
+  }
+
+  /* ═════════ 카드 ═════════ */
+  function matches(l) {
+    if (state.districts.size && !state.districts.has(l.district)) return false;
+    if (state.categories.size && !state.categories.has(l.category)) return false;
+    if (state.urgentOnly && !isUrgent(l)) return false;
+    if (state.query) {
+      var hay = (l.title + ' ' + l.host + ' ' + l.venue + ' ' + l.tags.join(' ')).toLowerCase();
+      if (hay.indexOf(state.query) === -1) return false;
+    }
+    return true;
+  }
+
+  function deadlineBadge(l) {
+    var d = daysUntil(l.deadline);
+    if (d < 0)  return '<span class="inline-flex items-center gap-1 text-[13px] font-bold px-2.5 py-1 rounded-full bg-ink-100 text-ink-500">신청 마감</span>';
+    if (d === 0) return '<span class="inline-flex items-center gap-1 text-[13px] font-bold px-2.5 py-1 rounded-full bg-alert-600 text-white">오늘 마감</span>';
+    if (d <= URGENT_DAYS) return '<span class="inline-flex items-center gap-1 text-[13px] font-bold px-2.5 py-1 rounded-full bg-alert-600 text-white">마감 D-' + d + '</span>';
+    return '<span class="inline-flex items-center gap-1 text-[13px] font-bold px-2.5 py-1 rounded-full bg-ink-100 text-ink-600">마감 D-' + d + '</span>';
+  }
+
+  function seatBar(l) {
+    if (l.capacity == null || l.remaining == null) return '';
+    var taken = Math.max(0, l.capacity - l.remaining);
+    var pct = Math.min(100, Math.round(taken / l.capacity * 100));
+    var tone = l.remaining <= 5 ? 'bg-alert-600' : (pct >= 70 ? 'bg-warm-600' : 'bg-brand-700');
+    return '' +
+      '<div class="mt-4">' +
+        '<div class="flex items-center justify-between text-[13px] font-bold mb-1.5">' +
+          '<span class="text-ink-500">정원 ' + l.capacity + '명</span>' +
+          '<span class="' + (l.remaining <= 5 ? 'text-alert-700' : 'text-ink-600') + '">잔여 ' + l.remaining + '석</span>' +
+        '</div>' +
+        '<div class="h-1.5 rounded-full bg-ink-100 overflow-hidden">' +
+          '<div class="h-full ' + tone + ' rounded-full" style="width:' + pct + '%"></div>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function cardHtml(l) {
+    var closed = !isOpen(l);
+    var watching = (read(LS_WATCH) || []).indexOf(l.id) !== -1;
+    return '' +
+    '<article class="card ' + (closed ? 'is-closed ' : '') + 'bg-white border border-ink-100 rounded-2xl p-5 flex flex-col">' +
+      '<div class="flex flex-wrap items-center gap-2">' +
+        '<span class="text-[13px] font-bold px-2.5 py-1 rounded-full ' + (CATEGORY_STYLE[l.category] || 'bg-ink-100 text-ink-700') + '">' + esc(l.category) + '</span>' +
+        '<span class="text-[13px] font-bold px-2.5 py-1 rounded-full bg-paper border border-ink-100 text-ink-600">' + esc(l.district) + '</span>' +
+        '<span class="ml-auto">' + deadlineBadge(l) + '</span>' +
+      '</div>' +
+
+      '<h3 class="mt-3.5 text-[19px] font-bold leading-snug">' + esc(l.title) + '</h3>' +
+      '<p class="mt-1.5 text-[14px] font-medium text-ink-500">' + esc(l.host) + '</p>' +
+
+      '<ul class="mt-4 space-y-1.5">' +
+        l.summary.map(function (s) {
+          return '<li class="flex gap-2 text-[15px] text-ink-600 leading-relaxed">' +
+                 '<span class="text-brand-500 shrink-0">·</span><span>' + esc(s) + '</span></li>';
+        }).join('') +
+      '</ul>' +
+
+      '<dl class="mt-4 pt-4 border-t border-ink-100 grid grid-cols-2 gap-y-2 gap-x-3 text-[14px]">' +
+        '<div class="flex items-center gap-1.5 text-ink-600"><i data-lucide="calendar" class="w-4 h-4 text-ink-500 shrink-0"></i>' + fmtDate(l.date) + ' ' + esc(l.time) + '</div>' +
+        '<div class="flex items-center gap-1.5 text-ink-600"><i data-lucide="hourglass" class="w-4 h-4 text-ink-500 shrink-0"></i>' + fmtDuration(l.durationMin) + ' 소요</div>' +
+        '<div class="col-span-2 flex items-center gap-1.5 text-ink-600"><i data-lucide="map-pin" class="w-4 h-4 text-ink-500 shrink-0"></i>' + esc(l.venue) + '</div>' +
+      '</dl>' +
+
+      seatBar(l) +
+
+      '<div class="mt-4 flex flex-wrap gap-1.5">' +
+        l.tags.map(function (t) {
+          return '<span class="text-[13px] text-brand-700 bg-brand-50 border border-brand-100 rounded-md px-2 py-0.5">#' + esc(t) + '</span>';
+        }).join('') +
+      '</div>' +
+
+      '<div class="mt-5 pt-1 flex gap-2">' +
+        (closed
+          ? '<span class="flex-1 text-center bg-ink-100 text-ink-500 font-bold text-[15px] py-3 rounded-xl">신청 기간이 끝났습니다</span>'
+          : '<a href="' + esc(l.applyUrl) + '" target="_blank" rel="noopener noreferrer" data-apply="' + esc(l.id) + '" ' +
+            'class="flex-1 inline-flex items-center justify-center gap-1.5 bg-brand-700 hover:bg-brand-800 text-white font-bold text-[15px] py-3 rounded-xl transition-colors">' +
+            '신청 페이지 열기 <i data-lucide="external-link" class="w-4 h-4"></i></a>') +
+        '<button type="button" data-watch="' + esc(l.id) + '" aria-pressed="' + watching + '" ' +
+        'class="shrink-0 w-12 grid place-items-center border-2 ' + (watching ? 'border-brand-700 bg-brand-50 text-brand-700' : 'border-ink-100 text-ink-500') + ' rounded-xl hover:border-brand-500 transition-colors" ' +
+        'title="이 강연 알림받기" aria-label="이 강연 알림받기">' +
+          '<i data-lucide="bell" class="w-5 h-5"></i>' +
+        '</button>' +
+      '</div>' +
+    '</article>';
+  }
+
+  function renderCards() {
+    var grid  = document.getElementById('cardGrid');
+    var empty = document.getElementById('emptyState');
+    var count = document.getElementById('resultCount');
+
+    var list = LECTURES.filter(matches).sort(function (a, b) {
+      var oa = isOpen(a) ? 0 : 1, ob = isOpen(b) ? 0 : 1;
+      if (oa !== ob) return oa - ob;
+      return parseDate(a.deadline) - parseDate(b.deadline);
+    });
+
+    grid.innerHTML = list.map(cardHtml).join('');
+    empty.classList.toggle('hidden', list.length > 0);
+    count.textContent = list.length
+      ? '총 ' + list.length + '개 강연 · 마감 임박순'
+      : '';
+    if (window.lucide) lucide.createIcons();
+  }
+
+  /* ═════════ 클릭 / 관심 추적 ═════════ */
+  document.addEventListener('click', function (e) {
+    var apply = e.target.closest('[data-apply]');
+    if (apply) {
+      var clicks = read(LS_CLICK) || {};
+      clicks[apply.dataset.apply] = (clicks[apply.dataset.apply] || 0) + 1;
+      write(LS_CLICK, clicks);
+      return;
+    }
+    var watch = e.target.closest('[data-watch]');
+    if (watch) {
+      var id = watch.dataset.watch;
+      var list = read(LS_WATCH) || [];
+      var i = list.indexOf(id);
+      if (i === -1) list.push(id); else list.splice(i, 1);
+      write(LS_WATCH, list);
+      renderCards();
+      if (i === -1) {
+        var note = document.getElementById('formNote');
+        document.getElementById('subscribe').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        note.textContent = '관심 강연으로 담았습니다. 아래에 연락처를 남기시면 마감 전에 알려드립니다.';
+        note.className = 'text-[16px] text-center text-brand-700 font-bold leading-relaxed';
+      }
+    }
+  });
+
+  /* ═════════ 신청 폼 ═════════ */
+  function buildPicker(container, values, name) {
+    container.innerHTML = values.map(function (v, i) {
+      var id = name + '-' + i;
+      return '<label for="' + id + '" class="pick">' +
+        '<input id="' + id + '" type="checkbox" name="' + name + '" value="' + esc(v) + '" class="sr-only" />' +
+        '<span>' + esc(v) + '</span>' +
+      '</label>';
+    }).join('');
+
+    function sync() {
+      container.querySelectorAll('.pick').forEach(function (lbl) {
+        lbl.classList.toggle('is-on', lbl.querySelector('input').checked);
+      });
+    }
+    container.addEventListener('change', sync);
+    container.addEventListener('focusin',  function (e) { e.target.closest('.pick').classList.add('is-focus'); });
+    container.addEventListener('focusout', function (e) { e.target.closest('.pick').classList.remove('is-focus'); });
+    container.sync = sync;
+  }
+
+  function setNote(el, msg, tone) {
+    el.textContent = msg;
+    el.className = 'text-[16px] text-center leading-relaxed font-bold ' +
+      (tone === 'ok' ? 'text-brand-700' : tone === 'err' ? 'text-alert-700' : 'text-ink-500');
+  }
+
+  var subForm = document.getElementById('subscribeForm');
+  var subNote = document.getElementById('formNote');
+
+  subForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var fd = new FormData(subForm);
+    var name = (fd.get('name') || '').trim();
+    var phone = (fd.get('phone') || '').trim();
+    var themes = fd.getAll('theme');
+    var regions = fd.getAll('region');
+
+    if (!name)  { setNote(subNote, '이름을 입력해 주세요.', 'err'); return; }
+    if (!/^01[016789][-\s]?\d{3,4}[-\s]?\d{4}$/.test(phone)) {
+      setNote(subNote, '휴대폰 번호 형식을 확인해 주세요. (예: 010-1234-5678)', 'err'); return;
+    }
+    if (!themes.length) { setNote(subNote, '관심 테마를 하나 이상 골라 주세요.', 'err'); return; }
+    if (!fd.get('consent')) { setNote(subNote, '개인정보 수집 동의가 필요합니다.', 'err'); return; }
+
+    var entry = {
+      name: name,
+      phone: phone,
+      themes: themes,
+      regions: regions.length ? regions : ['전체'],
+      watching: read(LS_WATCH) || [],
+      at: new Date().toISOString()
+    };
+
+    var list = read(LS_SIGNUP) || [];
+    list.push(entry);
+    write(LS_SIGNUP, list);
+    renderSignupCount();
+
+    if (SUBMIT_ENDPOINT) {
+      fetch(SUBMIT_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(entry)
+      }).catch(function () {});
+    }
+
+    subForm.querySelectorAll('input').forEach(function (i) { i.disabled = true; });
+    subForm.querySelector('button[type="submit"]').disabled = true;
+    subForm.querySelector('button[type="submit"]').classList.add('opacity-60');
+    setNote(subNote, '✓ 신청이 완료되었습니다. ' + themes.join(' · ') + ' 강연이 열리면 마감 3일 전에 카카오톡으로 알려드립니다.', 'ok');
+  });
+
+  var partnerForm = document.getElementById('partnerForm');
+  var partnerNote = document.getElementById('partnerNote');
+  partnerForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var fd = new FormData(partnerForm);
+    if (!(fd.get('org') || '').trim() || !(fd.get('contact') || '').trim()) {
+      setNote(partnerNote, '기관명과 연락처를 입력해 주세요.', 'err'); return;
+    }
+    write('pl.partners', (read('pl.partners') || []).concat([{
+      org: fd.get('org'), contact: fd.get('contact'), message: fd.get('message'), at: new Date().toISOString()
+    }]));
+    partnerForm.querySelector('button[type="submit"]').disabled = true;
+    partnerForm.querySelector('button[type="submit"]').classList.add('opacity-60');
+    setNote(partnerNote, '✓ 문의가 접수되었습니다. 영업일 기준 2일 이내에 회신드립니다.', 'ok');
+  });
+
+  /* ═════════ FAQ ═════════ */
+  var FAQ = [
+    ['정말 무료인가요?', '이용료는 없습니다. 안내하는 강연 자체도 모두 참가비가 없는 공공 프로그램만 다룹니다.'],
+    ['알림은 얼마나 자주 오나요?', '고르신 테마에 해당하는 강연이 열릴 때만 갑니다. 해당 없는 주에는 한 통도 보내지 않습니다. 보통 주 1회 내외입니다.'],
+    ['신청은 여기서 하나요?', '아닙니다. 최종 신청은 각 기관 홈페이지에서 하셔야 합니다. 저희는 마감 전에 알려드리고 신청 페이지로 바로 연결해 드립니다.'],
+    ['개인정보는 어떻게 관리되나요?', '이름과 휴대폰 번호만 받고, 알림 발송 외 용도로 쓰지 않습니다. 제3자에게 제공하지 않으며 &lsquo;그만&rsquo;이라고 답장하시면 즉시 삭제합니다.'],
+    ['포항 외 지역도 되나요?', '지금은 포항시만 다룹니다. 신청하실 때 지역 칸에 남겨 주시면 확장 순서를 정하는 데 참고하겠습니다.']
+  ];
+
+  document.getElementById('faqList').innerHTML = FAQ.map(function (f) {
+    return '<details class="reveal group bg-white border border-ink-100 rounded-2xl px-5 py-4 open:border-brand-500">' +
+      '<summary class="flex items-center justify-between gap-4 cursor-pointer list-none font-bold text-[17px]">' +
+        esc(f[0]) +
+        '<i data-lucide="chevron-down" class="w-5 h-5 text-ink-500 shrink-0 transition-transform group-open:rotate-180"></i>' +
+      '</summary>' +
+      '<p class="mt-3 text-ink-600 text-[16px] leading-relaxed">' + f[1] + '</p>' +
+    '</details>';
+  }).join('');
+
+  /* ═════════ 운영자 패널 ═════════ */
+  function renderAdmin() {
+    if (new URLSearchParams(location.search).get('admin') !== '1') return;
+    var panel = document.getElementById('adminPanel');
+    panel.classList.remove('hidden');
+
+    var signups = read(LS_SIGNUP) || [];
+    var clicks  = read(LS_CLICK) || {};
+    var watch   = read(LS_WATCH) || [];
+    var partners = read('pl.partners') || [];
+
+    var themeCount = {};
+    signups.forEach(function (s) { s.themes.forEach(function (t) { themeCount[t] = (themeCount[t]||0)+1; }); });
+    var themeRows = Object.keys(themeCount).sort(function (a,b) { return themeCount[b]-themeCount[a]; })
+      .map(function (t) { return '<li>' + esc(t) + ' — <strong>' + themeCount[t] + '</strong>명</li>'; }).join('') || '<li class="text-white/50">아직 없음</li>';
+
+    var clickRows = Object.keys(clicks).sort(function (a,b) { return clicks[b]-clicks[a]; })
+      .map(function (id) {
+        var l = LECTURES.filter(function (x) { return x.id === id; })[0];
+        return '<li>' + esc(l ? l.title : id) + ' — <strong>' + clicks[id] + '</strong>회</li>';
+      }).join('') || '<li class="text-white/50">아직 없음</li>';
+
+    document.getElementById('adminBody').innerHTML =
+      '<div class="grid sm:grid-cols-3 gap-4">' +
+        '<div class="bg-white/10 rounded-xl p-4"><p class="text-white/60">알림 신청</p><p class="text-[30px] font-black">' + signups.length + '</p></div>' +
+        '<div class="bg-white/10 rounded-xl p-4"><p class="text-white/60">신청 링크 클릭</p><p class="text-[30px] font-black">' + Object.keys(clicks).reduce(function (s,k) { return s+clicks[k]; }, 0) + '</p></div>' +
+        '<div class="bg-white/10 rounded-xl p-4"><p class="text-white/60">기관 문의</p><p class="text-[30px] font-black">' + partners.length + '</p></div>' +
+      '</div>' +
+      '<div class="grid sm:grid-cols-2 gap-6">' +
+        '<div><p class="font-bold mb-2">테마별 수요</p><ul class="space-y-1 text-white/80">' + themeRows + '</ul></div>' +
+        '<div><p class="font-bold mb-2">클릭 많은 강연</p><ul class="space-y-1 text-white/80">' + clickRows + '</ul></div>' +
+      '</div>' +
+      '<p class="text-white/60">관심 담기 누적: <strong class="text-white">' + watch.length + '</strong>건</p>';
+
+    document.getElementById('copyCsv').addEventListener('click', function () {
+      var csv = ['이름,휴대폰,관심테마,지역,신청시각'].concat(signups.map(function (s) {
+        return [s.name, s.phone, s.themes.join('|'), s.regions.join('|'), s.at]
+          .map(function (v) { return '"' + String(v).replace(/"/g,'""') + '"'; }).join(',');
+      })).join('\n');
+      navigator.clipboard.writeText(csv).then(function () { alert('CSV를 복사했습니다.'); },
+                                             function () { alert('복사에 실패했습니다.'); });
+    });
+
+    document.getElementById('clearData').addEventListener('click', function () {
+      if (!confirm('이 브라우저에 저장된 신청·클릭 데이터를 모두 지웁니다. 계속할까요?')) return;
+      [LS_SIGNUP, LS_CLICK, LS_WATCH, 'pl.partners'].forEach(function (k) { localStorage.removeItem(k); });
+      location.reload();
+    });
+  }
+
+  /* ═════════ 초기화 ═════════ */
+  if (typeof IS_SAMPLE_DATA !== 'undefined' && IS_SAMPLE_DATA) {
+    document.getElementById('sampleBanner').classList.remove('hidden');
+  }
+
+  buildChips(document.getElementById('districtFilters'), DISTRICTS, state.districts);
+  buildChips(document.getElementById('categoryFilters'), CATEGORIES, state.categories);
+  buildPicker(document.getElementById('themePicker'), CATEGORIES, 'theme');
+  buildPicker(document.getElementById('regionPicker'), DISTRICTS.concat(['전체']), 'region');
+
+  var searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', function () {
+    state.query = searchInput.value.trim().toLowerCase();
+    renderCards();
+  });
+
+  document.getElementById('urgentOnly').addEventListener('change', function (e) {
+    state.urgentOnly = e.target.checked;
+    renderCards();
+  });
+
+  document.getElementById('resetFilters').addEventListener('click', function () {
+    state.districts.clear(); state.categories.clear();
+    state.query = ''; state.urgentOnly = false;
+    searchInput.value = '';
+    document.getElementById('urgentOnly').checked = false;
+    document.querySelectorAll('#districtFilters button, #categoryFilters button')
+      .forEach(function (b) { b.setAttribute('aria-pressed','false'); });
+    renderCards();
+  });
+
+  renderStats();
+  renderSignupCount();
+  renderCards();
+  renderAdmin();
+
+  /* 스크롤 리빌 */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+    });
+  }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  /* 모바일 CTA: 신청 섹션에서는 숨김 */
+  var cta = document.getElementById('mobileCta');
+  new IntersectionObserver(function (entries) {
+    cta.style.opacity = entries[0].isIntersecting ? '0' : '1';
+    cta.style.pointerEvents = entries[0].isIntersecting ? 'none' : 'auto';
+  }, { threshold: .2 }).observe(document.getElementById('subscribe'));
+  cta.style.transition = 'opacity .25s ease';
+
+  if (window.lucide) lucide.createIcons();
+})();
+</script>
+
+</body>
+</html>
