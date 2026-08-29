@@ -14,6 +14,23 @@
 <link rel="stylesheet" as="style" crossorigin
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" />
 
+<!-- ★ Google Analytics 4 — 측정 ID(G-…)를 넣으면 켜집니다. 비워두면 아무것도 로드하지 않습니다. -->
+<script>
+  var GA_ID = 'G-ZB1QX02PST';
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function () { dataLayer.push(arguments); };
+
+  if (GA_ID) {
+    var gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(gaScript);
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  }
+</script>
+
 <!-- Tailwind CSS v3 -->
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -650,6 +667,13 @@
       return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
     });
   }
+  /* GA4 이벤트 — GA_ID 가 비어 있으면 조용히 무시됩니다. */
+  function track(name, params) {
+    if (typeof GA_ID !== 'undefined' && GA_ID && window.gtag) {
+      window.gtag('event', name, params || {});
+    }
+  }
+
   function readLS(k, fb) { try { return JSON.parse(localStorage.getItem(k)) || fb; } catch (e) { return fb; } }
   function writeLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 
@@ -959,6 +983,7 @@
     var btn = e.target.closest('[data-preset]');
     if (!btn) return;
     activePreset = btn.dataset.preset;
+    track('filter_preset', { preset: activePreset });
     $$('#chipRow .chip').forEach(function (c) {
       var on = c.dataset.preset === activePreset;
       c.classList.toggle('is-on', on);
@@ -970,6 +995,19 @@
 
   /* 찜 · 알림받기 · 폼 이동 */
   document.addEventListener('click', function (e) {
+    /* Primary 지표 — 공식 접수처 아웃링크 클릭 */
+    var applyLink = e.target.closest('[data-apply]');
+    if (applyLink) {
+      var ae = EVENTS.filter(function (x) { return x.id === applyLink.dataset.apply; })[0];
+      track('apply_click', {
+        program_id: applyLink.dataset.apply,
+        program_name: ae ? ae.title : '',
+        org: ae ? ae.orgShort : '',
+        phase: ae ? phase(ae) : ''
+      });
+      /* 링크는 그대로 새 탭으로 열립니다 */
+    }
+
     var likeBtn = e.target.closest('[data-like]');
     if (likeBtn) {
       var id = likeBtn.dataset.like;
@@ -983,6 +1021,10 @@
       void likeBtn.offsetWidth;
       likeBtn.classList.add('pop');
       toast(on ? '찜 목록에 담았어요 ❤️' : '찜을 해제했어요', on ? 'heart' : 'heart-off');
+      if (on) {
+        var le = EVENTS.filter(function (x) { return x.id === id; })[0];
+        track('like_program', { program_id: id, program_name: le ? le.title : '' });
+      }
       return;
     }
 
@@ -1057,6 +1099,8 @@
       $$('input', form).forEach(function (i) { i.disabled = true; });
       btn.innerHTML = '✓ 신청이 완료되었습니다';
       toast(name + '님, ' + slot.value + ' 강좌 알림을 신청했어요!', 'party-popper');
+      /* Primary 지표 — 알림 신청 전환 */
+      track('signup', { slot: entry.slot, liked_count: entry.likes.length });
       if (window.lucide) lucide.createIcons();
     });
   });
@@ -1126,6 +1170,15 @@
     ['9. 고지 의무',
      '이 처리방침의 내용이 변경되는 경우 시행일과 변경 내용을 이 화면에 공지합니다.']
   ];
+
+  /* 분석 도구를 켠 경우에만 해당 항목을 추가합니다 */
+  if (typeof GA_ID !== 'undefined' && GA_ID) {
+    PRIVACY.splice(5, 0, ['6. 방문 통계 수집',
+      '서비스 개선을 위해 Google Analytics 를 사용합니다. 어떤 프로그램이 많이 조회되는지 등 ' +
+      '통계 목적의 방문 기록이 쿠키로 수집되며, 이름·휴대폰 번호 등 신청 정보와는 연결되지 않습니다. ' +
+      '브라우저 설정에서 쿠키를 차단하면 수집을 거부할 수 있습니다.']);
+    PRIVACY.forEach(function (s, i) { s[0] = s[0].replace(/^\d+\./, (i + 1) + '.'); });
+  }
 
   function renderPrivacy() {
     $('#privacyBody').innerHTML =
