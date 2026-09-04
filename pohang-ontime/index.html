@@ -225,15 +225,14 @@
       동네 문화생활, 한곳에 모이다
     </p>
 
-    <button type="button" id="featuredCta"
-            class="mt-3.5 w-full flex items-center gap-2.5 bg-blue-600 hover:bg-blue-700
-                   active:scale-[.985] text-white px-4 py-2.5 rounded-xl transition-all text-left">
-      <i data-lucide="bell-ring" class="w-[18px] h-[18px] shrink-0"></i>
-      <span class="min-w-0 flex-1">
-        <span class="block text-[15px] font-bold leading-tight">인기강좌 알림신청</span>
-        <span id="featuredCtaName" class="block text-[11.5px] font-semibold text-blue-100 truncate leading-tight mt-0.5"></span>
-      </span>
-      <i data-lucide="chevron-right" class="w-4 h-4 shrink-0 text-blue-200"></i>
+    <!-- 특정 강좌를 지목하지 않습니다.
+         인기도를 재는 데이터가 없어 「인기강좌」는 근거 없는 표현이었고,
+         강좌명을 보여주면 그 강좌 페이지로 가는 링크처럼 오해를 삽니다. -->
+    <button type="button" data-goto-form
+            class="mt-3.5 w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700
+                   active:scale-[.985] text-white text-[15.5px] font-bold py-3 rounded-xl transition-all">
+      <i data-lucide="bell-ring" class="w-[18px] h-[18px]"></i>
+      접수 열리는 날 알림받기
     </button>
 
     <div class="mt-2.5 flex items-center gap-3 text-[12px] text-slate-500">
@@ -430,11 +429,11 @@
       <div id="barRecommend" class="flex items-center gap-2.5">
         <button type="button" id="floatingBody" class="flex-1 min-w-0 text-left">
           <span class="flex items-center gap-1.5">
-            <span class="text-[10.5px] font-extrabold text-amber-300 bg-amber-400/15 border border-amber-300/25 rounded-md px-1.5 py-0.5 whitespace-nowrap">
-              🔥 이번 주 1위 추천
+            <span id="floatingKind" class="text-[10.5px] font-extrabold text-amber-300 bg-amber-400/15 border border-amber-300/25 rounded-md px-1.5 py-0.5 whitespace-nowrap">
+              ⏰ 곧 접수 시작
             </span>
             <span id="floatingDday" class="text-[10.5px] font-extrabold text-rose-200 bg-rose-500/25 border border-rose-300/25 rounded-md px-1.5 py-0.5 whitespace-nowrap">
-              마감 D-
+              D-
             </span>
           </span>
           <span class="mt-1 block text-[13.5px] font-bold text-white truncate">
@@ -443,11 +442,11 @@
           </span>
         </button>
 
-        <a id="floatingCta" href="https://phlib.pohang.go.kr" target="_blank" rel="noopener noreferrer"
-           class="shrink-0 inline-flex items-center gap-1 bg-white text-slate-900 text-[13.5px] font-extrabold
-                  px-3.5 py-2.5 rounded-xl active:scale-95 transition-transform">
-          신청 <i data-lucide="chevron-right" class="w-4 h-4"></i>
-        </a>
+        <button type="button" id="floatingCta"
+                class="shrink-0 inline-flex items-center gap-1 bg-white text-slate-900 text-[13.5px] font-extrabold
+                       px-3.5 py-2.5 rounded-xl active:scale-95 transition-transform">
+          <span id="floatingCtaLabel">알림</span> <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
       </div>
 
       <!-- 모드 ② 장바구니 -->
@@ -1418,25 +1417,34 @@
   });
 
   /* ═══════════════ 플로팅 바 ═══════════════ */
-  /* 추천 = 접수중인 것 중 마감이 가장 임박한 강좌 (데이터가 바뀌어도 자동으로 따라감) */
-  var FEATURED = EVENTS.filter(isOpen).sort(function (a, b) {
-    var da = a.status === 'dday' ? daysUntil(a.deadline) : 999;
-    var db = b.status === 'dday' ? daysUntil(b.deadline) : 999;
-    return da - db;
-  })[0] || EVENTS[0];
+
+  /* 「인기」는 척도가 없어 쓰지 않습니다.
+     대신 '접수 시작이 가장 가까운 강좌'를 띄웁니다 —
+     아직 접수 전이라 알림이 실제로 필요한 대상이고, 판단 근거가 날짜라 명확합니다.
+     접수 예정이 하나도 없으면 마감이 임박한 접수중 강좌로 대체합니다. */
+  var FEATURED = EVENTS.filter(isUpcoming).sort(function (a, b) {
+    return daysUntil(a.openAt) - daysUntil(b.openAt);
+  })[0];
+
+  var FEATURED_UPCOMING = !!FEATURED;
+
+  if (!FEATURED) {
+    FEATURED = EVENTS.filter(function (e) {
+      return phase(e) === 'open' && e.status === 'dday';
+    }).sort(function (a, b) {
+      return daysUntil(a.deadline) - daysUntil(b.deadline);
+    })[0] || EVENTS[0];
+  }
 
   var bar = $('#floatingBar .floating-bar');
 
-  $('#floatingCta').href = FEATURED.url;
+  $('#floatingKind').textContent = FEATURED_UPCOMING ? '⏰ 곧 접수 시작' : '⏰ 마감 임박';
   $('#floatingOrg').textContent = '[' + FEATURED.orgShort + ']';
   $('#floatingTitle').textContent = FEATURED.title;
-  $('#floatingDday').textContent = ddayBadge(FEATURED).text.replace('⚠️ ', '');
+  $('#floatingDday').textContent = ddayBadge(FEATURED).text.replace(/^[⚠️🔔🗓️]\s*/u, '');
+  $('#floatingCtaLabel').textContent = FEATURED_UPCOMING ? '알림' : '신청';
 
-  /* 헤더 CTA 는 '인기강좌'가 무엇인지 밝히고, 누르면 그 강좌를 실제로 담습니다 */
-  $('#featuredCtaName').textContent =
-    FEATURED.orgShort + ' · ' + FEATURED.title + ' · ' + ddayBadge(FEATURED).text.replace('⚠️ ', '');
-
-  /* 장바구니 바 — 어디서든 신청 폼으로 */
+  /* 어디서든 신청 폼으로 */
   function gotoForm() {
     $('#notifySection').scrollIntoView({ block: 'start' });
     setTimeout(function () { $('#notifyForm').phone.focus({ preventScroll: true }); syncBar(); }, 520);
@@ -1444,11 +1452,19 @@
   $('#cartCta').addEventListener('click', gotoForm);
   $('#cartBody').addEventListener('click', gotoForm);
 
-  $('#featuredCta').addEventListener('click', function () {
-    pickProgram(FEATURED.id);
-    $('#notifySection').scrollIntoView({ block: 'start' });
-    setTimeout(function () { $('#notifyForm').name.focus({ preventScroll: true }); syncBar(); }, 520);
-    toast('「' + FEATURED.title + '」 알림을 담았어요. 연락처만 남겨주세요', 'bell-plus');
+  /* 접수 예정이면 알림을 담고, 이미 접수중이면 공식 접수처를 엽니다 */
+  $('#floatingCta').addEventListener('click', function () {
+    if (FEATURED_UPCOMING) {
+      pickProgram(FEATURED.id);
+      gotoForm();
+      toast('「' + FEATURED.title + '」 알림을 담았어요. 번호만 남겨주세요', 'bell-plus');
+    } else {
+      track('apply_click', {
+        program_id: FEATURED.id, program_name: FEATURED.title,
+        org: FEATURED.orgShort, phase: phase(FEATURED), via: 'floating_bar'
+      });
+      window.open(FEATURED.url, '_blank', 'noopener,noreferrer');
+    }
   });
 
   $('#floatingBody').addEventListener('click', function () {
