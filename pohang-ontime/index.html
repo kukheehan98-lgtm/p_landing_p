@@ -521,6 +521,12 @@
               shadow-[0_12px_32px_-8px_rgba(15,23,42,.6)] flex items-center gap-2.5">
     <i data-lucide="check-circle-2" class="w-[18px] h-[18px] text-emerald-400 shrink-0" id="toastIcon"></i>
     <span id="toastText" class="flex-1 leading-snug"></span>
+    <!-- 담은 직후 바로 신청하고 싶은 사람을 위한 지름길 -->
+    <button type="button" id="toastAction"
+            class="hidden shrink-0 bg-white text-slate-900 text-[13px] font-extrabold
+                   px-2.5 py-1.5 rounded-lg active:scale-95 transition-transform">
+      신청하기 ›
+    </button>
   </div>
 </div>
 
@@ -956,18 +962,23 @@
 
   /* ═══════════════ 토스트 ═══════════════ */
   var toastEl = $('#toast'), toastTimer = null;
-  function toast(msg, icon) {
+  function hideToast() {
+    toastEl.classList.add('hidden');
+    toastEl.classList.remove('animate-toast-in');
+  }
+
+  /* withAction 이 true 면 「신청하기 ›」 지름길 버튼을 함께 띄우고,
+     누를 시간을 주기 위해 표시 시간을 늘립니다. */
+  function toast(msg, icon, withAction) {
     $('#toastText').textContent = msg;
     var ic = $('#toastIcon');
     ic.setAttribute('data-lucide', icon || 'check-circle-2');
+    $('#toastAction').classList.toggle('hidden', !withAction);
     toastEl.classList.remove('hidden');
     toastEl.classList.add('animate-toast-in');
     if (window.lucide) lucide.createIcons();
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function () {
-      toastEl.classList.add('hidden');
-      toastEl.classList.remove('animate-toast-in');
-    }, 2400);
+    toastTimer = setTimeout(hideToast, withAction ? 5000 : 2400);
   }
 
   /* ═══════════════ D-Day 배지 ═══════════════ */
@@ -1330,13 +1341,18 @@
 
     var notifyBtn = e.target.closest('[data-notify]');
     if (notifyBtn) {
-      /* '알림받기'는 그 강좌의 알림을 신청하는 동작입니다.
-         스크롤만 하면 사용자는 신청했다고 착각하므로 실제로 신청 목록에 담습니다. */
-      pickProgram(notifyBtn.dataset.notify);
-      var ev = EVENTS.filter(function (x) { return x.id === notifyBtn.dataset.notify; })[0];
-      $('#notifySection').scrollIntoView({ block: 'start' });
-      setTimeout(function () { $('#notifyForm').name.focus({ preventScroll: true }); syncBar(); }, 520);
-      toast('「' + (ev ? ev.title : '') + '」 알림을 담았어요. 연락처만 남겨주세요', 'bell-plus');
+      /* 담기만 하고 화면은 움직이지 않습니다.
+         폼으로 끌고 내려가면 강좌를 여러 개 담을 때마다 다시 올라와야 했습니다.
+         담긴 것은 세 곳에서 확인됩니다 — 버튼의 '담김', 하단 장바구니 바, 토스트. */
+      var id = notifyBtn.dataset.notify;
+      var already = likes.indexOf(id) !== -1;
+      pickProgram(id);
+      var ev = EVENTS.filter(function (x) { return x.id === id; })[0];
+      if (!isSubmitted(id)) {
+        toast(already
+          ? '이미 담아둔 강좌예요'
+          : '「' + (ev ? ev.title : '') + '」 담았어요', 'bell-plus', true);
+      }
       return;
     }
 
@@ -1539,6 +1555,12 @@
   }
   $('#cartCta').addEventListener('click', gotoForm);
   $('#cartBody').addEventListener('click', gotoForm);
+
+  /* 토스트의 「신청하기 ›」 — 하나만 담고 바로 신청하려는 경우의 지름길 */
+  $('#toastAction').addEventListener('click', function () {
+    hideToast();
+    gotoForm();
+  });
 
   /* 접수 예정이면 알림을 담고, 이미 접수중이면 공식 접수처를 엽니다 */
   $('#floatingCta').addEventListener('click', function () {
