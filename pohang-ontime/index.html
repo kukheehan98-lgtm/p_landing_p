@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>포항 키즈 &amp; 패밀리 온-타임 | 주말에 아이와 뭐 하지?</title>
-<meta name="description" content="1분 만에 마감되는 포항 도서관 무료 키즈 체험과 평일 오전 힐링 강좌를, 접수 열리는 날 아침에 알려드리는 학부모 맞춤 큐레이션 서비스." />
+<title>우리동네 컬처픽_포항 | 동네 문화생활, 한곳에 모이다</title>
+<meta name="description" content="포항 도서관·문화재단의 무료 강좌와 전시를 한곳에 모았습니다. 선착순으로 1분이면 마감되는 인기강좌, 접수 열리는 날 아침에 알려드립니다." />
 
-<meta property="og:title" content="포항 키즈 & 패밀리 온-타임 — 주말에 아이와 뭐 하지?" />
-<meta property="og:description" content="선착순 1분 컷 도서관 무료 체험, 접수 열리기 전에 미리 알려드려요." />
+<meta property="og:title" content="우리동네 컬처픽_포항 — 동네 문화생활, 한곳에 모이다" />
+<meta property="og:description" content="선착순 1분 컷 무료 강좌, 접수 열리기 전에 미리 알려드려요." />
 <meta property="og:type" content="website" />
 
 <!-- Pretendard -->
@@ -195,20 +195,23 @@
 <div class="max-w-md mx-auto bg-slate-50 min-h-screen pb-32">
 
   <!-- ══════════════ 1. HEADER ══════════════ -->
-  <header class="px-5 pt-6 pb-5">
-    <span class="inline-flex items-center gap-1.5 text-[12px] font-bold text-blue-700 bg-blue-50 border border-blue-100 rounded-full px-3 py-1.5">
-      🏛️ 포항 도서관·문화재단 무료 프로그램 큐레이션
-    </span>
-
-    <h1 class="mt-4 text-[26px] font-extrabold leading-[1.32] tracking-tight">
-      주말에 아이와 뭐 하지?<br />포항 키즈 &amp; 패밀리 캘린더
+  <header class="px-5 pt-5 pb-4">
+    <h1 class="text-[26px] font-extrabold leading-tight tracking-tight">
+      우리동네 컬처픽<span class="text-blue-600">_포항</span>
     </h1>
 
-    <p class="mt-2.5 text-[15px] text-slate-500 leading-relaxed">
-      1분이면 마감되는 도서관 무료 체험, <b class="text-slate-700">접수 열리는 날 아침</b>에 알려드릴게요.
+    <p class="mt-1 text-[14.5px] text-slate-500">
+      동네 문화생활, 한곳에 모이다
     </p>
 
-    <div class="mt-5 flex items-center gap-4 text-[13px] text-slate-500">
+    <button type="button" data-goto-form
+            class="mt-3.5 w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700
+                   active:scale-[.985] text-white text-[15.5px] font-bold py-3 rounded-xl transition-all">
+      <i data-lucide="bell-ring" class="w-[18px] h-[18px]"></i>
+      인기강좌 알림신청
+    </button>
+
+    <div class="mt-2.5 flex items-center gap-3 text-[12px] text-slate-500">
       <span class="flex items-center gap-1.5">
         <span class="live-dot w-1.5 h-1.5 rounded-full bg-rose-500"></span>
         접수중 <b id="statOpen" class="text-slate-900">0</b>건
@@ -216,7 +219,7 @@
       <span class="w-px h-3 bg-slate-200"></span>
       <span>곧 접수 시작 <b id="statUrgent" class="text-blue-600">0</b>건</span>
       <span class="w-px h-3 bg-slate-200"></span>
-      <span>도서관 <b id="statHosts" class="text-slate-900">0</b>곳</span>
+      <span>기관 <b id="statHosts" class="text-slate-900">0</b>곳</span>
     </div>
   </header>
 
@@ -354,7 +357,7 @@
   <!-- ══════════════ FOOTER ══════════════ -->
   <footer class="px-5 pt-9 pb-4">
     <div class="border-t border-slate-200 pt-5 space-y-2">
-      <p class="text-[13px] font-bold text-slate-700">포항 키즈 & 패밀리 온-타임</p>
+      <p class="text-[13px] font-bold text-slate-700">우리동네 컬처픽_포항</p>
       <p class="text-[12px] text-slate-400 leading-relaxed">
         공공기관이 공개한 정보를 정리해 안내하는 큐레이션 서비스입니다.
         접수 인원·일정은 기관 사정으로 변경될 수 있으니 <b class="text-slate-500">최종 신청은 반드시 각 기관 공식 페이지에서</b> 확인해 주세요.
@@ -791,7 +794,7 @@
         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         body: JSON.stringify({
           access_key: SUBMIT.accessKey,
-          subject: '[포항 키즈&패밀리 온-타임] 새 알림 신청 — ' + entry.name,
+          subject: '[우리동네 컬처픽_포항] 새 알림 신청 — ' + entry.name,
           이름: entry.name, 휴대폰: entry.phone, 선호시간대: entry.slot,
           찜한강좌: entry.likes.join('|'), 신청시각: entry.at
         })
@@ -1108,7 +1111,7 @@
       c.setAttribute('aria-pressed', on);
     });
     renderCards();
-    btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    btn.scrollIntoView({ block: 'nearest', inline: 'center' });
   });
 
   /* 찜 · 알림받기 · 폼 이동 */
@@ -1149,14 +1152,14 @@
     var notifyBtn = e.target.closest('[data-notify]');
     if (notifyBtn) {
       var ev = EVENTS.filter(function (x) { return x.id === notifyBtn.dataset.notify; })[0];
-      $('#notifySection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      $('#notifySection').scrollIntoView({ block: 'start' });
       setTimeout(function () { $('#notifyForm').name.focus({ preventScroll: true }); syncBar(); }, 520);
       toast((ev ? '「' + ev.orgShort + '」 ' : '') + '알림 신청 폼으로 이동했어요', 'bell-plus');
       return;
     }
 
     if (e.target.closest('[data-goto-form]')) {
-      $('#notifySection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      $('#notifySection').scrollIntoView({ block: 'start' });
       setTimeout(syncBar, 520);
     }
   });
@@ -1248,7 +1251,7 @@
     var card = document.getElementById('card-' + FEATURED.id);
     if (!card) return;
     /* 카드가 가로로 놓여 있으므로 inline(가로) 정렬까지 지정합니다 */
-    card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+    card.scrollIntoView({ block: 'center', inline: 'start' });
     setTimeout(syncCarousel, 400);
     card.classList.remove('is-focused');
     void card.offsetWidth;
