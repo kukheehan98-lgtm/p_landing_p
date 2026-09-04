@@ -295,15 +295,18 @@
         </div>
 
         <label class="block">
-          <span class="block text-[13.5px] font-bold mb-1.5">이름</span>
-          <input name="name" type="text" autocomplete="name" placeholder="홍길동"
+          <span class="block text-[13.5px] font-bold mb-1.5">휴대폰 번호</span>
+          <input name="phone" type="tel" autocomplete="tel" inputmode="numeric" placeholder="010-1234-5678"
                  class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-[15px]
                         placeholder:text-slate-400 focus:bg-white focus:border-blue-600 outline-none transition-colors" />
+          <span class="block mt-1 text-[12px] text-slate-400">이 번호로만 알림을 보내드려요. 이게 전부입니다.</span>
         </label>
 
         <label class="block">
-          <span class="block text-[13.5px] font-bold mb-1.5">휴대폰 번호</span>
-          <input name="phone" type="tel" autocomplete="tel" inputmode="numeric" placeholder="010-1234-5678"
+          <span class="block text-[13.5px] font-bold mb-1.5">
+            이름 <span class="font-normal text-slate-400">(선택)</span>
+          </span>
+          <input name="name" type="text" autocomplete="name" placeholder="홍길동"
                  class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3 text-[15px]
                         placeholder:text-slate-400 focus:bg-white focus:border-blue-600 outline-none transition-colors" />
         </label>
@@ -394,30 +397,57 @@
   </footer>
 </div>
 
-<!-- ══════════════ 6. 하단 추천 플로팅 바 ══════════════ -->
+<!-- ══════════════ 6. 하단 플로팅 바 ══════════════
+     두 모드로 동작합니다.
+       · 담은 강좌 없음 → 추천 강좌 안내 (기존 기능 유지)
+       · 담은 강좌 있음 → 장바구니 (몇 개 담았는지 + 신청하기)  -->
 <div id="floatingBar" class="fixed bottom-4 inset-x-0 z-40 px-4 pointer-events-none">
   <div class="max-w-md mx-auto pointer-events-auto">
-    <div class="floating-bar rounded-2xl px-3 py-2.5 flex items-center gap-2.5">
-      <button type="button" id="floatingBody" class="flex-1 min-w-0 text-left">
-        <span class="flex items-center gap-1.5">
-          <span class="text-[10.5px] font-extrabold text-amber-300 bg-amber-400/15 border border-amber-300/25 rounded-md px-1.5 py-0.5 whitespace-nowrap">
-            🔥 이번 주 1위 추천
-          </span>
-          <span id="floatingDday" class="text-[10.5px] font-extrabold text-rose-200 bg-rose-500/25 border border-rose-300/25 rounded-md px-1.5 py-0.5 whitespace-nowrap">
-            마감 D-
-          </span>
-        </span>
-        <span class="mt-1 block text-[13.5px] font-bold text-white truncate">
-          <span id="floatingOrg" class="text-slate-300 font-semibold"></span>
-          <span id="floatingTitle"></span>
-        </span>
-      </button>
+    <div class="floating-bar rounded-2xl px-3 py-2.5">
 
-      <a id="floatingCta" href="https://phlib.pohang.go.kr" target="_blank" rel="noopener noreferrer"
-         class="shrink-0 inline-flex items-center gap-1 bg-white text-slate-900 text-[13.5px] font-extrabold
-                px-3.5 py-2.5 rounded-xl active:scale-95 transition-transform">
-        신청 <i data-lucide="chevron-right" class="w-4 h-4"></i>
-      </a>
+      <!-- 모드 ① 추천 강좌 -->
+      <div id="barRecommend" class="flex items-center gap-2.5">
+        <button type="button" id="floatingBody" class="flex-1 min-w-0 text-left">
+          <span class="flex items-center gap-1.5">
+            <span class="text-[10.5px] font-extrabold text-amber-300 bg-amber-400/15 border border-amber-300/25 rounded-md px-1.5 py-0.5 whitespace-nowrap">
+              🔥 이번 주 1위 추천
+            </span>
+            <span id="floatingDday" class="text-[10.5px] font-extrabold text-rose-200 bg-rose-500/25 border border-rose-300/25 rounded-md px-1.5 py-0.5 whitespace-nowrap">
+              마감 D-
+            </span>
+          </span>
+          <span class="mt-1 block text-[13.5px] font-bold text-white truncate">
+            <span id="floatingOrg" class="text-slate-300 font-semibold"></span>
+            <span id="floatingTitle"></span>
+          </span>
+        </button>
+
+        <a id="floatingCta" href="https://phlib.pohang.go.kr" target="_blank" rel="noopener noreferrer"
+           class="shrink-0 inline-flex items-center gap-1 bg-white text-slate-900 text-[13.5px] font-extrabold
+                  px-3.5 py-2.5 rounded-xl active:scale-95 transition-transform">
+          신청 <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+
+      <!-- 모드 ② 장바구니 -->
+      <div id="barCart" class="hidden items-center gap-2.5">
+        <button type="button" id="cartBody" class="flex-1 min-w-0 text-left flex items-center gap-2">
+          <i data-lucide="bell-ring" class="w-[18px] h-[18px] text-amber-300 shrink-0"></i>
+          <span class="min-w-0">
+            <span class="block text-[14px] font-bold text-white leading-tight">
+              담은 강좌 <b id="cartCount" class="text-amber-300">0</b>개
+            </span>
+            <span id="cartNames" class="block text-[11px] text-slate-300 truncate leading-tight mt-0.5"></span>
+          </span>
+        </button>
+
+        <button type="button" id="cartCta"
+                class="shrink-0 inline-flex items-center gap-1 bg-white text-slate-900 text-[13.5px] font-extrabold
+                       px-3.5 py-2.5 rounded-xl active:scale-95 transition-transform">
+          알림 신청 <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+
     </div>
   </div>
 </div>
@@ -1089,7 +1119,30 @@
              '</span>';
     }).join('');
 
+    updateBarMode();
     if (window.lucide) lucide.createIcons();
+  }
+
+  /* 담은 강좌가 하나라도 있으면 플로팅 바를 장바구니로 바꿉니다.
+     몇 개 담았는지 항상 보이고, 어디서든 바로 신청으로 넘어갈 수 있게. */
+  function updateBarMode() {
+    var rec = $('#barRecommend'), cart = $('#barCart');
+    if (!rec || !cart) return;
+
+    var picked = likes.map(function (id) {
+      return EVENTS.filter(function (x) { return x.id === id; })[0];
+    }).filter(Boolean);
+
+    var isCart = picked.length > 0;
+    rec.classList.toggle('hidden', isCart);
+    cart.classList.toggle('hidden', !isCart);
+    cart.classList.toggle('flex', isCart);
+
+    if (isCart) {
+      $('#cartCount').textContent = picked.length;
+      $('#cartNames').textContent = picked.map(function (p) { return p.title; }).join(', ');
+    }
+    if (typeof syncBar === 'function') syncBar();
   }
 
   /* ═══════════════ 캐러셀 ═══════════════ */
@@ -1285,9 +1338,10 @@
     var phone = form.phone.value.trim();
     var slot  = form.querySelector('input[name="slot"]:checked');
 
-    if (!name)  { showErr('이름을 입력해 주세요.'); form.name.focus(); return; }
+    /* 필수는 휴대폰과 동의 두 가지뿐입니다.
+       알림을 보내는 데 이름이 꼭 필요하지 않고, 입력 항목이 늘수록 신청을 포기합니다. */
     if (!/^01[016789][-\s]?\d{3,4}[-\s]?\d{4}$/.test(phone)) {
-      showErr('휴대폰 번호 형식을 확인해 주세요. (예: 010-1234-5678)'); form.phone.focus(); return;
+      showErr('휴대폰 번호를 확인해 주세요. (예: 010-1234-5678)'); form.phone.focus(); return;
     }
     /* 담은 강좌가 있으면 무엇을 보낼지 이미 알기 때문에 시간대는 선택 사항입니다.
        강좌를 담지 않았다면 시간대가 유일한 발송 근거이므로 그때만 필수입니다. */
@@ -1316,7 +1370,7 @@
     var likeTitles = programs.map(function (p) { return p.org + ' · ' + p.title; });
 
     var entry = {
-      name: name, phone: phone, slot: slot ? slot.value : '미선택',
+      name: name || '(미입력)', phone: phone, slot: slot ? slot.value : '미선택',
       likes: likes.slice(), likeTitles: likeTitles, programs: programs,
       at: new Date().toISOString()
     };
@@ -1330,9 +1384,11 @@
     saveSignup(entry).then(function () {
       $$('input', form).forEach(function (i) { i.disabled = true; });
       btn.innerHTML = '✓ 신청이 완료되었습니다';
+      /* 이름은 선택 항목이라 비어 있을 수 있습니다 */
+      var who = name ? name + '님, ' : '';
       toast(entry.likeTitles.length
-        ? name + '님, ' + entry.likeTitles.length + '개 강좌의 접수 알림을 신청했어요!'
-        : name + '님, ' + entry.slot + ' 새 강좌 알림을 신청했어요!', 'party-popper');
+        ? who + entry.likeTitles.length + '개 강좌의 접수 알림을 신청했어요!'
+        : who + entry.slot + ' 새 강좌 알림을 신청했어요!', 'party-popper');
       renderPicked();
       /* Primary 지표 — 알림 신청 전환 */
       track('signup', { slot: entry.slot, liked_count: entry.likes.length });
@@ -1358,6 +1414,14 @@
   /* 헤더 CTA 는 '인기강좌'가 무엇인지 밝히고, 누르면 그 강좌를 실제로 담습니다 */
   $('#featuredCtaName').textContent =
     FEATURED.orgShort + ' · ' + FEATURED.title + ' · ' + ddayBadge(FEATURED).text.replace('⚠️ ', '');
+
+  /* 장바구니 바 — 어디서든 신청 폼으로 */
+  function gotoForm() {
+    $('#notifySection').scrollIntoView({ block: 'start' });
+    setTimeout(function () { $('#notifyForm').phone.focus({ preventScroll: true }); syncBar(); }, 520);
+  }
+  $('#cartCta').addEventListener('click', gotoForm);
+  $('#cartBody').addEventListener('click', gotoForm);
 
   $('#featuredCta').addEventListener('click', function () {
     pickProgram(FEATURED.id);
@@ -1394,10 +1458,12 @@
     return r.top < window.innerHeight - (slack || 0) && r.bottom > 0;
   }
 
-  /* 플로팅 바는 카드를 보고 있을 때 숨깁니다.
-     카드의 접수 버튼을 가리고, 이미 카드를 보는 중이면 '추천 바로가기'가 무의미하기 때문입니다. */
+  /* 추천 모드: 카드를 보는 중이면 숨깁니다 (이미 카드를 보고 있으니 무의미하고 버튼을 가림)
+     장바구니 모드: 담은 개수를 계속 보여줘야 하므로 카드를 보는 중에도 띄웁니다.
+     두 모드 모두, 신청 버튼이 화면에 있으면 중복이라 숨깁니다. */
   function syncBar() {
-    var hide = onScreen(submitBtn, 24) || onScreen(carousel, 120);
+    var isCart = !$('#barCart').classList.contains('hidden');
+    var hide = onScreen(submitBtn, 24) || (!isCart && onScreen(carousel, 120));
     bar.classList.toggle('is-hidden', hide);
   }
   window.addEventListener('scroll', syncBar, { passive: true });
@@ -1560,7 +1626,7 @@
   renderMarquee();
   renderSlots();
   renderPrivacy();
-  renderPicked();
+  renderPicked();          /* 담은 강좌 표시 + 플로팅 바 모드 결정 */
   $('#tipNote').textContent = TIP;
   $('#optOutNote').innerHTML =
     '※ 본 알림은 100% 무료이며, 광고 문자는 보내지 않습니다.<br />' +
