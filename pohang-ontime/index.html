@@ -106,8 +106,53 @@
   .marquee-group { display: flex; flex: none; }
   @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
+  /* ── 카드 캐러셀 (좌우 스와이프) ──
+     세로 목록 대신 한 장씩 넘겨봅니다. 다음 카드가 살짝 보여야
+     "옆으로 넘길 수 있다"는 게 전달되므로 카드 폭을 86%로 둡니다. */
+  .carousel {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scroll-padding-left: 20px;
+    margin: 0 -20px;
+    padding: 0 20px 4px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .carousel::-webkit-scrollbar { display: none; }
+  .carousel > .card {
+    flex: 0 0 86%;
+    min-width: 0;
+    scroll-snap-align: start;
+    /* 카드 높이를 맞추고 버튼을 아래에 붙여 들쭉날쭉해 보이지 않게 */
+    display: flex;
+    flex-direction: column;
+  }
+  .carousel > .card > .card-actions { margin-top: auto; }
+  /* 마지막 카드도 왼쪽에 붙을 수 있도록 뒤쪽 여백 확보 */
+  .carousel::after {
+    content: '';
+    flex: 0 0 20%;
+  }
+
+  .carousel-btn {
+    flex: none; width: 32px; height: 32px;
+    display: grid; place-items: center;
+    border: 1px solid #E2E8F0; background: #fff; color: #475569;
+    border-radius: 9999px; cursor: pointer;
+    transition: border-color .18s ease, color .18s ease, opacity .18s ease;
+  }
+  .carousel-btn:hover { border-color: #2563EB; color: #2563EB; }
+  .carousel-btn:disabled { opacity: .35; cursor: default; }
+  .carousel-btn:disabled:hover { border-color: #E2E8F0; color: #475569; }
+
   /* ── 카드 포커스 강조 ── */
-  .card { scroll-margin-top: 84px; transition: box-shadow .3s ease, border-color .3s ease, transform .3s ease; }
+  .card { scroll-margin-top: 84px; scroll-margin-left: 20px; transition: box-shadow .3s ease, border-color .3s ease, transform .3s ease; }
   .card.is-focused {
     border-color: #2563EB;
     box-shadow: 0 0 0 4px rgba(37,99,235,.14), 0 12px 28px -12px rgba(37,99,235,.45);
@@ -137,7 +182,7 @@
   .live-dot { animation: live-dot 1.6s ease-in-out infinite; }
 
   @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
+    html, .carousel { scroll-behavior: auto; }
     .marquee-track { animation: none; }
     .live-dot, .like-btn.pop svg { animation: none; }
     .card, .chip, .floating-bar { transition: none; }
@@ -150,7 +195,7 @@
 <div class="max-w-md mx-auto bg-slate-50 min-h-screen pb-32">
 
   <!-- ══════════════ 1. HEADER ══════════════ -->
-  <header class="px-5 pt-9 pb-6">
+  <header class="px-5 pt-6 pb-5">
     <span class="inline-flex items-center gap-1.5 text-[12px] font-bold text-blue-700 bg-blue-50 border border-blue-100 rounded-full px-3 py-1.5">
       🏛️ 포항 도서관·문화재단 무료 프로그램 큐레이션
     </span>
@@ -188,7 +233,22 @@
       <p id="listCount" class="text-[13px] text-slate-400"></p>
     </div>
 
-    <div id="cardList" class="space-y-3.5"></div>
+    <div id="cardList" class="carousel" role="region" aria-label="프로그램 목록 (좌우로 넘겨보세요)" tabindex="0"></div>
+
+    <div id="carouselNav" class="mt-3.5 flex items-center gap-2.5">
+      <button type="button" class="carousel-btn" data-carousel="prev" aria-label="이전 프로그램">
+        <i data-lucide="chevron-left" class="w-4 h-4"></i>
+      </button>
+      <div class="flex-1 h-1 bg-slate-200 rounded-full overflow-hidden">
+        <div id="carouselProgress" class="h-full bg-slate-900 rounded-full transition-all duration-200" style="width:0%"></div>
+      </div>
+      <span id="carouselCount" class="text-[12.5px] font-bold text-slate-400 tabular-nums shrink-0">1 / 1</span>
+      <button type="button" class="carousel-btn" data-carousel="next" aria-label="다음 프로그램">
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <p id="tipNote" class="mt-3.5 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-2 leading-relaxed"></p>
 
     <div id="emptyState" class="hidden bg-white rounded-2xl border border-dashed border-slate-300 py-14 text-center">
       <i data-lucide="calendar-search" class="w-8 h-8 mx-auto text-slate-300"></i>
@@ -874,15 +934,12 @@
         '</div>' +
       '</div>' +
 
-      /* 접수 팁 */
-      '<p class="mt-2.5 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-2 leading-relaxed">' +
-        esc(TIP) +
-      '</p>' +
+      /* 접수 팁은 모든 카드가 동일하므로 목록 위에 한 번만 표시합니다 */
 
       /* 하단 버튼 */
       /* 아직 접수 전이면 '오픈 알림받기'가 주 버튼 — 지금 링크를 눌러도 신청할 수 없기 때문 */
       (phase(ev) === 'upcoming'
-        ? '<div class="mt-3.5 flex gap-2">' +
+        ? '<div class="card-actions mt-3.5 flex gap-2">' +
             '<button type="button" data-notify="' + esc(ev.id) + '" ' +
                'class="flex-1 inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:scale-[.98] ' +
                'text-white text-[14px] font-bold py-3 rounded-xl transition-all">' +
@@ -894,7 +951,7 @@
               '🔗 공고 보기' +
             '</a>' +
           '</div>'
-        : '<div class="mt-3.5 flex gap-2">' +
+        : '<div class="card-actions mt-3.5 flex gap-2">' +
             '<a href="' + esc(ev.url) + '" target="_blank" rel="noopener noreferrer" data-apply="' + esc(ev.id) + '" ' +
                'class="flex-1 inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:scale-[.98] ' +
                'text-white text-[14px] font-bold py-3 rounded-xl transition-all">' +
@@ -942,13 +999,74 @@
 
     $('#cardList').innerHTML = list.map(cardHtml).join('');
     $('#emptyState').classList.toggle('hidden', list.length > 0);
+    $('#carouselNav').classList.toggle('hidden', list.length < 2);
 
     var preset = PRESETS.filter(function (p) { return p.key === activePreset; })[0];
     $('#listTitle').textContent = activePreset === 'all' ? '전체 프로그램' : preset.label;
     $('#listCount').textContent = list.length ? list.length + '건' : '';
 
+    /* 필터가 바뀌면 첫 카드로 되돌립니다 */
+    $('#cardList').scrollLeft = 0;
+    syncCarousel();
+
     if (window.lucide) lucide.createIcons();
   }
+
+  /* ═══════════════ 캐러셀 ═══════════════ */
+  var carousel = $('#cardList');
+
+  function cardStep() {
+    var first = carousel.querySelector('.card');
+    if (!first) return 1;
+    /* 카드 폭 + gap */
+    return first.getBoundingClientRect().width + 12;
+  }
+
+  function syncCarousel() {
+    var cards = carousel.querySelectorAll('.card');
+    var total = cards.length;
+    if (!total) {
+      $('#carouselCount').textContent = '0 / 0';
+      $('#carouselProgress').style.width = '0%';
+      return;
+    }
+    var idx = Math.round(carousel.scrollLeft / cardStep());
+    idx = Math.max(0, Math.min(total - 1, idx));
+
+    $('#carouselCount').textContent = (idx + 1) + ' / ' + total;
+    $('#carouselProgress').style.width = (total < 2 ? 100 : (idx / (total - 1)) * 100) + '%';
+
+    /* scroll-snap(mandatory) 때문에 scrollLeft 가 최대값까지 가지 않으므로
+       버튼 활성 여부는 스크롤 좌표가 아니라 카드 인덱스로 판단합니다. */
+    $('[data-carousel="prev"]').disabled = idx <= 0;
+    $('[data-carousel="next"]').disabled = idx >= total - 1;
+  }
+
+  /* syncCarousel 은 DOM 읽기·쓰기 몇 번뿐이라 스크롤마다 바로 호출해도 무겁지 않습니다.
+     (requestAnimationFrame 으로 묶으면 탭이 비활성일 때 갱신이 멈춥니다) */
+  carousel.addEventListener('scroll', syncCarousel, { passive: true });
+
+  window.addEventListener('resize', syncCarousel);
+
+  $('#carouselNav').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-carousel]');
+    if (!btn) return;
+    /* 부드러운 이동은 .carousel 의 scroll-behavior 가 담당합니다.
+       scrollLeft 직접 대입은 어떤 환경에서도 동작하므로 버튼이 먹통이 되지 않습니다. */
+    var step = cardStep();
+    var dir = btn.dataset.carousel === 'next' ? 1 : -1;
+    carousel.scrollLeft = Math.max(0, carousel.scrollLeft + step * dir);
+    setTimeout(syncCarousel, 400);
+  });
+
+  /* 키보드 좌우 화살표 */
+  carousel.addEventListener('keydown', function (e) {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    var step = cardStep();
+    carousel.scrollLeft = Math.max(0, carousel.scrollLeft + (e.key === 'ArrowRight' ? step : -step));
+    setTimeout(syncCarousel, 400);
+  });
 
   function renderStats() {
     $('#statOpen').textContent = EVENTS.filter(isOpen).length;
@@ -1129,7 +1247,9 @@
     }
     var card = document.getElementById('card-' + FEATURED.id);
     if (!card) return;
-    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    /* 카드가 가로로 놓여 있으므로 inline(가로) 정렬까지 지정합니다 */
+    card.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+    setTimeout(syncCarousel, 400);
     card.classList.remove('is-focused');
     void card.offsetWidth;
     card.classList.add('is-focused');
@@ -1140,10 +1260,17 @@
      섹션이 화면보다 길어 IntersectionObserver 의 threshold 가 맞지 않으므로
      버튼 위치를 직접 계산한다. */
   var submitBtn = form.querySelector('button[type="submit"]');
+
+  function onScreen(el, slack) {
+    var r = el.getBoundingClientRect();
+    return r.top < window.innerHeight - (slack || 0) && r.bottom > 0;
+  }
+
+  /* 플로팅 바는 카드를 보고 있을 때 숨깁니다.
+     카드의 접수 버튼을 가리고, 이미 카드를 보는 중이면 '추천 바로가기'가 무의미하기 때문입니다. */
   function syncBar() {
-    var r = submitBtn.getBoundingClientRect();
-    var visible = r.top < window.innerHeight - 24 && r.bottom > 0;
-    bar.classList.toggle('is-hidden', visible);
+    var hide = onScreen(submitBtn, 24) || onScreen(carousel, 120);
+    bar.classList.toggle('is-hidden', hide);
   }
   window.addEventListener('scroll', syncBar, { passive: true });
   window.addEventListener('resize', syncBar);
@@ -1305,6 +1432,7 @@
   renderMarquee();
   renderSlots();
   renderPrivacy();
+  $('#tipNote').textContent = TIP;
   $('#optOutNote').innerHTML =
     '※ 본 알림은 100% 무료이며, 광고 문자는 보내지 않습니다.<br />' +
     '수신거부는 ' + esc(CONTACT.optOut) + '하시면 됩니다.';
