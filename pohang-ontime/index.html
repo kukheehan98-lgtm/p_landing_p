@@ -167,6 +167,27 @@
   @keyframes pop { 0%{transform:scale(1)} 45%{transform:scale(1.28)} 100%{transform:scale(1)} }
   .like-btn.pop svg { animation: pop .34s cubic-bezier(.16,1,.3,1); }
 
+  /* ── 화면 하단 고정 영역 ──
+     Netlify 무료 플랜이 우측 하단에 197×64px 배지(iframe#nl-badge-frame)를 붙입니다.
+     그 위로 띄워 「알림 신청」 버튼이 가려지지 않게 합니다.
+     배지가 없는 호스팅으로 옮기면 --dock-bottom 을 16px 로 줄이면 됩니다. */
+  :root { --dock-bottom: 72px; }
+
+  .floating-dock {
+    position: fixed;
+    left: 0; right: 0;
+    bottom: calc(var(--dock-bottom) + env(safe-area-inset-bottom, 0px));
+    z-index: 40;
+    padding: 0 16px;
+    pointer-events: none;
+  }
+  .toast-dock {
+    position: fixed;
+    left: 50%;
+    bottom: calc(var(--dock-bottom) + 68px + env(safe-area-inset-bottom, 0px));
+    z-index: 50;
+  }
+
   /* ── 플로팅 바 ── */
   .floating-bar {
     background: rgba(15, 23, 42, .82);
@@ -401,7 +422,7 @@
      두 모드로 동작합니다.
        · 담은 강좌 없음 → 추천 강좌 안내 (기존 기능 유지)
        · 담은 강좌 있음 → 장바구니 (몇 개 담았는지 + 신청하기)  -->
-<div id="floatingBar" class="fixed bottom-4 inset-x-0 z-40 px-4 pointer-events-none">
+<div id="floatingBar" class="floating-dock">
   <div class="max-w-md mx-auto pointer-events-auto">
     <div class="floating-bar rounded-2xl px-3 py-2.5">
 
@@ -475,7 +496,7 @@
 </div>
 
 <!-- ══════════════ TOAST ══════════════ -->
-<div id="toast" class="hidden fixed left-1/2 bottom-24 z-50 -translate-x-1/2 w-[calc(100%-48px)] max-w-[344px]">
+<div id="toast" class="hidden toast-dock -translate-x-1/2 w-[calc(100%-48px)] max-w-[344px]">
   <div class="bg-slate-900 text-white text-[14px] font-semibold rounded-xl px-4 py-3.5
               shadow-[0_12px_32px_-8px_rgba(15,23,42,.6)] flex items-center gap-2.5">
     <i data-lucide="check-circle-2" class="w-[18px] h-[18px] text-emerald-400 shrink-0" id="toastIcon"></i>
