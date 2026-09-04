@@ -309,7 +309,10 @@
         </label>
 
         <fieldset>
-          <legend class="text-[13.5px] font-bold mb-1.5">언제 주로 다니시나요?</legend>
+          <legend class="text-[13.5px] font-bold mb-1.5">
+            언제 주로 다니시나요?
+            <span class="font-normal text-slate-400">(선택)</span>
+          </legend>
           <div id="slotPicker" class="grid grid-cols-3 gap-2"></div>
         </fieldset>
 
@@ -1286,7 +1289,12 @@
     if (!/^01[016789][-\s]?\d{3,4}[-\s]?\d{4}$/.test(phone)) {
       showErr('휴대폰 번호 형식을 확인해 주세요. (예: 010-1234-5678)'); form.phone.focus(); return;
     }
-    if (!slot) { showErr('선호 시간대를 선택해 주세요.'); return; }
+    /* 담은 강좌가 있으면 무엇을 보낼지 이미 알기 때문에 시간대는 선택 사항입니다.
+       강좌를 담지 않았다면 시간대가 유일한 발송 근거이므로 그때만 필수입니다. */
+    if (!slot && likes.length === 0) {
+      showErr('담은 강좌가 없으면 시간대를 골라주세요. 그 시간대에 맞는 새 강좌를 알려드릴 수 있어요.');
+      return;
+    }
     if (!form.consent.checked) { showErr('[필수] 알림 수신 동의가 필요합니다.'); form.consent.focus(); return; }
 
     /* 신청한 강좌를 구조화해서 보냅니다.
@@ -1308,7 +1316,7 @@
     var likeTitles = programs.map(function (p) { return p.org + ' · ' + p.title; });
 
     var entry = {
-      name: name, phone: phone, slot: slot.value,
+      name: name, phone: phone, slot: slot ? slot.value : '미선택',
       likes: likes.slice(), likeTitles: likeTitles, programs: programs,
       at: new Date().toISOString()
     };
