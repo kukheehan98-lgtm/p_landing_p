@@ -204,11 +204,15 @@
       동네 문화생활, 한곳에 모이다
     </p>
 
-    <button type="button" data-goto-form
-            class="mt-3.5 w-full inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700
-                   active:scale-[.985] text-white text-[15.5px] font-bold py-3 rounded-xl transition-all">
-      <i data-lucide="bell-ring" class="w-[18px] h-[18px]"></i>
-      인기강좌 알림신청
+    <button type="button" id="featuredCta"
+            class="mt-3.5 w-full flex items-center gap-2.5 bg-blue-600 hover:bg-blue-700
+                   active:scale-[.985] text-white px-4 py-2.5 rounded-xl transition-all text-left">
+      <i data-lucide="bell-ring" class="w-[18px] h-[18px] shrink-0"></i>
+      <span class="min-w-0 flex-1">
+        <span class="block text-[15px] font-bold leading-tight">인기강좌 알림신청</span>
+        <span id="featuredCtaName" class="block text-[11.5px] font-semibold text-blue-100 truncate leading-tight mt-0.5"></span>
+      </span>
+      <i data-lucide="chevron-right" class="w-4 h-4 shrink-0 text-blue-200"></i>
     </button>
 
     <div class="mt-2.5 flex items-center gap-3 text-[12px] text-slate-500">
@@ -274,13 +278,22 @@
         <div>
           <h2 class="text-[18px] font-extrabold leading-snug">접수 열리는 날 아침, 카톡 알림</h2>
           <p class="mt-1 text-[13.5px] text-slate-500 leading-relaxed">
-            선착순은 시작 10분이 전부입니다. 아이 나이에 맞는 프로그램의
-            <b class="text-slate-700">접수 시작 시각</b>을 미리 알려드릴게요.
+            선착순은 시작 10분이 전부입니다. 담아두신 강좌의
+            <b class="text-slate-700">접수가 열리는 날 아침</b>에 알려드릴게요.
           </p>
         </div>
       </div>
 
       <form id="notifyForm" class="mt-5 space-y-4" novalidate>
+        <div>
+          <span class="block text-[13.5px] font-bold mb-1.5">알림 신청할 강좌</span>
+          <div id="pickedList" class="flex flex-wrap gap-1.5"></div>
+          <p id="pickedEmpty" class="hidden text-[12.5px] text-slate-400 leading-relaxed">
+            강좌 카드의 <b class="text-slate-500">🔔 알림받기</b>를 누르면 여기에 담깁니다.
+            담지 않으셔도 아래에서 고른 시간대에 맞는 새 강좌가 열릴 때 알려드려요.
+          </p>
+        </div>
+
         <label class="block">
           <span class="block text-[13.5px] font-bold mb-1.5">이름</span>
           <input name="name" type="text" autocomplete="name" placeholder="홍길동"
@@ -908,7 +921,7 @@
           esc(b.text) +
         '</span>' +
         '<button type="button" data-like="' + esc(ev.id) + '" aria-pressed="' + liked + '" ' +
-                'aria-label="찜하기" title="찜하기" ' +
+                'aria-label="이 강좌 알림받기" title="이 강좌 알림받기" ' +
                 'class="like-btn ' + (liked ? 'is-on ' : '') + 'ml-auto shrink-0 w-9 h-9 grid place-items-center rounded-full border border-slate-200">' +
           '<i data-lucide="heart" class="w-[18px] h-[18px] text-slate-400"></i>' +
         '</button>' +
@@ -1011,6 +1024,43 @@
     /* 필터가 바뀌면 첫 카드로 되돌립니다 */
     $('#cardList').scrollLeft = 0;
     syncCarousel();
+
+    if (window.lucide) lucide.createIcons();
+  }
+
+  /* ═══════════════ 알림 신청 대상 강좌 ═══════════════ */
+
+  /* 하트(찜)와 '알림받기'는 같은 목록을 씁니다 — 둘 다 "이 강좌 알림 신청"이므로 */
+  function pickProgram(id) {
+    if (likes.indexOf(id) === -1) {
+      likes.push(id);
+      writeLS(LS_LIKE, likes);
+      renderCards();
+      var ev = EVENTS.filter(function (x) { return x.id === id; })[0];
+      track('like_program', { program_id: id, program_name: ev ? ev.title : '', via: 'notify_button' });
+    }
+    renderPicked();
+  }
+
+  function renderPicked() {
+    var wrap = $('#pickedList');
+    if (!wrap) return;
+    var picked = likes.map(function (id) {
+      return EVENTS.filter(function (x) { return x.id === id; })[0];
+    }).filter(Boolean);
+
+    $('#pickedEmpty').classList.toggle('hidden', picked.length > 0);
+
+    wrap.innerHTML = picked.map(function (ev) {
+      return '<span class="inline-flex items-center gap-1.5 max-w-full bg-blue-50 border border-blue-200 ' +
+             'text-blue-800 text-[12.5px] font-bold rounded-lg pl-2.5 pr-1.5 py-1.5">' +
+               '<span class="truncate">' + esc(ev.orgShort) + ' · ' + esc(ev.title) + '</span>' +
+               '<button type="button" data-unpick="' + esc(ev.id) + '" aria-label="' + esc(ev.title) + ' 제거" ' +
+                 'class="shrink-0 w-4 h-4 grid place-items-center rounded-full hover:bg-blue-200 transition-colors">' +
+                 '<i data-lucide="x" class="w-3 h-3"></i>' +
+               '</button>' +
+             '</span>';
+    }).join('');
 
     if (window.lucide) lucide.createIcons();
   }
@@ -1141,7 +1191,11 @@
       likeBtn.classList.remove('pop');
       void likeBtn.offsetWidth;
       likeBtn.classList.add('pop');
-      toast(on ? '찜 목록에 담았어요 ❤️' : '찜을 해제했어요', on ? 'heart' : 'heart-off');
+      var he = EVENTS.filter(function (x) { return x.id === id; })[0];
+      toast(on
+        ? '「' + (he ? he.title : '') + '」 알림을 담았어요'
+        : '알림 신청에서 빼두었어요', on ? 'bell-plus' : 'bell-off');
+      renderPicked();
       if (on) {
         var le = EVENTS.filter(function (x) { return x.id === id; })[0];
         track('like_program', { program_id: id, program_name: le ? le.title : '' });
@@ -1151,10 +1205,24 @@
 
     var notifyBtn = e.target.closest('[data-notify]');
     if (notifyBtn) {
+      /* '알림받기'는 그 강좌의 알림을 신청하는 동작입니다.
+         스크롤만 하면 사용자는 신청했다고 착각하므로 실제로 신청 목록에 담습니다. */
+      pickProgram(notifyBtn.dataset.notify);
       var ev = EVENTS.filter(function (x) { return x.id === notifyBtn.dataset.notify; })[0];
       $('#notifySection').scrollIntoView({ block: 'start' });
       setTimeout(function () { $('#notifyForm').name.focus({ preventScroll: true }); syncBar(); }, 520);
-      toast((ev ? '「' + ev.orgShort + '」 ' : '') + '알림 신청 폼으로 이동했어요', 'bell-plus');
+      toast('「' + (ev ? ev.title : '') + '」 알림을 담았어요. 연락처만 남겨주세요', 'bell-plus');
+      return;
+    }
+
+    /* 폼에 담긴 강좌 제거 */
+    var unpick = e.target.closest('[data-unpick]');
+    if (unpick) {
+      var ui = likes.indexOf(unpick.dataset.unpick);
+      if (ui !== -1) likes.splice(ui, 1);
+      writeLS(LS_LIKE, likes);
+      renderCards();
+      renderPicked();
       return;
     }
 
@@ -1219,7 +1287,10 @@
     saveSignup(entry).then(function () {
       $$('input', form).forEach(function (i) { i.disabled = true; });
       btn.innerHTML = '✓ 신청이 완료되었습니다';
-      toast(name + '님, ' + slot.value + ' 강좌 알림을 신청했어요!', 'party-popper');
+      toast(entry.likeTitles.length
+        ? name + '님, ' + entry.likeTitles.length + '개 강좌의 접수 알림을 신청했어요!'
+        : name + '님, ' + entry.slot + ' 새 강좌 알림을 신청했어요!', 'party-popper');
+      renderPicked();
       /* Primary 지표 — 알림 신청 전환 */
       track('signup', { slot: entry.slot, liked_count: entry.likes.length });
       if (window.lucide) lucide.createIcons();
@@ -1240,6 +1311,17 @@
   $('#floatingOrg').textContent = '[' + FEATURED.orgShort + ']';
   $('#floatingTitle').textContent = FEATURED.title;
   $('#floatingDday').textContent = ddayBadge(FEATURED).text.replace('⚠️ ', '');
+
+  /* 헤더 CTA 는 '인기강좌'가 무엇인지 밝히고, 누르면 그 강좌를 실제로 담습니다 */
+  $('#featuredCtaName').textContent =
+    FEATURED.orgShort + ' · ' + FEATURED.title + ' · ' + ddayBadge(FEATURED).text.replace('⚠️ ', '');
+
+  $('#featuredCta').addEventListener('click', function () {
+    pickProgram(FEATURED.id);
+    $('#notifySection').scrollIntoView({ block: 'start' });
+    setTimeout(function () { $('#notifyForm').name.focus({ preventScroll: true }); syncBar(); }, 520);
+    toast('「' + FEATURED.title + '」 알림을 담았어요. 연락처만 남겨주세요', 'bell-plus');
+  });
 
   $('#floatingBody').addEventListener('click', function () {
     /* 추천 강좌가 현재 필터에서 빠져 있으면 전체보기로 되돌린 뒤 이동 */
@@ -1435,6 +1517,7 @@
   renderMarquee();
   renderSlots();
   renderPrivacy();
+  renderPicked();
   $('#tipNote').textContent = TIP;
   $('#optOutNote').innerHTML =
     '※ 본 알림은 100% 무료이며, 광고 문자는 보내지 않습니다.<br />' +
