@@ -291,6 +291,33 @@
   <!-- ══════════════ 4. 알림 신청 폼 ══════════════ -->
   <section id="notifySection" class="px-5 pt-10">
     <div class="bg-white rounded-2xl border border-slate-200/90 shadow-sm p-5">
+
+      <!-- 신청 완료 패널 — 제출 후 폼을 대신합니다.
+           버튼을 상태 표시로 쓰지 않고, 무엇을 어느 번호로 신청했는지 남겨둡니다. -->
+      <div id="donePanel" class="hidden text-center">
+        <span class="w-12 h-12 mx-auto grid place-items-center rounded-full bg-emerald-50 text-emerald-600">
+          <i data-lucide="check" class="w-6 h-6"></i>
+        </span>
+        <h2 class="mt-3 text-[19px] font-extrabold">신청이 완료되었어요</h2>
+        <p id="doneSummary" class="mt-2 text-[13.5px] text-slate-500 leading-relaxed"></p>
+
+        <ul id="doneList" class="mt-4 space-y-1.5 text-left"></ul>
+
+        <div class="mt-5 grid grid-cols-2 gap-2">
+          <button type="button" id="doneMore"
+                  class="inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700
+                         text-white text-[14px] font-bold py-3 rounded-xl transition-colors">
+            <i data-lucide="plus" class="w-4 h-4"></i> 강좌 더 담기
+          </button>
+          <button type="button" id="doneAgain"
+                  class="inline-flex items-center justify-center gap-1.5 bg-white border border-slate-200
+                         hover:border-blue-600 text-slate-700 text-[14px] font-bold py-3 rounded-xl transition-colors">
+            다른 번호로 신청
+          </button>
+        </div>
+      </div>
+
+      <div id="formWrap">
       <div class="flex items-start gap-3">
         <span class="w-10 h-10 grid place-items-center rounded-xl bg-blue-600 text-white shrink-0">
           <i data-lucide="bell-ring" class="w-5 h-5"></i>
@@ -365,6 +392,7 @@
           ※ 본 알림은 100% 무료이며, 광고 문자는 보내지 않습니다.
         </p>
       </form>
+      </div><!-- /#formWrap -->
     </div>
   </section>
 
@@ -815,6 +843,11 @@
 
   var likes = readLS(LS_LIKE, []);
 
+  /* 이미 알림을 신청한 강좌 — 중복 신청을 막고 '신청함' 으로 표시합니다 */
+  var LS_SUBMITTED = 'ontime.submitted';
+  var submitted = readLS(LS_SUBMITTED, []);
+  function isSubmitted(id) { return submitted.indexOf(id) !== -1; }
+
   /* ═══════════════ 신청 전송 (무료 서비스 어댑터 + 재전송 큐) ═══════════════
      외부 전송이 실패해도 브라우저에 남겨두고 다음 방문 때 자동으로 재시도합니다.
      즉, 엔드포인트를 나중에 연결해도 그 사이 신청자를 잃지 않습니다. */
@@ -985,6 +1018,7 @@
   function cardHtml(ev) {
     var b = ddayBadge(ev);
     var liked = likes.indexOf(ev.id) !== -1;
+    var done = isSubmitted(ev.id);
 
     return '' +
     '<article id="card-' + ev.id + '" class="card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-4">' +
@@ -997,11 +1031,17 @@
         '<span class="text-[11.5px] font-bold border rounded-md px-2 py-1 whitespace-nowrap ' + b.cls + '">' +
           esc(b.text) +
         '</span>' +
-        '<button type="button" data-like="' + esc(ev.id) + '" aria-pressed="' + liked + '" ' +
-                'aria-label="이 강좌 알림받기" title="이 강좌 알림받기" ' +
-                'class="like-btn ' + (liked ? 'is-on ' : '') + 'ml-auto shrink-0 w-9 h-9 grid place-items-center rounded-full border border-slate-200">' +
-          '<i data-lucide="heart" class="w-[18px] h-[18px] text-slate-400"></i>' +
-        '</button>' +
+        (done
+          /* 이미 신청한 강좌는 하트 대신 '신청함' 을 보여 중복 신청을 막습니다 */
+          ? '<span class="ml-auto shrink-0 inline-flex items-center gap-1 text-[11.5px] font-bold ' +
+            'text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-md px-2 py-1 whitespace-nowrap">' +
+              '<i data-lucide="check" class="w-3 h-3"></i>알림 신청함' +
+            '</span>'
+          : '<button type="button" data-like="' + esc(ev.id) + '" aria-pressed="' + liked + '" ' +
+            'aria-label="이 강좌 알림받기" title="이 강좌 알림받기" ' +
+            'class="like-btn ' + (liked ? 'is-on ' : '') + 'ml-auto shrink-0 w-9 h-9 grid place-items-center rounded-full border border-slate-200">' +
+              '<i data-lucide="heart" class="w-[18px] h-[18px] text-slate-400"></i>' +
+            '</button>') +
       '</div>' +
 
       /* 제목 */
@@ -1033,11 +1073,14 @@
       /* 아직 접수 전이면 '오픈 알림받기'가 주 버튼 — 지금 링크를 눌러도 신청할 수 없기 때문 */
       (phase(ev) === 'upcoming'
         ? '<div class="card-actions mt-3.5 flex gap-2">' +
-            '<button type="button" data-notify="' + esc(ev.id) + '" ' +
-               'class="flex-1 inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:scale-[.98] ' +
-               'text-white text-[14px] font-bold py-3 rounded-xl transition-all">' +
-              '🔔 오픈 알림받기' +
-            '</button>' +
+            (done
+              ? '<span class="flex-1 inline-flex items-center justify-center gap-1.5 bg-emerald-50 border border-emerald-200 ' +
+                'text-emerald-700 text-[14px] font-bold py-3 rounded-xl">✓ 오픈 알림 신청함</span>'
+              : '<button type="button" data-notify="' + esc(ev.id) + '" ' +
+                'class="flex-1 inline-flex items-center justify-center gap-1.5 bg-blue-600 hover:bg-blue-700 active:scale-[.98] ' +
+                'text-white text-[14px] font-bold py-3 rounded-xl transition-all">' +
+                  '🔔 오픈 알림받기' +
+                '</button>') +
             '<a href="' + esc(ev.url) + '" target="_blank" rel="noopener noreferrer" data-apply="' + esc(ev.id) + '" ' +
                'class="shrink-0 inline-flex items-center justify-center gap-1.5 bg-white border border-slate-200 hover:border-blue-600 ' +
                'text-slate-700 text-[14px] font-bold px-3.5 py-3 rounded-xl transition-colors">' +
@@ -1050,11 +1093,14 @@
                'text-white text-[14px] font-bold py-3 rounded-xl transition-all">' +
               '🔗 공식 접수처 바로가기' +
             '</a>' +
-            '<button type="button" data-notify="' + esc(ev.id) + '" ' +
-               'class="shrink-0 inline-flex items-center justify-center gap-1.5 bg-white border border-slate-200 hover:border-blue-600 ' +
-               'text-slate-700 text-[14px] font-bold px-3.5 py-3 rounded-xl transition-colors">' +
-              '🔔 알림받기' +
-            '</button>' +
+            (done
+              ? '<span class="shrink-0 inline-flex items-center justify-center gap-1.5 bg-emerald-50 border border-emerald-200 ' +
+                'text-emerald-700 text-[14px] font-bold px-3.5 py-3 rounded-xl">✓ 신청함</span>'
+              : '<button type="button" data-notify="' + esc(ev.id) + '" ' +
+                'class="shrink-0 inline-flex items-center justify-center gap-1.5 bg-white border border-slate-200 hover:border-blue-600 ' +
+                'text-slate-700 text-[14px] font-bold px-3.5 py-3 rounded-xl transition-colors">' +
+                  '🔔 알림받기' +
+                '</button>') +
           '</div>') +
     '</article>';
   }
@@ -1109,6 +1155,7 @@
 
   /* 하트(찜)와 '알림받기'는 같은 목록을 씁니다 — 둘 다 "이 강좌 알림 신청"이므로 */
   function pickProgram(id) {
+    if (isSubmitted(id)) { toast('이미 알림을 신청한 강좌예요', 'check'); return; }
     if (likes.indexOf(id) === -1) {
       likes.push(id);
       writeLS(LS_LIKE, likes);
@@ -1402,18 +1449,75 @@
     btn.textContent = '신청 처리 중…';
 
     saveSignup(entry).then(function () {
-      $$('input', form).forEach(function (i) { i.disabled = true; });
-      btn.innerHTML = '✓ 신청이 완료되었습니다';
+      /* 신청한 강좌를 '신청함' 으로 옮기고 장바구니를 비웁니다.
+         그대로 두면 새로고침 후 같은 신청이 또 전송되어 시트에 중복 행이 쌓입니다. */
+      entry.likes.forEach(function (id) {
+        if (submitted.indexOf(id) === -1) submitted.push(id);
+      });
+      writeLS(LS_SUBMITTED, submitted);
+      likes.length = 0;
+      writeLS(LS_LIKE, likes);
+
+      renderCards();     /* 카드에 '신청함' 반영 */
+      renderPicked();    /* 폼 목록 비우고 플로팅 바를 추천 모드로 복귀 */
+      showDone(entry);
+
       /* 이름은 선택 항목이라 비어 있을 수 있습니다 */
       var who = name ? name + '님, ' : '';
       toast(entry.likeTitles.length
         ? who + entry.likeTitles.length + '개 강좌의 접수 알림을 신청했어요!'
         : who + entry.slot + ' 새 강좌 알림을 신청했어요!', 'party-popper');
-      renderPicked();
+
       /* Primary 지표 — 알림 신청 전환 */
       track('signup', { slot: entry.slot, liked_count: entry.likes.length });
-      if (window.lucide) lucide.createIcons();
     });
+  });
+
+  /* ═══════════════ 신청 완료 패널 ═══════════════ */
+  function showDone(entry) {
+    $('#doneSummary').innerHTML = (entry.name && entry.name !== '(미입력)' ? esc(entry.name) + '님, ' : '') +
+      (entry.likeTitles.length
+        ? '아래 <b class="text-slate-700">' + entry.likeTitles.length + '개 강좌</b>의 접수가 열리는 날 아침에<br />' +
+          '<b class="text-slate-700">' + esc(entry.phone) + '</b> 으로 알려드릴게요.'
+        : '<b class="text-slate-700">' + esc(entry.slot) + '</b> 에 맞는 새 강좌가 열리면<br />' +
+          '<b class="text-slate-700">' + esc(entry.phone) + '</b> 으로 알려드릴게요.');
+
+    $('#doneList').innerHTML = entry.likeTitles.map(function (t) {
+      return '<li class="flex gap-2 text-[13px] text-slate-600 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2">' +
+             '<i data-lucide="bell" class="w-4 h-4 shrink-0 mt-0.5 text-blue-600"></i>' +
+             '<span>' + esc(t) + '</span></li>';
+    }).join('');
+
+    $('#formWrap').classList.add('hidden');
+    $('#donePanel').classList.remove('hidden');
+    if (window.lucide) lucide.createIcons();
+  }
+
+  /* 폼을 원래 상태로 되돌립니다 */
+  function resetForm() {
+    form.reset();
+    $$('input', form).forEach(function (i) { i.disabled = false; });
+    $$('#slotPicker .seg', form).forEach(function (l) { l.classList.remove('is-on'); });
+    var b = form.querySelector('button[type="submit"]');
+    b.disabled = false;
+    b.classList.remove('opacity-60');
+    b.innerHTML = '<i data-lucide="bell-plus" class="w-[18px] h-[18px]"></i> 무료 알림 신청하기';
+    errEl.classList.add('hidden');
+    renderPicked();
+    $('#donePanel').classList.add('hidden');
+    $('#formWrap').classList.remove('hidden');
+    if (window.lucide) lucide.createIcons();
+  }
+
+  $('#doneAgain').addEventListener('click', function () {
+    resetForm();
+    setTimeout(function () { form.phone.focus({ preventScroll: true }); }, 60);
+  });
+
+  $('#doneMore').addEventListener('click', function () {
+    resetForm();
+    $('#list').scrollIntoView({ block: 'start' });
+    setTimeout(syncBar, 520);
   });
 
   /* ═══════════════ 플로팅 바 ═══════════════ */
