@@ -1487,8 +1487,14 @@
     if (window.lucide) lucide.createIcons();
   }
 
+  /* 다른 사람 번호로 새로 신청하는 경우입니다.
+     '신청함' 표시를 남겨두면 같은 강좌를 배우자 번호로 신청할 수 없으므로 함께 비웁니다. */
   $('#doneAgain').addEventListener('click', function () {
+    submitted.length = 0;
+    writeLS(LS_SUBMITTED, submitted);
+    renderCards();
     resetForm();
+    toast('다른 번호로 신청할 수 있어요. 강좌를 다시 담아주세요', 'user-plus');
     setTimeout(function () { form.phone.focus({ preventScroll: true }); }, 60);
   });
 
@@ -1732,8 +1738,8 @@
     };
 
     $('#adminClear').onclick = function () {
-      if (!confirm('이 브라우저에 저장된 신청·찜 데이터를 모두 지웁니다. 계속할까요?')) return;
-      [LS_SIGNUP, LS_QUEUE, LS_LIKE].forEach(function (k) { localStorage.removeItem(k); });
+      if (!confirm('이 브라우저에 저장된 신청 기록을 모두 지웁니다.\n(담은 강좌 · 신청함 표시 · 신청 내역 · 미전송 큐)\n계속할까요?')) return;
+      [LS_SIGNUP, LS_QUEUE, LS_LIKE, LS_SUBMITTED].forEach(function (k) { localStorage.removeItem(k); });
       location.reload();
     };
   }
