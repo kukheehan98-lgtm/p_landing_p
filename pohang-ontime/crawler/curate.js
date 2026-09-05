@@ -18,8 +18,9 @@ function segment(target) {
   if (/시니어|60세|어르신|노인/.test(t))        return 'senior';
   if (/가족/.test(t))                           return 'family';
   /* '누구나'·'전체'는 나이 제한이 없다는 뜻이라 아이도 갈 수 있습니다.
-     성인 전용으로 묶으면 주말 칩에서 빠져 학부모 눈에 안 띕니다. */
-  if (/누구나|전체 ?관람|제한 ?없음/.test(t))    return 'anyone';
+     성인 전용으로 묶으면 주말 칩에서 빠져 학부모 눈에 안 띕니다.
+     대상이 아예 비어 있는 것도 같게 봅니다 (전시·축제가 그렇습니다). */
+  if (!t || /누구나|전체|제한 ?없음/.test(t))    return 'anyone';
   if (/유아|미취학/.test(t) && !/초등/.test(t)) return 'toddler';
   if (/초등|어린이|학생|청소년/.test(t))        return 'elementary';
   if (/학부모|부모/.test(t))                    return 'parent';
@@ -57,6 +58,9 @@ function shouldShow(ev, state) {
   var seg = segment(ev.target);
   if (seg === 'senior') return false;                       // 공급이 거의 없어 빈 화면이 됩니다
 
+  /* 전시·축제는 기간 중 아무 때나 가면 되므로 시간대 규칙을 적용하지 않습니다 */
+  if (ev.kind === 'exhibit') return true;
+
   /* 성인 대상은 학부모 본인이 갈 만한 시간대만 (주말 · 평일 오전) */
   if (seg === 'adult') {
     var slot = timeSlot(ev);
@@ -87,7 +91,13 @@ function presetsFor(ev) {
       seg !== 'adult' && seg !== 'senior')          out.push('weekend');
   if (seg === 'anyone' && slot === 'weekend')       out.push('weekend');
   if (slot === 'weekday-morning')                   out.push('morning');
-  if (ev.kind === 'exhibit')                        out.push('outing', 'weekend');
+
+  /* 전시는 기간이 길어 대개 주말이 끼지만, 하루짜리 상영·행사는 아닙니다.
+     실제로 주말이 걸쳐 있을 때만 주말 칩에 넣습니다. */
+  if (ev.kind === 'exhibit') {
+    out.push('outing');
+    if (spansWeekend(ev.eventFrom, ev.eventTo)) out.push('weekend');
+  }
 
   /* 중복 제거 */
   var seen = {}, uniq = [];
@@ -95,6 +105,20 @@ function presetsFor(ev) {
     if (!seen[out[i]]) { seen[out[i]] = 1; uniq.push(out[i]); }
   }
   return uniq;
+}
+
+/* 기간 안에 토요일이나 일요일이 하루라도 들어 있는지 */
+function spansWeekend(from, to) {
+  if (!from) return false;
+  var a = new Date(String(from).slice(0, 10).replace(/-/g, '/'));
+  var b = to ? new Date(String(to).slice(0, 10).replace(/-/g, '/')) : a;
+  if (isNaN(a) || isNaN(b)) return false;
+  /* 7일 이상이면 주말이 반드시 끼어 있습니다 */
+  if ((b - a) / 86400000 >= 6) return true;
+  for (var d = new Date(a); d <= b; d.setDate(d.getDate() + 1)) {
+    if (d.getDay() === 0 || d.getDay() === 6) return true;
+  }
+  return false;
 }
 
 /* ── 기관 짧은 이름 (카드 배지용) ────────────────────────────── */
@@ -109,13 +133,16 @@ function shortOrg(org) {
 
 /* ── 진행 일정 문구 ─────────────────────────────────────────── */
 function scheduleText(ev) {
-  var f = String(ev.eventFrom || '').replace(/-/g, '.');
-  var t = String(ev.eventTo   || '').replace(/-/g, '.');
+  var f = String(ev.eventFrom || '').slice(0, 10).replace(/-/g, '.');
+  var t = String(ev.eventTo   || '').slice(0, 10).replace(/-/g, '.');
   var wd = ev.weekday ? '(' + ev.weekday + ')' : '';
   var time = ev.eventTime || '';
   if (!f) return '';
   if (!t || f === t) return (f + wd + ' ' + time).replace(/\s+/g, ' ').trim() + ' (1회)';
-  return (f + ' ~ ' + t.slice(5) + (ev.weekday ? ' 매주 ' + ev.weekday : '') + ' ' + time)
+
+  /* 해를 넘기면 끝나는 해도 적습니다 — '2026.06.12 ~ 05.30' 은 오해를 삽니다 */
+  var tail = f.slice(0, 4) === t.slice(0, 4) ? t.slice(5) : t;
+  return (f + ' ~ ' + tail + (ev.weekday ? ' 매주 ' + ev.weekday : '') + ' ' + time)
     .replace(/\s+/g, ' ').trim();
 }
 
@@ -158,7 +185,10 @@ function curate(all, lifecycle, now) {
 
   for (var i = 0; i < all.length; i++) {
     var ev = all[i];
-    var state = ev.kind === 'exhibit' ? 'always' : lifecycle(ev, now);
+    /* 전시도 날짜 검사를 그대로 받습니다. 예전에는 손으로 넣은 전시에
+       날짜가 없어 건너뛰었는데, 그 예외 때문에 끝난 전시 수백 건이
+       한꺼번에 통과했습니다. */
+    var state = lifecycle(ev, now);
     if (!shouldShow(ev, state)) continue;
 
     var k = dedupeKey(ev);

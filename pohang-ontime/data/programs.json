@@ -240,11 +240,11 @@
     "url": "https://www.gbe.kr/gsei/eq/view/selectEqList.do?mi=10867"
   },
   {
-    "id": "phcf-achim",
-    "org": "동빈문화창고1969",
-    "orgShort": "동빈창고",
-    "title": "2026 지역전시 <아침놀>",
-    "place": "동빈문화창고1969 (북구 삼호로)",
+    "id": "phcf-EVT_20260601_002",
+    "org": "귀비고/신라마을",
+    "orgShort": "귀비고",
+    "title": "2026 귀비고 기획전 <빛을 짜고 색을 스미다>",
+    "place": "귀비고/신라마을",
     "target": "누구나",
     "fee": "무료 관람",
     "capacity": null,
@@ -253,20 +253,20 @@
     "waitEnrolled": 0,
     "openAt": null,
     "deadline": null,
-    "eventEnd": "2026-09-30",
-    "schedule": "2026.08.21 ~ 09.30 10:00~18:00 · 월요일·추석 당일 휴관",
+    "eventEnd": "2027-05-30",
+    "schedule": "2026.06.12 ~ 2027.05.30",
     "presets": [
       "outing",
       "weekend"
     ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260821_001&menu_site_id=performance_detail"
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260601_002&menu_site_id=performance_detail"
   },
   {
-    "id": "phcf-kkum",
-    "org": "SPACE 298 꿈틀로",
+    "id": "phcf-EVT_20260728_001",
+    "org": "SPACE 298",
     "orgShort": "SPACE 298",
-    "title": "꿈틀로 기획전시 <꿈의 항로>",
-    "place": "SPACE 298 (중앙동 꿈틀로)",
+    "title": "꿈틀로 기획전시 프로젝트 시리즈 '꿈의 탐색', <꿈의 항로>",
+    "place": "SPACE 298",
     "target": "누구나",
     "fee": "무료 관람",
     "capacity": null,
@@ -276,12 +276,100 @@
     "openAt": null,
     "deadline": null,
     "eventEnd": "2026-09-26",
-    "schedule": "2026.07.28 ~ 09.26 10:00~18:00 · 일·월요일 및 공휴일 휴관",
+    "schedule": "2026.07.28 ~ 09.26 10:00~18:00",
     "presets": [
       "outing",
       "weekend"
     ],
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260728_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-EVT_20260811_001",
+    "org": "동빈문화창고1969",
+    "orgShort": "동빈문화창고1969",
+    "title": "2026 지역전시 활성화사업 <아침놀>",
+    "place": "동빈문화창고1969",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-09-30",
+    "schedule": "2026.08.21 ~ 09.30 10:00~18:00",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260811_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-EVT_20260827_001",
+    "org": "인디플러스 포항/중앙아트홀",
+    "orgShort": "인디플러스 포항",
+    "title": "다들 잘 지내는 것 같았다",
+    "place": "인디플러스 포항/중앙아트홀 1층 전시실",
+    "target": "전체",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-09-06",
+    "schedule": "2026.09.01 ~ 09.06",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260827_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-FST_ETC_2025_001",
+    "org": "포항문화예술회관 대공연장 및 포항시 일원",
+    "orgShort": "포항문화예술회관",
+    "title": "포항국제음악제",
+    "place": "포항문화예술회관 대공연장 및 포항시 일원",
+    "target": "누구나",
+    "fee": "무료",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": "2026-11-06",
+    "deadline": "2026-11-12",
+    "eventEnd": "2026-11-12",
+    "schedule": "2026.11.06 ~ 11.12",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_ETC_2025_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-FST_FEST_2026_001",
+    "org": "흥해읍 일원",
+    "orgShort": "흥해읍 일원",
+    "title": "2026 포항 국가유산 야행",
+    "place": "흥해읍 일원",
+    "target": "전체",
+    "fee": "무료",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": "2026-09-11",
+    "deadline": "2026-09-12",
+    "eventEnd": "2026-09-12",
+    "schedule": "2026.09.11 ~ 09.12",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_FEST_2026_001&menu_site_id=performance_detail"
   },
   {
     "id": "phlib-3480",
@@ -324,28 +412,6 @@
       "elem"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3481"
-  },
-  {
-    "id": "phlib-3516",
-    "org": "효곡 그린숲 작은도서관",
-    "orgShort": "효곡 그린숲",
-    "title": "문해력을 높이는 초등한자",
-    "place": "효곡 그린숲 작은도서관",
-    "target": "초등1~3학년",
-    "fee": "무료",
-    "capacity": 6,
-    "enrolled": 6,
-    "waitCapacity": 3,
-    "waitEnrolled": 2,
-    "openAt": "2026-08-11 10:00",
-    "deadline": "2026-09-11 14:00",
-    "eventEnd": "2026-09-12",
-    "schedule": "2026.09.12(토) 10:30 ~ 11:40 (1회)",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3516"
   },
   {
     "id": "phlib-3527",

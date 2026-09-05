@@ -37,7 +37,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    페이지 구조가 바뀌거나 서버가 장애면 0건이 옵니다. 그때 그대로 반영하면
    사이트가 텅 빕니다. 개별 강좌는 오직 날짜로만 사라지게 하고,
    수집 결과 자체가 수상하면 아예 쓰지 않고 실패로 끝냅니다. */
-const MIN_ROWS = { 'phlib': 20, 'gbelib-yi': 5, 'gsei': 3 };
+const MIN_ROWS = { 'phlib': 20, 'gbelib-yi': 5, 'gsei': 3, 'phcf': 2 };
 
 /* 기관 사이트가 왜 막혔는지는 상태 코드만 봐서는 알기 어렵습니다.
    접속 자체가 안 된 건지, 차단당한 건지, 페이지가 바뀐 건지 구분되도록
@@ -70,7 +70,8 @@ async function get(url) {
     /* 기본 헤더만 보내면 거르는 기관 사이트가 있습니다 */
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8'
+    'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8',
+    'X-Requested-With': 'XMLHttpRequest'
   };
   const cookie = cookieFor(url);
   if (cookie) headers.Cookie = cookie;
@@ -103,7 +104,9 @@ async function warmUp(src) {
 }
 
 async function collectSource(src) {
-  await warmUp(src);
+  /* JSON 주소는 세션을 요구하지 않으므로 첫 화면을 열 필요가 없습니다 */
+  if (src.format !== 'json') await warmUp(src);
+
   const rows = parseList(await get(src.base + src.listPath), src);
   console.log(`  ${src.name}: 목록 ${rows.length}건`);
 

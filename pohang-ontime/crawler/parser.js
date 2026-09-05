@@ -43,6 +43,20 @@ var SOURCES = [
     listPath: '/gsei/eq/view/selectEqList.do?mi=10867',
     detailPath: '/gsei/eq/view/selectEqList.do?mi=10867',
     needDetail: false
+  },
+  {
+    /* 화면에는 HTML 이 비어 있고 목록을 이 주소에서 따로 받아옵니다.
+       JSON 이라 오히려 HTML 을 긁는 것보다 정확합니다. */
+    key: 'phcf',
+    name: '포항문화재단',
+    adapter: 'phcf',
+    format: 'json',
+    base: 'https://phcf.or.kr',
+    listPath: '/api/phcf/performance/getPerformanceList.do' +
+              '?categoryFilter=&statusFilter=&fieldFilter=&sortFilter=date' +
+              '&searchKeyword=&pageIndex=1&pageSize=2000&searchMode=NOMAL',
+    detailPath: '/phcf/performance_detail/view.do?eventId={id}&menu_site_id=performance_detail',
+    needDetail: false
   }
 ];
 
@@ -62,9 +76,15 @@ function decodeEnt(s) {
     .replace(/&amp;/g, '&');
 }
 
-/* 태그 제거 → 엔티티 복원 → 공백 정리. 파서 전체가 이 함수를 거칩니다. */
+/* 태그 제거 → 엔티티 복원 → 공백 정리. HTML 을 긁을 때 씁니다. */
 function clean(s) {
   return decodeEnt(stripTags(s)).replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
+}
+
+/* JSON 에서 온 값은 이미 글자입니다. 여기에 태그 제거를 걸면
+   전시 제목의 <아침놀> 같은 꺾쇠가 태그로 오인돼 통째로 사라집니다. */
+function plain(s) {
+  return decodeEnt(String(s == null ? '' : s)).replace(/\s+/g, ' ').replace(/^\s+|\s+$/g, '');
 }
 
 function toInt(s) {
@@ -118,7 +138,9 @@ function normalize(src, raw) {
   return {
     id:        src.key + '-' + raw.srcId,   // 기관코드-원본ID · 절대 바뀌지 않는 열쇠
     source:    src.key,
+    kind:      raw.kind || '',              // 'exhibit' 이면 접수 없는 관람형
     org:       raw.org || src.name,
+    orgShort:  raw.orgShort || '',
     title:     raw.title || '',
     target:    raw.target || '',
     place:     raw.place || '',
@@ -372,6 +394,71 @@ function afterLabel(chunk, name) {
   return clean(rest.slice(0, end === -1 ? 120 : end)).replace(/^:\s*/, '');
 }
 
+/* ══════════════ 어댑터 ④ 포항문화재단 (JSON) ══════════════
+   전시·공연·축제. 접수 없이 그냥 가면 되는 것이 대부분이라
+   「무료 나들이」 성격입니다. 무료만 추립니다. */
+function parsePhcfList(raw, src) {
+  var data = typeof raw === 'string' ? JSON.parse(raw) : raw;
+  var list = (data && data.list) || [];
+  var out = [];
+
+  for (var i = 0; i < list.length; i++) {
+    var r = list[i];
+    if (r.event_fee_type !== 'FREE') continue;
+    /* 19세 이상 관람가는 유아·초등 학부모 서비스에 어울리지 않습니다 */
+    if (r.event_age_limit === 'AGE_19') continue;
+    if (!r.event_id || !r.start_date) continue;
+
+    var venue = phcfVenue(r);
+    var hasApply = !!(r.application_start && r.application_end);
+
+    /* 정원은 접수를 받을 때만 뜻이 있습니다. 접수가 없는 전시의
+       숫자는 공간 수용 인원이라 '몇 자리 남음' 으로 쓰면 오해를 삽니다. */
+    var unlimited = r.capacity_unlimited_yn === 'Y' || !r.event_capacity;
+    var cap = (hasApply && !unlimited) ? r.event_capacity : null;
+
+    out.push(normalize(src, {
+      srcId: r.event_id,
+      org: venue.org,
+      orgShort: venue.shortName,
+      title: plain(r.event_title || r.event_subtitle),
+      place: venue.place,
+      target: plain(r.event_target) || '누구나',
+      fee: hasApply ? '무료' : '무료 관람',
+      kind: 'exhibit',
+      enrolled:     cap == null ? null : (r.apply_count || 0),
+      capacity:     cap,
+      waitEnrolled: 0,
+      waitCapacity: 0,
+      openAt:   hasApply ? normDateTime(r.application_start) : '',
+      deadline: hasApply ? normDateTime(r.application_end)   : '',
+      eventFrom: normDateTime(r.start_date),
+      eventTo:   normDateTime(r.end_date || r.start_date),
+      eventTime: (r.start_time && r.end_time) ? r.start_time + '~' + r.end_time : '',
+      url: src.base + src.detailPath.replace('{id}', r.event_id)
+    }));
+  }
+  return out;
+}
+
+/* 기관 이름 정하기.
+     space_name  전시장·공연장 이름 (동빈문화창고1969, SPACE 298)
+     event_venue 그 안의 방 (2층 상영관) 또는 넓은 지역 (흥해읍 일원)
+   space_name 이 '기타' 인 축제 같은 경우가 있어 차례로 물러섭니다. */
+function phcfVenue(r) {
+  var space = plain(r.space_name);
+  var venue = plain(r.event_venue);
+  var base  = (space && space !== '기타') ? space : (venue || plain(r.organizer) || '포항문화재단');
+
+  var short = base.split('/')[0].replace(/\s+$/, '');
+  if (short.length > 10) short = short.split(' ')[0];
+
+  var place = base;
+  if (venue && venue !== base) place = base + ' ' + venue;
+
+  return { org: base, shortName: short, place: place };
+}
+
 /* ══════════════ 상세 페이지 ══════════════
    포항시립도서관·경북교육청 도서관 모두 상세 화면은 같은 표 구조라
    하나의 함수로 처리됩니다. (목록만 서로 다릅니다) */
@@ -401,10 +488,11 @@ function thValue(html, name) {
 }
 
 /* ══════════════ 목록 파싱 진입점 ══════════════ */
-function parseList(html, src) {
-  if (src.adapter === 'gbelib') return parseGbelibList(html, src);
-  if (src.adapter === 'gsei')   return parseGseiList(html, src);
-  return parsePhlibList(html, src);
+function parseList(body, src) {
+  if (src.adapter === 'gbelib') return parseGbelibList(body, src);
+  if (src.adapter === 'gsei')   return parseGseiList(body, src);
+  if (src.adapter === 'phcf')   return parsePhcfList(body, src);
+  return parsePhlibList(body, src);
 }
 
 /* ══════════════ 생애주기 — 자동 파기의 실체 ══════════════
