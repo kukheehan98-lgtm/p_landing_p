@@ -39,13 +39,29 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    수집 결과 자체가 수상하면 아예 쓰지 않고 실패로 끝냅니다. */
 const MIN_ROWS = { 'phlib': 20, 'gbelib-yi': 5, 'gsei': 3 };
 
+/* 기관 사이트가 왜 막혔는지는 상태 코드만 봐서는 알기 어렵습니다.
+   접속 자체가 안 된 건지, 차단당한 건지, 페이지가 바뀐 건지 구분되도록
+   실패 사유를 그대로 남깁니다. */
 async function get(url) {
-  const res = await fetch(url, {
-    headers: { 'User-Agent': 'culturepick-pohang/1.0 (+https://github.com/kukheehan98-lgtm/p_landing_p)' },
-    redirect: 'follow'
-  });
-  if (!res.ok) throw new Error(`${res.status} ${url}`);
-  return res.text();
+  let res;
+  try {
+    res = await fetch(url, {
+      headers: {
+        /* 기본 헤더만 보내면 거르는 기관 사이트가 있습니다 */
+        'User-Agent': 'Mozilla/5.0 (compatible; culturepick-pohang/1.0; +https://github.com/kukheehan98-lgtm/p_landing_p)',
+        'Accept': 'text/html,application/xhtml+xml',
+        'Accept-Language': 'ko-KR,ko;q=0.9'
+      },
+      redirect: 'follow',
+      signal: AbortSignal.timeout(30000)
+    });
+  } catch (err) {
+    throw new Error(`접속 실패 (${err.name}: ${err.message}) ${url}`);
+  }
+  if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`);
+  const body = await res.text();
+  if (body.length < 500) throw new Error(`응답이 ${body.length}자뿐 — 차단 가능성 ${url}`);
+  return body;
 }
 
 async function collectSource(src) {
@@ -140,5 +156,6 @@ async function main() {
 
 main().catch(err => {
   console.error('수집 실패:', err.message);
+  console.error(err.stack);
   process.exit(1);
 });
