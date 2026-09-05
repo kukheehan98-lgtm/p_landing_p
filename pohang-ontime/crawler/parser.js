@@ -139,7 +139,8 @@ function normalize(src, raw) {
     id:        src.key + '-' + raw.srcId,   // 기관코드-원본ID · 절대 바뀌지 않는 열쇠
     source:    src.key,
     kind:      raw.kind || '',              // 'exhibit' 이면 접수 없는 관람형
-    applyRule: raw.applyRule || '',         // 'own-id' | 'guest-ok' | '' (안내 없음)
+    applyRule: raw.applyRule || '',
+    unit:      raw.unit || '명',           // 과학원은 '가족' 단위로 셉니다
     org:       raw.org || src.name,
     orgShort:  raw.orgShort || '',
     title:     raw.title || '',
@@ -369,6 +370,7 @@ function parseGseiList(html, src) {
          → '2026 가족천체관측교실 4회' (분류 딱지와 운영일은 다른 칸에 이미 있습니다) */
       title: clean(title).replace(/^\[[^\]]*\]\s*/, '').replace(/\s*\[[^\]]*운영[^\]]*\]\s*$/, ''),
       target: '가족 (2~5인)',
+      unit: '가족',
       place: '경상북도교육청과학원 (북구 우미길 93)',
       fee: '무료',
       enrolled:     r[0] ? r[0][0] : null,

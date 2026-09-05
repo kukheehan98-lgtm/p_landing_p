@@ -16,6 +16,7 @@
     "eventEnd": "2026-09-13",
     "schedule": "2026.09.13(일) 14:00 ~ 15:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem",
       "weekend"
@@ -39,6 +40,7 @@
     "eventEnd": "2026-09-13",
     "schedule": "2026.09.13(일) 15:20 ~ 16:20 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem",
       "weekend"
@@ -62,6 +64,7 @@
     "eventEnd": "2026-09-12",
     "schedule": "2026.09.12(토) 14:00 ~ 16:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem",
       "weekend"
@@ -85,6 +88,7 @@
     "eventEnd": "2026-09-19",
     "schedule": "2026.09.19(토) 14:00 ~ 15:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem",
       "weekend"
@@ -108,6 +112,7 @@
     "eventEnd": "2026-10-21",
     "schedule": "2026.10.21(수) 10:00 ~ 12:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "morning"
     ],
@@ -130,6 +135,7 @@
     "eventEnd": "2026-10-14",
     "schedule": "2026.10.14(수) 10:00 ~ 12:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "morning"
     ],
@@ -152,6 +158,7 @@
     "eventEnd": "2026-09-16",
     "schedule": "2026.09.16 19:00~21:30 (1회)",
     "applyRule": "",
+    "unit": "가족",
     "presets": [
       "kid",
       "elem"
@@ -175,6 +182,7 @@
     "eventEnd": "2026-09-30",
     "schedule": "2026.09.30 19:00~21:30 (1회)",
     "applyRule": "",
+    "unit": "가족",
     "presets": [
       "kid",
       "elem"
@@ -198,6 +206,7 @@
     "eventEnd": "2026-10-21",
     "schedule": "2026.10.21 19:00~21:30 (1회)",
     "applyRule": "",
+    "unit": "가족",
     "presets": [
       "kid",
       "elem"
@@ -221,6 +230,7 @@
     "eventEnd": "2026-11-11",
     "schedule": "2026.11.11 19:00~21:30 (1회)",
     "applyRule": "",
+    "unit": "가족",
     "presets": [
       "kid",
       "elem"
@@ -244,6 +254,7 @@
     "eventEnd": "2026-11-25",
     "schedule": "2026.11.25 19:00~21:30 (1회)",
     "applyRule": "",
+    "unit": "가족",
     "presets": [
       "kid",
       "elem"
@@ -267,6 +278,7 @@
     "eventEnd": "2027-05-30",
     "schedule": "2026.06.12 ~ 2027.05.30",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "outing",
       "weekend"
@@ -290,6 +302,7 @@
     "eventEnd": "2026-09-26",
     "schedule": "2026.07.28 ~ 09.26 10:00~18:00",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "outing",
       "weekend"
@@ -313,6 +326,7 @@
     "eventEnd": "2026-09-30",
     "schedule": "2026.08.21 ~ 09.30 10:00~18:00",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "outing",
       "weekend"
@@ -336,6 +350,7 @@
     "eventEnd": "2026-09-06",
     "schedule": "2026.09.01 ~ 09.06",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "outing",
       "weekend"
@@ -359,6 +374,7 @@
     "eventEnd": "2026-11-12",
     "schedule": "2026.11.06 ~ 11.12",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "outing",
       "weekend"
@@ -382,6 +398,7 @@
     "eventEnd": "2026-09-12",
     "schedule": "2026.09.11 ~ 09.12",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "outing",
       "weekend"
@@ -405,6 +422,7 @@
     "eventEnd": "2026-12-18",
     "schedule": "2026.08.28 ~ 12.18 매주 금 16:00 ~ 17:00",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem"
     ],
@@ -427,6 +445,7 @@
     "eventEnd": "2026-12-17",
     "schedule": "2026.08.27 ~ 12.17 매주 목 16:05 ~ 16:55",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem"
     ],
@@ -449,6 +468,7 @@
     "eventEnd": "2026-09-12",
     "schedule": "2026.09.12(토) 14:00 ~ 15:30 (1회)",
     "applyRule": "guest-ok",
+    "unit": "명",
     "presets": [
       "elem",
       "weekend"
@@ -472,6 +492,7 @@
     "eventEnd": "2026-09-19",
     "schedule": "2026.09.19(토) 14:00 ~ 15:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "kid",
       "weekend"
@@ -495,6 +516,7 @@
     "eventEnd": "2026-09-12",
     "schedule": "2026.09.12(토) 13:30 ~ 15:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem",
       "weekend"
@@ -514,10 +536,11 @@
     "waitCapacity": 5,
     "waitEnrolled": 0,
     "openAt": "2026-08-26 10:00",
-    "deadline": "2026-09-05 17:00",
+    "deadline": "2026-09-05 16:00",
     "eventEnd": "2026-09-06",
     "schedule": "2026.09.06(일) 10:00 ~ 12:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem",
       "weekend"
@@ -541,6 +564,7 @@
     "eventEnd": "2026-09-20",
     "schedule": "2026.09.20(일) 13:00 ~ 15:00 (1회)",
     "applyRule": "own-id",
+    "unit": "명",
     "presets": [],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3550"
   },
@@ -561,6 +585,7 @@
     "eventEnd": "2026-09-12",
     "schedule": "2026.09.12(토) 13:00 ~ 14:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "weekend"
     ],
@@ -583,6 +608,7 @@
     "eventEnd": "2026-09-19",
     "schedule": "2026.09.19(토) 10:20 ~ 11:20 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "kid"
     ],
@@ -605,6 +631,7 @@
     "eventEnd": "2026-09-11",
     "schedule": "2026.09.11(금) 10:00 ~ 12:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "morning"
     ],
@@ -627,6 +654,7 @@
     "eventEnd": "2026-12-18",
     "schedule": "2026.09.18 ~ 12.18 매주 금 10:00 ~ 12:00",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "morning"
     ],
@@ -649,6 +677,7 @@
     "eventEnd": "2026-11-27",
     "schedule": "2026.09.04 ~ 11.27 매주 금 16:00 ~ 18:00",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem"
     ],
@@ -671,6 +700,7 @@
     "eventEnd": "2026-09-19",
     "schedule": "2026.09.19(토) 16:00 ~ 18:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "elem",
       "weekend"
@@ -694,6 +724,7 @@
     "eventEnd": "2026-11-08",
     "schedule": "2026.09.13 ~ 11.08 매주 일 10:00 ~ 12:00",
     "applyRule": "own-id",
+    "unit": "명",
     "presets": [
       "elem",
       "weekend"
@@ -717,6 +748,7 @@
     "eventEnd": "2026-09-18",
     "schedule": "2026.09.18(금) 10:00 ~ 12:00 (1회)",
     "applyRule": "",
+    "unit": "명",
     "presets": [
       "morning"
     ],

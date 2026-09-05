@@ -165,6 +165,7 @@ function toCard(ev) {
     eventEnd:  ev.eventTo || ev.eventFrom || null,
     schedule:  ev.schedule || scheduleText(ev),
     applyRule: ev.applyRule || '',
+    unit:      ev.unit || '명',
     presets:   ev.presets || presetsFor(ev),
     url:       ev.url
   };
