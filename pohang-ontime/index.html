@@ -1747,8 +1747,15 @@
     /* 첫 카드로 되돌립니다.
        여기까지 오는 경우는 목록의 구성 자체가 바뀐 때뿐입니다 —
        필터 변경, 신청 완료, 첫 진입. 담기는 refreshCard 로 처리하므로
-       보고 있던 자리를 잃지 않습니다. */
-    $('#cardList').scrollLeft = 0;
+       보고 있던 자리를 잃지 않습니다.
+       scroll-behavior:smooth 가 걸려 있어 그냥 대입하면 애니메이션으로
+       처리되고, 애니메이션이 돌지 않는 환경에서는 되감기가 통째로
+       무시됩니다. 잠시 즉시 이동으로 바꿔 확실히 되돌립니다. */
+    var strip = $('#cardList');
+    var keepBehavior = strip.style.scrollBehavior;
+    strip.style.scrollBehavior = 'auto';
+    strip.scrollLeft = 0;
+    strip.style.scrollBehavior = keepBehavior;
     syncCarousel();
 
     if (window.lucide) lucide.createIcons();
