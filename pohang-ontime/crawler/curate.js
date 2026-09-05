@@ -124,7 +124,7 @@ function toCard(ev) {
   return {
     id:        ev.id,
     org:       ev.org,
-    orgShort:  shortOrg(ev.org),
+    orgShort:  ev.orgShort || shortOrg(ev.org),
     title:     ev.title,
     place:     ev.place,
     target:    ev.target,
