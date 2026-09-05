@@ -29,7 +29,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # enablement: 저장소 설정에서 Pages 를 아직 안 켰다면 여기서 켭니다
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
