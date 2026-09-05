@@ -125,22 +125,60 @@ function patchHtml(cards) {
   return true;
 }
 
+/* 지금 화면에 실려 있는 데이터. 어느 기관이 막혔을 때 그 기관 몫을
+   그대로 이어받기 위해 읽습니다 — 못 봤다고 지우면 안 됩니다. */
+function previousCards() {
+  try {
+    const html = fs.readFileSync(HTML_FILE, 'utf8');
+    const open = '<script type="application/json" id="programsData">';
+    const i = html.indexOf(open);
+    const j = html.indexOf('</script>', i);
+    return JSON.parse(html.slice(i + open.length, j).replace(/\\u003c/g, '<'));
+  } catch (err) {
+    return [];
+  }
+}
+
 async function main() {
   console.log(`수집 시작 — ${new Date().toISOString()}`);
+
+  const prev = previousCards();
   let all = [];
+  const failed = [];
 
   for (const src of SOURCES) {
-    all = all.concat(await collectSource(src));
+    try {
+      all = all.concat(await collectSource(src));
+    } catch (err) {
+      /* 한 기관이 막혀도 나머지는 갱신합니다. 막힌 기관의 강좌는
+         지난번 것을 그대로 두고, 지난 프로그램은 화면에서 날짜로 걸러집니다. */
+      console.warn(`  ${src.name}: 실패 — ${err.message}`);
+      failed.push(src.key);
+    }
     await sleep(DELAY_MS);
+  }
+
+  if (failed.length === SOURCES.length) {
+    throw new Error('모든 기관 수집 실패 — 기존 데이터를 그대로 둡니다');
   }
 
   const manual = JSON.parse(fs.readFileSync(MANUAL, 'utf8')).filter(m => m.id);
   all = all.concat(manual);
-  console.log(`수집 합계 ${all.length}건 (자동 ${all.length - manual.length} · 수동 ${manual.length})`);
+  console.log(`수집 합계 ${all.length}건 (실패한 기관: ${failed.join(', ') || '없음'})`);
 
-  const cards = curate(all, lifecycle, new Date().toISOString());
+  let cards = curate(all, lifecycle, new Date().toISOString());
+
+  /* 막힌 기관 몫을 지난 데이터에서 이어붙입니다 */
+  if (failed.length) {
+    const seen = {};
+    cards.forEach(c => { seen[c.id] = true; });
+    const carried = prev.filter(c =>
+      !seen[c.id] && failed.some(k => c.id.indexOf(k + '-') === 0));
+    console.log(`  이어받은 기존 강좌 ${carried.length}건`);
+    cards = cards.concat(carried);
+  }
+
   console.log(`큐레이션 후 ${cards.length}건`);
-
   if (!cards.length) throw new Error('큐레이션 결과가 0건 — 반영하지 않습니다');
 
   if (DRY) {
