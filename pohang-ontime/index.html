@@ -1744,7 +1744,10 @@
     $('#listTitle').textContent = activePreset === 'all' ? '전체 프로그램' : preset.label;
     $('#listCount').textContent = list.length ? list.length + '건' : '';
 
-    /* 필터가 바뀌면 첫 카드로 되돌립니다 */
+    /* 첫 카드로 되돌립니다.
+       여기까지 오는 경우는 목록의 구성 자체가 바뀐 때뿐입니다 —
+       필터 변경, 신청 완료, 첫 진입. 담기는 refreshCard 로 처리하므로
+       보고 있던 자리를 잃지 않습니다. */
     $('#cardList').scrollLeft = 0;
     syncCarousel();
 
@@ -1754,12 +1757,26 @@
   /* ═══════════════ 알림 신청 대상 강좌 ═══════════════ */
 
   /* 하트(찜)와 '알림받기'는 같은 목록을 씁니다 — 둘 다 "이 강좌 알림 신청"이므로 */
+  /* 담기 상태만 바뀌었을 때는 그 카드 한 장만 갈아 끼웁니다.
+     목록 전체를 다시 그리면 renderCards 안의 되감기(필터용)까지 함께 돌아
+     5번째 강좌를 담자마자 1번 카드로 튕겨 나갔습니다. 여러 개를 담으려면
+     매번 처음부터 다시 넘겨야 했던 원인입니다.
+     카드 크기가 그대로라 옆 카드들은 미동도 하지 않습니다. */
+  function refreshCard(id) {
+    var el = document.getElementById('card-' + id);
+    if (!el) return;
+    var ev = EVENTS.filter(function (x) { return x.id === id; })[0];
+    if (!ev) return;
+    el.outerHTML = cardHtml(ev);
+    if (window.lucide) lucide.createIcons();
+  }
+
   function pickProgram(id) {
     if (isSubmitted(id)) { toast('이미 알림을 신청한 강좌예요', 'check'); return; }
     if (likes.indexOf(id) === -1) {
       likes.push(id);
       writeLS(LS_LIKE, likes);
-      renderCards();
+      refreshCard(id);
       var ev = EVENTS.filter(function (x) { return x.id === id; })[0];
       track('like_program', { program_id: id, program_name: ev ? ev.title : '', via: 'notify_button' });
     }
@@ -1950,7 +1967,7 @@
       var ui = likes.indexOf(unpick.dataset.unpick);
       if (ui !== -1) likes.splice(ui, 1);
       writeLS(LS_LIKE, likes);
-      renderCards();
+      refreshCard(unpick.dataset.unpick);   /* 담기와 같은 이유로 한 장만 */
       renderPicked();
       return;
     }
