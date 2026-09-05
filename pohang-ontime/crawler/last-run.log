@@ -1,0 +1,12 @@
+실행 2026-09-05 10:34 KST
+수집 시작 — 2026-09-05T01:34:23.092Z
+수집 실패: 응답이 310자뿐 — 차단 가능성 https://phlib.pohang.go.kr/phlib/module/teach/index.do?menu_idx=24
+Error: 응답이 310자뿐 — 차단 가능성 https://phlib.pohang.go.kr/phlib/module/teach/index.do?menu_idx=24
+    at get (/home/runner/work/p_landing_p/p_landing_p/pohang-ontime/crawler/crawl.js:63:32)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async collectSource (/home/runner/work/p_landing_p/p_landing_p/pohang-ontime/crawler/crawl.js:68:26)
+    at async main (/home/runner/work/p_landing_p/p_landing_p/pohang-ontime/crawler/crawl.js:133:22)
+--- 만들어진 파일 ---
+ls: cannot access 'pohang-ontime/data': No such file or directory
+data 폴더 없음
+--- 바뀐 파일 ---
