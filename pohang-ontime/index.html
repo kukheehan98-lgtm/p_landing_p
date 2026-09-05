@@ -1337,11 +1337,40 @@
   var TIP = '💡 기관마다 계정이 따로입니다. 포항시립도서관·영일도서관·과학원은 각각 회원가입해야 해요. ' +
             '참여할 아이 이름으로 미리 가입해 두면 선착순에서 시간이 갈립니다.';
 
-  /* 강좌 상세에 적혀 있는 신청 규칙 — 있는 강좌에만 표시합니다 */
-  var APPLY_RULES = {
-    'own-id':   { text: '수강생(아이) 본인 ID로 로그인해야 신청됩니다', icon: '🔑' },
-    'guest-ok': { text: '비회원도 신청할 수 있어요',                   icon: '✅' }
-  };
+  /* 모든 카드에 붙는 안내.
+     빠뜨리면 안 되는 두 가지를 한 줄에 담았습니다.
+
+     ① 공고 확인 — 우리 화면은 하루 한 번 받아온 사본입니다. 정원이 그 사이
+        찼을 수도, 일정이 바뀌었을 수도 있습니다. 최종 판단은 기관 공고입니다.
+     ② 로그인 — 계정이 없거나 다른 사람으로 로그인돼 있으면 접수가 열려도
+        신청 자체가 안 됩니다. 선착순에서 이 몇 분이 자리를 가릅니다.
+
+     강좌 상세에 「수강생 본인 ID」나 「비회원 가능」이 적혀 있으면 그 강좌만
+     그 문구로 바꿉니다 — 실제로 둘 다 있는 것을 확인했습니다. */
+  function applyNoteHtml(ev) {
+    var noApply = ev.kind === 'exhibit' || (!ev.openAt && !ev.deadline);
+    var icon, text;
+
+    if (noApply) {
+      icon = 'ℹ️';
+      text = '방문 전 공고에서 휴관일과 관람 시간을 꼭 확인하세요.';
+    } else if (ev.applyRule === 'guest-ok') {
+      icon = '✅';
+      text = '이 강좌는 비회원도 신청할 수 있어요. 신청 전 공고를 꼭 확인하세요.';
+    } else if (ev.applyRule === 'own-id') {
+      icon = '🔑';
+      text = '수강생(아이) 본인 ID로 로그인해야 신청됩니다. 신청 전 공고를 꼭 확인하세요.';
+    } else {
+      icon = '🔑';
+      text = '접수 전 로그인 필수 — 미리 회원가입해 두세요. 신청 전 공고를 꼭 확인하세요.';
+    }
+
+    return '<p class="mt-2 flex items-start gap-1.5 text-[12px] font-bold text-amber-900 ' +
+           'bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-2 leading-relaxed">' +
+             '<span class="shrink-0" aria-hidden="true">' + icon + '</span>' +
+             '<span>' + esc(text) + '</span>' +
+           '</p>';
+  }
 
   var PARTNERS = [
     '포은중앙도서관', '포은오천도서관', '포은흥해도서관', '어린이영어도서관',
@@ -1665,7 +1694,6 @@
   function cardHtml(ev) {
     var b = ddayBadge(ev);
     var sb = seatsBadge(ev);
-    var rule = APPLY_RULES[ev.applyRule];
     var picked = likes.indexOf(ev.id) !== -1;
     var done = isSubmitted(ev.id);
 
@@ -1721,15 +1749,9 @@
         '</div>' +
       '</div>' +
 
-      /* 이 강좌에만 해당하는 신청 규칙. 로그인 계정이 틀리면 아예 신청이 안 되므로
-         접수 기간·일정만큼 중요한 정보입니다. */
-      (rule
-        ? '<p class="mt-2 flex items-start gap-1.5 text-[12px] font-bold text-amber-800 ' +
-          'bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-2 leading-relaxed">' +
-            '<span aria-hidden="true">' + rule.icon + '</span>' +
-            '<span>' + esc(rule.text) + '</span>' +
-          '</p>'
-        : '') +
+      /* 로그인 계정이 틀리면 아예 신청이 안 되므로 접수 기간·일정만큼
+         중요한 정보입니다. 모든 카드에 붙습니다. */
+      applyNoteHtml(ev) +
 
       /* 접수 팁은 모든 카드가 동일하므로 목록 위에 한 번만 표시합니다 */
 
