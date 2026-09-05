@@ -1,12 +1,18 @@
-실행 2026-09-05 10:34 KST
-수집 시작 — 2026-09-05T01:34:23.092Z
-수집 실패: 응답이 310자뿐 — 차단 가능성 https://phlib.pohang.go.kr/phlib/module/teach/index.do?menu_idx=24
-Error: 응답이 310자뿐 — 차단 가능성 https://phlib.pohang.go.kr/phlib/module/teach/index.do?menu_idx=24
-    at get (/home/runner/work/p_landing_p/p_landing_p/pohang-ontime/crawler/crawl.js:63:32)
-    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-    at async collectSource (/home/runner/work/p_landing_p/p_landing_p/pohang-ontime/crawler/crawl.js:68:26)
-    at async main (/home/runner/work/p_landing_p/p_landing_p/pohang-ontime/crawler/crawl.js:133:22)
+실행 2026-09-05 10:36 KST
+수집 시작 — 2026-09-05T01:36:43.630Z
+  포항시립도서관: 실패 — 응답이 310자뿐 — 차단 가능성 https://phlib.pohang.go.kr/phlib/module/teach/index.do?menu_idx=24
+  경상북도교육청 영일도서관: 목록 14건
+  경상북도교육청과학원: 목록 20건
+수집 합계 36건 (실패한 기관: phlib)
+  이어받은 기존 강좌 15건
+큐레이션 후 28건
+완료 — 데이터가 바뀌었습니다
 --- 만들어진 파일 ---
-ls: cannot access 'pohang-ontime/data': No such file or directory
-data 폴더 없음
+total 28
+drwxr-xr-x 2 runner runner  4096 Sep  5 01:36 .
+drwxr-xr-x 4 runner runner  4096 Sep  5 01:36 ..
+-rw-r--r-- 1 runner runner 18597 Sep  5 01:36 programs.json
 --- 바뀐 파일 ---
+ M pohang-ontime/crawler/last-run.log
+ M pohang-ontime/index.html
+?? pohang-ontime/data/
