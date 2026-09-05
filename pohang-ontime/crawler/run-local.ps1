@@ -13,6 +13,10 @@
 
 $ErrorActionPreference = 'Stop'
 
+# Node 는 UTF-8 로 출력하는데 구형 PowerShell 은 콘솔 코드페이지(CP949)로 읽어
+# 한글이 깨집니다. 기록을 읽을 수 있게 UTF-8 로 맞춰 둡니다.
+[Console]::OutputEncoding = [Text.Encoding]::UTF8
+
 $crawler = $PSScriptRoot
 $site    = Split-Path -Parent $crawler                    # ...\pohang-ontime
 $repo    = Split-Path -Parent $site                       # ...\p_landing_p
