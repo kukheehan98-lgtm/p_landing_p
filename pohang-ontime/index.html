@@ -218,6 +218,14 @@
       동네 문화생활, 한곳에 모이다
     </p>
 
+    <!-- 소구점을 「모아 보여준다」에서 「놓치지 않게 해준다」로 좁혔습니다.
+         정원 6명짜리는 접수 시각을 모르면 못 잡습니다 — 그 순간이 이 서비스가
+         실제로 쓸모 있는 지점이고, 60명짜리 강좌로는 증명되지 않습니다. -->
+    <p class="mt-2.5 text-[13.5px] font-bold text-slate-700 leading-snug">
+      정원 <span class="text-rose-600">6명·10명</span>짜리 무료 프로그램,
+      <br class="sm:hidden" />접수 열리는 시각에 문자로 알려드려요.
+    </p>
+
     <!-- 특정 강좌를 지목하지 않습니다.
          인기도를 재는 데이터가 없어 「인기강좌」는 근거 없는 표현이었고,
          강좌명을 보여주면 그 강좌 페이지로 가는 링크처럼 오해를 삽니다. -->
@@ -564,7 +572,7 @@
   var CONTACT = {
     email:   'petercat2004@daum.net',
     optOut:  "받으신 알림에 '그만' 이라고 회신",
-    updated: '2026년 8월 29일'
+    updated: '2026년 9월 5일'
   };
 
   var PRESETS = [
@@ -572,6 +580,7 @@
     { key: 'weekend',  label: '이번 주말 아이와 함께',  emoji: '🔥' },
     { key: 'kid',      label: '유아 (6~7세)',          emoji: '👶' },
     { key: 'elem',     label: '초등',                 emoji: '🎒' },
+    { key: 'small',    label: '소수 정원 (12명 이하)',  emoji: '⚡' },
     { key: 'morning',  label: '평일 오전 힐링',        emoji: '☕' },
     { key: 'outing',   label: '무료 전시 나들이',       emoji: '🎨' }
   ];
@@ -579,232 +588,273 @@
   var SLOTS = ['주말 아이와', '평일 오전', '평일 방과후'];
 
   var EVENTS = [
-    /* ── 접수중 ── */
-    {
-      id: 'phlib-3543',
-      org: '포은오천도서관', orgShort: '포은오천',
-      title: '퍼즐로 이어가는 재미있는 한국사',
-      place: '포은오천도서관 2층 상상1뜰',
-      target: '초등 2~5학년 · 정원 12명 (현재 4명 · 여유 있음)',
-      fee: '무료 (준비물 필기구)',
-      status: 'dday', openAt: '2026-08-26', deadline: '2026-09-04',
-      applyPeriod: '2026.08.26(수) 10:00 ~ 09.04(금) 17:00 · 인터넷접수',
-      schedule: '2026.09.08 ~ 12.22 매주 화 16:10~17:40 · 강사 남미진',
-      presets: ['elem'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3543&menu_idx=24'
-    },
-    {
-      id: 'phlib-3573',
-      org: '연일 미르작은도서관', orgShort: '연일 미르',
-      title: '꽃을 만나다 — 원데이 플라워 클래스',
-      place: '연일 미르작은도서관',
-      target: '성인 · 정원 6명 (현재 5명 · 잔여 1석)',
-      fee: '무료',
-      status: 'dday', openAt: '2026-08-27', deadline: '2026-09-09',
-      applyPeriod: '2026.08.27(목) 10:00 ~ 09.09(수) 18:00 · 방문/전화/인터넷',
-      schedule: '2026.09.11(금) 10:00~12:00 (1회) · 강사 장미경',
-      presets: ['morning'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=98&teach_idx=3573&menu_idx=24'
-    },
-    {
-      id: 'phlib-3561',
-      org: '포은중앙도서관', orgShort: '포은중앙',
-      title: '독서대전 작가와의 만남 2 — 박정우 작가',
-      place: '포은중앙도서관 3층 배움1터',
-      target: '누구나 (아이 동반 가능) · 정원 20명 (현재 8명)',
-      fee: '무료',
-      status: 'dday', openAt: '2026-08-27', deadline: '2026-09-09',
-      applyPeriod: '2026.08.27(목) 10:00 ~ 09.09(수) 23:59 · 인터넷접수',
-      schedule: '2026.09.12(토) 13:00~14:00 (1회)',
-      presets: ['weekend'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=136&teach_idx=3561&menu_idx=24'
-    },
-    {
-      id: 'phlib-3527',
-      org: '포은오천도서관', orgShort: '포은오천',
-      title: '작가와의 만남 — 진수경 작가 (부모 동반)',
-      place: '포은오천도서관 2층 소리마루',
-      target: '초등 1~6학년 및 학부모 · 정원 60명 (현재 34명)',
-      fee: '무료',
-      status: 'dday', openAt: '2026-08-25', deadline: '2026-09-10',
-      applyPeriod: '2026.08.25(화) 10:00 ~ 09.10(목) 17:00 · 인터넷접수',
-      schedule: '2026.09.12(토) 14:00~15:30 (1회)',
-      presets: ['weekend', 'elem'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3527&menu_idx=24'
-    },
-    {
-      id: 'phlib-3574',
-      org: '효곡 행복작은도서관', orgShort: '효곡 행복',
-      title: '행복한 그림책 독서회 (하반기 정규)',
-      place: '효곡 행복작은도서관',
-      target: '성인 · 정원 6명 (현재 3명)',
-      fee: '무료',
-      status: 'dday', openAt: '2026-08-26', deadline: '2026-09-10',
-      applyPeriod: '2026.08.26(수) 15:30 ~ 09.10(목) 10:00 · 방문/인터넷',
-      schedule: '2026.09.11 ~ 12.11 매주 금 10:00~12:00 · 강사 옥혜정',
-      presets: ['morning'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=93&teach_idx=3574&menu_idx=24'
-    },
-    {
-      id: 'phlib-3575',
-      org: '연일 미르작은도서관', orgShort: '연일 미르',
-      title: '옛이야기에서 얻는 삶의 지혜 (그림책 독서회)',
-      place: '연일 미르작은도서관',
-      target: '성인 · 정원 8명 (현재 2명 · 여유 있음)',
-      fee: '무료',
-      status: 'dday', openAt: '2026-08-27', deadline: '2026-09-16',
-      applyPeriod: '2026.08.27(목) 10:00 ~ 09.16(수) 18:00 · 방문/전화/인터넷',
-      schedule: '2026.09.18 ~ 12.18 매주 금 10:00~12:00 · 강사 장미경',
-      presets: ['morning'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=98&teach_idx=3575&menu_idx=24'
-    },
+    /* ══════════════════════════════════════════════════════════════
+       2026-09-05 수집 · crawler/parser.js 로 기관 홈페이지에서 추출
 
-    /* ── 접수 예정 (선착순 · 오픈 알림이 필요한 건) ── */
-    {
-      id: 'phlib-3571',
-      org: '포은중앙도서관', orgShort: '포은중앙',
-      title: '9월 책놀이터 (7세)',
-      place: '포은중앙도서관 1층 이야기방',
-      target: '7세(2020년생) · 정원 8명',
-      fee: '무료',
-      status: 'dday', openAt: '2026-09-01', deadline: '2026-09-18',
-      applyPeriod: '2026.09.01(화) 10:00 접수 시작 ~ 09.18(금) 18:00',
-      schedule: '2026.09.19(토) 10:20~11:20 (1회) · 강사 이승희',
-      presets: ['weekend', 'kid'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=62&teach_idx=3571&menu_idx=24'
-    },
-    {
-      id: 'phlib-3569',
-      org: '포은중앙도서관', orgShort: '포은중앙',
-      title: '9월 책놀이터 (6세)',
-      place: '포은중앙도서관 1층 이야기방',
-      target: '6세(2021년생) · 정원 8명',
-      fee: '무료',
-      status: 'dday', openAt: '2026-09-01', deadline: '2026-09-18',
-      applyPeriod: '2026.09.01(화) 10:00 접수 시작 ~ 09.18(금) 18:00',
-      schedule: '2026.09.19(토) 11:30~12:20 (1회) · 강사 이승희',
-      presets: ['weekend', 'kid'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=62&teach_idx=3569&menu_idx=24'
-    },
-    {
-      id: 'phlib-3553',
-      org: '포은오천도서관', orgShort: '포은오천',
-      title: '네트망 위빙아트 (저학년)',
-      place: '포은오천도서관 2층 상상1뜰',
-      target: '초등 1~3학년 · 정원 10명',
-      fee: '무료',
-      status: 'dday', openAt: '2026-09-01', deadline: '2026-09-16',
-      applyPeriod: '2026.09.01(화) 10:00 접수 시작 ~ 09.16(수) 12:00',
-      schedule: '2026.09.20(일) 14:00~15:30 (1회) · 강사 박명주',
-      presets: ['weekend', 'elem'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3553&menu_idx=24'
-    },
-    {
-      id: 'phlib-3554',
-      org: '포은오천도서관', orgShort: '포은오천',
-      title: '네트망 위빙아트 (고학년)',
-      place: '포은오천도서관 2층 상상1뜰',
-      target: '초등 4~6학년 · 정원 10명',
-      fee: '무료',
-      status: 'dday', openAt: '2026-09-01', deadline: '2026-09-16',
-      applyPeriod: '2026.09.01(화) 10:00 접수 시작 ~ 09.16(수) 12:00',
-      schedule: '2026.09.20(일) 16:00~17:30 (1회) · 강사 박명주',
-      presets: ['weekend', 'elem'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3554&menu_idx=24'
-    },
-    {
-      id: 'phlib-3552',
-      org: '포은오천도서관', orgShort: '포은오천',
-      title: '스토리텔링 그림책놀이 (정규 10주)',
-      place: '포은오천도서관 1층 실감놀이터',
-      target: '6~7세 · 정원 10명',
-      fee: '무료',
-      status: 'dday', openAt: '2026-09-02', deadline: '2026-09-09',
-      applyPeriod: '2026.09.02(수) 10:00 접수 시작 ~ 09.09(수) 12:00',
-      schedule: '2026.09.13 ~ 11.22 매주 일 14:00~15:00 · 강사 신민정',
-      presets: ['weekend', 'kid'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=80&teach_idx=3552&menu_idx=24'
-    },
-    {
-      id: 'phlib-3540',
-      org: '구룡포도서관', orgShort: '구룡포',
-      title: '두근두근 세계 여행 (독서의 달 프로그램)',
-      place: '구룡포도서관 1층 다목적실',
-      target: '초등 2~5학년 · 정원 10명',
-      fee: '무료',
-      status: 'dday', openAt: '2026-09-04', deadline: '2026-09-18',
-      applyPeriod: '2026.09.04(금) 10:00 접수 시작 ~ 09.18(금) 18:00',
-      schedule: '2026.09.19(토) 14:00~16:00 (1회) · 강사 남미진',
-      presets: ['weekend', 'elem'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=134&teach_idx=3540&menu_idx=24'
-    },
-    {
-      id: 'phlib-3539',
-      org: '어린이영어도서관', orgShort: '어린이영어',
-      title: '독서의 달 영어 프로그램 (초등 1~2)',
-      place: '어린이영어도서관 다목적실',
-      target: '초등 1~2학년(2018~19년생) · 정원 15명',
-      fee: '무료',
-      status: 'dday', openAt: '2026-09-07', deadline: '2026-09-11',
-      applyPeriod: '2026.09.07(월) 10:00 접수 시작 ~ 09.11(금) 18:00',
-      schedule: '2026.09.12(토) 13:30~15:00 (1회) · 강사 서예은(Grace)',
-      presets: ['weekend', 'elem'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=92&teach_idx=3539&menu_idx=24'
-    },
-    {
-      id: 'phlib-3538',
-      org: '어린이영어도서관', orgShort: '어린이영어',
-      title: '독서의 달 영어 프로그램 (유아 6~7세)',
-      place: '어린이영어도서관 다목적실',
-      target: '유아 6~7세(2020~21년생) · 정원 10명',
-      fee: '무료',
-      status: 'dday', openAt: '2026-09-07', deadline: '2026-09-18',
-      applyPeriod: '2026.09.07(월) 10:00 접수 시작 ~ 09.18(금) 18:00',
-      schedule: '2026.09.19(토) 14:00~15:00 (1회) · 강사 이아영(Norie)',
-      presets: ['weekend', 'kid'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=92&teach_idx=3538&menu_idx=24'
-    },
-    {
-      id: 'phlib-3549',
-      org: '포은흥해도서관', orgShort: '포은흥해',
-      title: '[독서의 달] 북 퍼퓸 만들기 (일반)',
-      place: '포은흥해도서관 2층 프로그램실3',
-      target: '일반 · 회차당 10명 (3개 회차 각각 신청)',
-      fee: '무료',
-      status: 'dday', openAt: '2026-09-11', deadline: '2026-09-17',
-      applyPeriod: '2026.09.11(금) 10:00 접수 시작 ~ 09.17(목) 18:00',
-      schedule: '2026.09.20(일) 10:00 / 13:00 / 15:00 중 택1 (2시간)',
-      presets: ['weekend'],
-      url: 'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?group_idx=140&teach_idx=3549&menu_idx=24'
-    },
+       상태(접수중 / 마감 / 정원 마감)는 저장하지 않습니다.
+       openAt · deadline · eventEnd 만 두고 화면에서 매번 계산하므로,
+       수집이 며칠 멈춰도 지난 프로그램은 스스로 사라집니다.
+       ══════════════════════════════════════════════════════════════ */
 
-    /* ── 상시 (접수 없이 언제든) ── */
-    {
-      id: 'phcf-achim',
-      org: '동빈문화창고1969', orgShort: '동빈창고',
-      title: '2026 지역전시 <아침놀>',
-      place: '동빈문화창고1969',
-      target: '전체관람가 · 정원 제한 없음 (아이 동반 가능)',
-      fee: '무료',
-      status: 'always', openAt: null, deadline: null,
-      applyPeriod: '접수 없이 현장 관람 · 도슨트 상시 (문의 054-289-7823)',
-      schedule: '2026.08.21 ~ 09.30 10:00~18:00 · 월요일·추석 당일 휴관',
-      presets: ['weekend', 'outing'],
-      url: 'https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260811_001&menu_site_id=performance_detail'
-    },
-    {
-      id: 'phcf-kkum',
-      org: 'SPACE 298 꿈틀로', orgShort: 'SPACE 298',
-      title: '꿈틀로 기획전시 <꿈의 항로>',
-      place: 'SPACE 298 (북구 중앙로298번길 13)',
-      target: '누구나 · 정원 제한 없음',
-      fee: '무료',
-      status: 'always', openAt: null, deadline: null,
-      applyPeriod: '접수 없이 현장 관람 (문의 054-289-7874)',
-      schedule: '2026.07.28 ~ 09.26 10:00~18:00 · 일·월요일 및 공휴일 휴관',
-      presets: ['outing'],
-      url: 'https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260728_001&menu_site_id=performance_detail'
-    }
+    /* ── 포항시립도서관 ── */
+    { id:'phlib-3539', org:'어린이영어도서관', orgShort:'어린이영어',
+      title:'(초등1-2) 독서의 달 프로그램',
+      place:'어린이영어도서관 다목적실', target:'초등1~2학년(2018~19년생)', fee:'무료',
+      capacity:15, enrolled:0, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-09-07 10:00', deadline:'2026-09-11 18:00', eventEnd:'2026-09-12',
+      schedule:'2026.09.12(토) 13:30 ~ 15:00 (1회)',
+      presets:['elem','weekend'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3539' },
+
+    { id:'phlib-3538', org:'어린이영어도서관', orgShort:'어린이영어',
+      title:'(유아6-7) 독서의 달 프로그램',
+      place:'어린이영어도서관 다목적실', target:'유아6~7세(2020~21년생)', fee:'무료',
+      capacity:10, enrolled:0, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-09-07 10:00', deadline:'2026-09-18 18:00', eventEnd:'2026-09-19',
+      schedule:'2026.09.19(토) 14:00 ~ 15:00 (1회)',
+      presets:['kid','weekend'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3538' },
+
+    { id:'phlib-3577', org:'환여 해맞이꿈터작은도서관', orgShort:'환여 해맞이꿈터',
+      title:'조물조물 그림책 공예',
+      place:'환여 해맞이꿈터작은도서관', target:'초등1~6학년', fee:'무료',
+      capacity:7, enrolled:0, waitCapacity:3, waitEnrolled:0,
+      openAt:'2026-09-11 10:00', deadline:'2026-09-17 18:00', eventEnd:'2026-09-19',
+      schedule:'2026.09.19(토) 16:00 ~ 18:00 (1회)',
+      presets:['elem','weekend'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3577' },
+
+    { id:'phlib-3550', org:'포은흥해도서관', orgShort:'포은흥해',
+      title:'[독서의 달] 북 퍼퓸 만들기',
+      place:'포은흥해도서관 2층 프로그램실3', target:'일반', fee:'무료',
+      capacity:10, enrolled:0, waitCapacity:3, waitEnrolled:0,
+      openAt:'2026-09-11 10:00', deadline:'2026-09-17 18:00', eventEnd:'2026-09-20',
+      schedule:'2026.09.20(일) 10:00 / 13:00 / 15:00 중 택1 (2시간)',
+      presets:['weekend'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3550' },
+
+    { id:'phlib-3581', org:'대잠도서관', orgShort:'대잠',
+      title:'문학과 그림으로 건너는 오뒷세이아',
+      place:'대잠도서관 3층 세오녀방', target:'성인', fee:'무료',
+      capacity:20, enrolled:0, waitCapacity:3, waitEnrolled:0,
+      openAt:'2026-09-09 10:00', deadline:'2026-09-15 23:59', eventEnd:'2026-09-18',
+      schedule:'2026.09.18(금) 10:00 ~ 12:00 (1회)',
+      presets:['morning'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=68&teach_idx=3581' },
+
+    { id:'phlib-3527', org:'포은오천도서관', orgShort:'포은오천',
+      title:'작가와의 만남 — 진수경 작가 (부모 동반)',
+      place:'포은오천도서관 2층 소리마루', target:'초등1~6학년 및 학부모', fee:'무료',
+      capacity:60, enrolled:35, waitCapacity:0, waitEnrolled:0,
+      openAt:'2026-08-25 10:00', deadline:'2026-09-10 17:00', eventEnd:'2026-09-12',
+      schedule:'2026.09.12(토) 14:00 ~ 15:30 (1회)',
+      presets:['elem','weekend'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=80&teach_idx=3527' },
+
+    { id:'phlib-3561', org:'포은중앙도서관', orgShort:'포은중앙',
+      title:'작가와의 만남 2 — 박정우 작가',
+      place:'포은중앙도서관 3층 배움1터', target:'누구나', fee:'무료',
+      capacity:20, enrolled:13, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-08-27 10:00', deadline:'2026-09-09 23:59', eventEnd:'2026-09-12',
+      schedule:'2026.09.12(토) 13:00 ~ 14:00 (1회)',
+      presets:['weekend'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=136&teach_idx=3561' },
+
+    { id:'phlib-3576', org:'솔개재작은도서관', orgShort:'솔개재',
+      title:'(추가모집) 그림책 속 문학여행',
+      place:'솔개재작은도서관', target:'초등 1~3학년', fee:'무료',
+      capacity:3, enrolled:0, waitCapacity:2, waitEnrolled:0,
+      openAt:'2026-08-29 10:00', deadline:'2026-09-12 15:00', eventEnd:'2026-11-27',
+      schedule:'2026.09.04 ~ 11.27 매주 금 16:00 ~ 18:00',
+      presets:['elem'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3576' },
+
+    { id:'phlib-3541', org:'동해석곡도서관', orgShort:'동해석곡',
+      title:'시간여행 독서여행사 (독서의 달)',
+      place:'동해석곡도서관', target:'초등1~6학년', fee:'무료',
+      capacity:10, enrolled:8, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-08-26 10:00', deadline:'2026-09-05 17:00', eventEnd:'2026-09-06',
+      schedule:'2026.09.06(일) 10:00 ~ 12:00 (1회)',
+      presets:['elem','weekend'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=86&teach_idx=3541' },
+
+    { id:'phlib-3578', org:'동해석곡도서관', orgShort:'동해석곡',
+      title:'어린이 독서회 (하반기)',
+      place:'동해석곡도서관 3층 다목적실', target:'초등학생 1~6학년', fee:'무료',
+      capacity:13, enrolled:9, waitCapacity:3, waitEnrolled:0,
+      openAt:'2026-09-02 10:00', deadline:'2026-09-12 17:00', eventEnd:'2026-11-08',
+      schedule:'2026.09.13 ~ 11.08 매주 일 10:00 ~ 12:00',
+      presets:['elem','weekend'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=81&teach_idx=3578' },
+
+    { id:'phlib-3480', org:'어린이영어도서관', orgShort:'어린이영어',
+      title:'(초등2-4) Smart Reading 2.1',
+      place:'어린이영어도서관 다목적실', target:'초등2~4학년(2016~18년생)', fee:'무료',
+      capacity:14, enrolled:11, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-08-10 10:00', deadline:'2026-09-06 18:00', eventEnd:'2026-12-18',
+      schedule:'2026.08.28 ~ 12.18 매주 금 16:00 ~ 17:00',
+      presets:['elem'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3480' },
+
+    { id:'phlib-3481', org:'어린이영어도서관', orgShort:'어린이영어',
+      title:'(초등2-4) Story와 함께하는 영어 1',
+      place:'어린이영어도서관 다목적실', target:'초등2~4학년(2016~18년생)', fee:'무료',
+      capacity:14, enrolled:12, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-08-10 10:00', deadline:'2026-09-06 18:00', eventEnd:'2026-12-17',
+      schedule:'2026.08.27 ~ 12.17 매주 목 16:05 ~ 16:55',
+      presets:['elem'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3481' },
+
+    { id:'phlib-3575', org:'연일 미르작은도서관', orgShort:'연일 미르',
+      title:'옛이야기에서 얻는 삶의 지혜 (그림책 독서회)',
+      place:'연일 미르작은도서관', target:'성인', fee:'무료',
+      capacity:8, enrolled:4, waitCapacity:4, waitEnrolled:0,
+      openAt:'2026-08-27 10:00', deadline:'2026-09-16 18:00', eventEnd:'2026-12-18',
+      schedule:'2026.09.18 ~ 12.18 매주 금 10:00 ~ 12:00',
+      presets:['morning'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3575' },
+
+    { id:'phlib-3516', org:'효곡 그린숲 작은도서관', orgShort:'효곡 그린숲',
+      title:'문해력을 높이는 초등한자',
+      place:'효곡 그린숲 작은도서관', target:'초등1~3학년', fee:'무료',
+      capacity:6, enrolled:6, waitCapacity:3, waitEnrolled:2,
+      openAt:'2026-08-11 10:00', deadline:'2026-09-11 14:00', eventEnd:'2026-09-12',
+      schedule:'2026.09.12(토) 10:30 ~ 11:40 (1회)',
+      presets:['elem','weekend'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3516' },
+
+    { id:'phlib-3573', org:'연일 미르작은도서관', orgShort:'연일 미르',
+      title:'꽃을 만나다 — 원데이 플라워 클래스',
+      place:'연일 미르작은도서관', target:'성인', fee:'무료',
+      capacity:7, enrolled:7, waitCapacity:4, waitEnrolled:0,
+      openAt:'2026-08-27 10:00', deadline:'2026-09-09 18:00', eventEnd:'2026-09-11',
+      schedule:'2026.09.11(금) 10:00 ~ 12:00 (1회)',
+      presets:['morning'],
+      url:'https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3573' },
+
+    /* ── 경상북도교육청 영일도서관 (흥해읍) ── */
+    { id:'gbelib-yi-16256', org:'경상북도교육청 영일도서관', orgShort:'영일',
+      title:'사이언스 매직쇼',
+      place:'영일도서관 제2평생학습실 (흥해읍)', target:'초등학생', fee:'무료',
+      capacity:60, enrolled:0, waitCapacity:7, waitEnrolled:0,
+      openAt:'2026-09-08 10:30', deadline:'2026-09-17 23:59', eventEnd:'2026-09-19',
+      schedule:'2026.09.19(토) 14:00 ~ 15:00 (1회)',
+      presets:['elem','weekend'],
+      url:'https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=2&teach_idx=16256' },
+
+    { id:'gbelib-yi-16253', org:'경상북도교육청 영일도서관', orgShort:'영일',
+      title:'석고방향제 만들기 (A반)',
+      place:'영일도서관 제2평생학습실 (흥해읍)', target:'초등 1~3학년', fee:'무료',
+      capacity:20, enrolled:0, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-09-08 10:30', deadline:'2026-09-10 23:59', eventEnd:'2026-09-13',
+      schedule:'2026.09.13(일) 14:00 ~ 15:00 (1회)',
+      presets:['elem','weekend'],
+      url:'https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=2&teach_idx=16253' },
+
+    { id:'gbelib-yi-16254', org:'경상북도교육청 영일도서관', orgShort:'영일',
+      title:'석고방향제 만들기 (B반)',
+      place:'영일도서관 제2평생학습실 (흥해읍)', target:'초등 4~6학년', fee:'무료',
+      capacity:20, enrolled:0, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-09-08 10:30', deadline:'2026-09-11 23:59', eventEnd:'2026-09-13',
+      schedule:'2026.09.13(일) 15:20 ~ 16:20 (1회)',
+      presets:['elem','weekend'],
+      url:'https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=2&teach_idx=16254' },
+
+    { id:'gbelib-yi-16255', org:'경상북도교육청 영일도서관', orgShort:'영일',
+      title:'꿈으로 인문학 — 카카오프렌즈 제작 스토리',
+      place:'영일도서관 제2평생학습실 (흥해읍)', target:'초등 4~6학년', fee:'무료',
+      capacity:30, enrolled:20, waitCapacity:7, waitEnrolled:0,
+      openAt:'2026-09-01 10:30', deadline:'2026-09-10 23:59', eventEnd:'2026-09-12',
+      schedule:'2026.09.12(토) 14:00 ~ 16:00 (1회)',
+      presets:['elem','weekend'],
+      url:'https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=2&teach_idx=16255' },
+
+    { id:'gbelib-yi-16351', org:'경상북도교육청 영일도서관', orgShort:'영일',
+      title:'미래교육 학부모 아카데미 4강',
+      place:'영일도서관 제2평생학습실 (흥해읍)', target:'학부모 및 지역민', fee:'무료',
+      capacity:20, enrolled:19, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-09-01 10:00', deadline:'2026-10-12 18:00', eventEnd:'2026-10-14',
+      schedule:'2026.10.14(수) 10:00 ~ 12:00 (1회)',
+      presets:['morning'],
+      url:'https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=3&teach_idx=16351' },
+
+    { id:'gbelib-yi-16350', org:'경상북도교육청 영일도서관', orgShort:'영일',
+      title:'미래교육 학부모 아카데미 5강',
+      place:'영일도서관 제2평생학습실 (흥해읍)', target:'학부모 및 지역민', fee:'무료',
+      capacity:20, enrolled:19, waitCapacity:5, waitEnrolled:0,
+      openAt:'2026-09-01 10:00', deadline:'2026-10-19 18:00', eventEnd:'2026-10-21',
+      schedule:'2026.10.21(수) 10:00 ~ 12:00 (1회)',
+      presets:['morning'],
+      url:'https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=3&teach_idx=16350' },
+
+    /* ── 경상북도교육청과학원 (북구 우미길) ──
+       정원 6가족 선착순. 알림이 없으면 사실상 잡을 수 없는 유형입니다.
+       회차가 11월까지 미리 공개돼 알림을 걸어둘 수 있습니다. */
+    { id:'gsei-astro-4', org:'경상북도교육청과학원', orgShort:'과학원',
+      title:'가족천체관측교실 4회',
+      place:'경상북도교육청과학원 (북구 우미길 93)', target:'가족 (2~5인)', fee:'무료',
+      capacity:6, enrolled:0, waitCapacity:2, waitEnrolled:0,
+      openAt:'2026-09-09 09:00', deadline:'2026-09-14 23:59', eventEnd:'2026-09-16',
+      schedule:'2026.09.16(수) 19:00 ~ 21:30 (1회)',
+      presets:['kid','elem'],
+      url:'https://www.gbe.kr/gsei/eq/view/selectEqList.do?mi=10867' },
+
+    { id:'gsei-astro-5', org:'경상북도교육청과학원', orgShort:'과학원',
+      title:'가족천체관측교실 5회',
+      place:'경상북도교육청과학원 (북구 우미길 93)', target:'가족 (2~5인)', fee:'무료',
+      capacity:6, enrolled:0, waitCapacity:2, waitEnrolled:0,
+      openAt:'2026-09-23 09:00', deadline:'2026-09-28 23:59', eventEnd:'2026-09-30',
+      schedule:'2026.09.30(수) 19:00 ~ 21:30 (1회)',
+      presets:['kid','elem'],
+      url:'https://www.gbe.kr/gsei/eq/view/selectEqList.do?mi=10867' },
+
+    { id:'gsei-astro-6', org:'경상북도교육청과학원', orgShort:'과학원',
+      title:'가족천체관측교실 6회',
+      place:'경상북도교육청과학원 (북구 우미길 93)', target:'가족 (2~5인)', fee:'무료',
+      capacity:6, enrolled:0, waitCapacity:2, waitEnrolled:0,
+      openAt:'2026-10-14 09:00', deadline:'2026-10-19 23:59', eventEnd:'2026-10-21',
+      schedule:'2026.10.21(수) 19:00 ~ 21:30 (1회)',
+      presets:['kid','elem'],
+      url:'https://www.gbe.kr/gsei/eq/view/selectEqList.do?mi=10867' },
+
+    { id:'gsei-astro-7', org:'경상북도교육청과학원', orgShort:'과학원',
+      title:'가족천체관측교실 7회',
+      place:'경상북도교육청과학원 (북구 우미길 93)', target:'가족 (2~5인)', fee:'무료',
+      capacity:6, enrolled:0, waitCapacity:2, waitEnrolled:0,
+      openAt:'2026-11-04 09:00', deadline:'2026-11-09 23:59', eventEnd:'2026-11-11',
+      schedule:'2026.11.11(수) 19:00 ~ 21:30 (1회)',
+      presets:['kid','elem'],
+      url:'https://www.gbe.kr/gsei/eq/view/selectEqList.do?mi=10867' },
+
+    { id:'gsei-astro-8', org:'경상북도교육청과학원', orgShort:'과학원',
+      title:'가족천체관측교실 8회',
+      place:'경상북도교육청과학원 (북구 우미길 93)', target:'가족 (2~5인)', fee:'무료',
+      capacity:6, enrolled:0, waitCapacity:2, waitEnrolled:0,
+      openAt:'2026-11-18 09:00', deadline:'2026-11-23 23:59', eventEnd:'2026-11-25',
+      schedule:'2026.11.25(수) 19:00 ~ 21:30 (1회)',
+      presets:['kid','elem'],
+      url:'https://www.gbe.kr/gsei/eq/view/selectEqList.do?mi=10867' },
+
+    /* ── 전시 (접수 없이 관람) ──
+       eventEnd 가 지나면 자동으로 사라집니다. 예전에는 종료일이 없어
+       끝난 전시가 계속 '상시 관람'으로 남아 있었습니다. */
+    { id:'phcf-achim', org:'동빈문화창고1969', orgShort:'동빈창고',
+      title:'2026 지역전시 <아침놀>',
+      place:'동빈문화창고1969 (북구 삼호로)', target:'누구나', fee:'무료 관람',
+      capacity:null, enrolled:null, waitCapacity:0, waitEnrolled:0,
+      openAt:null, deadline:null, eventEnd:'2026-09-30',
+      schedule:'2026.08.21 ~ 09.30 10:00~18:00 · 월요일·추석 당일 휴관',
+      presets:['outing','weekend'],
+      url:'https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260821_001&menu_site_id=performance_detail' },
+
+    { id:'phcf-kkum', org:'SPACE 298 꿈틀로', orgShort:'SPACE 298',
+      title:'꿈틀로 기획전시 <꿈의 항로>',
+      place:'SPACE 298 (중앙동 꿈틀로)', target:'누구나', fee:'무료 관람',
+      capacity:null, enrolled:null, waitCapacity:0, waitEnrolled:0,
+      openAt:null, deadline:null, eventEnd:'2026-09-26',
+      schedule:'2026.07.28 ~ 09.26 10:00~18:00 · 일·월요일 및 공휴일 휴관',
+      presets:['outing','weekend'],
+      url:'https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260728_001&menu_site_id=performance_detail' }
   ];
 
   var TIP = '💡 Tip: 아이 이름으로 도서관 회원가입·로그인을 미리 해두세요. 선착순은 로그인 시간에서 갈립니다.';
@@ -812,7 +862,9 @@
   var PARTNERS = [
     '포은중앙도서관', '포은오천도서관', '포은흥해도서관', '어린이영어도서관',
     '구룡포도서관', '대잠도서관', '영암도서관', '동해석곡도서관',
-    '연일 미르작은도서관', '효곡 행복작은도서관', '(재)포항문화재단',
+    '연일 미르작은도서관', '효곡 행복작은도서관', '솔개재작은도서관',
+    '환여 해맞이꿈터작은도서관', '효곡 그린숲 작은도서관',
+    '경상북도교육청 영일도서관', '경상북도교육청과학원', '(재)포항문화재단',
     '동빈문화창고1969', 'SPACE 298 꿈틀로', '포항문화예술회관', '포항시립미술관(POMA)'
   ];
 
@@ -837,11 +889,54 @@
   function readLS(k, fb) { try { return JSON.parse(localStorage.getItem(k)) || fb; } catch (e) { return fb; } }
   function writeLS(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 
+  var WEEK = ['일', '월', '화', '수', '목', '금', '토'];
+
+  /* '2026-09-08' 과 '2026-09-08 10:30' 을 모두 받습니다.
+     선착순은 10:00 과 10:30 이 생사를 가르므로 시각까지 살립니다. */
+  function toDate(s) {
+    if (!s) return null;
+    var p = String(s).split(/[-\s:]+/);
+    return new Date(+p[0], +p[1] - 1, +p[2], +(p[3] || 0), +(p[4] || 0));
+  }
+
+  function endOfDay(s) {
+    var p = String(s).split(/[-\s:]+/);
+    return new Date(+p[0], +p[1] - 1, +p[2], 23, 59, 59);
+  }
+
   function daysUntil(iso) {
     var t = new Date(); t.setHours(0, 0, 0, 0);
-    var p = iso.split('-');
+    var p = String(iso).slice(0, 10).split('-');
     var d = new Date(+p[0], +p[1] - 1, +p[2]);
     return Math.round((d - t) / 86400000);
+  }
+
+  /* '2026-09-08 10:30' → '09.08(화) 10:30' */
+  function fmtDT(s) {
+    if (!s) return '';
+    var d = toDate(s), p = String(s).split(/[-\s:]+/);
+    return p[1] + '.' + p[2] + '(' + WEEK[d.getDay()] + ')' + (p[3] ? ' ' + p[3] + ':' + p[4] : '');
+  }
+
+  function hhmm(s) {
+    var p = String(s).split(/[-\s:]+/);
+    return p[3] ? p[3] + ':' + p[4] : '';
+  }
+
+  /* 접수 기간 문구는 데이터에서 만듭니다 — 손으로 적으면 날짜와 어긋납니다 */
+  function applyPeriodText(ev) {
+    if (!ev.openAt && !ev.deadline) return '접수 없이 현장 관람';
+    return fmtDT(ev.openAt) + ' ~ ' + fmtDT(ev.deadline);
+  }
+
+  function seatsLeft(ev) {
+    if (ev.capacity == null || ev.enrolled == null) return null;
+    return Math.max(0, ev.capacity - ev.enrolled);
+  }
+
+  function waitLeft(ev) {
+    if (!ev.waitCapacity) return 0;
+    return Math.max(0, ev.waitCapacity - (ev.waitEnrolled || 0));
   }
 
   var likes = readLS(LS_LIKE, []);
@@ -990,10 +1085,14 @@
      선착순 1분 컷 프로그램은 접수가 열리는 순간을 알아야 신청할 수 있기 때문에,
      아직 접수 전인 건은 'upcoming' 으로 따로 표시합니다. */
   function phase(ev) {
-    if (ev.status === 'always')    return 'always';
-    if (ev.status === 'firstcome') return 'open';
-    if (ev.openAt && daysUntil(ev.openAt) > 0) return 'upcoming';
-    if (ev.deadline && daysUntil(ev.deadline) < 0) return 'closed';
+    var now = new Date();
+    /* 행사까지 끝나면 스스로 사라집니다 — 자동 파기는 여기 한 줄이 전부입니다.
+       상태를 저장하지 않으므로 수집이 며칠 멈춰도 옛 프로그램이 남지 않습니다. */
+    if (ev.eventEnd && now > endOfDay(ev.eventEnd))    return 'ended';
+    if (!ev.openAt && !ev.deadline)                    return 'always';
+    if (ev.openAt && now < toDate(ev.openAt))          return 'upcoming';
+    if (ev.deadline && now > toDate(ev.deadline))      return 'closed';
+    if (ev.capacity && ev.enrolled >= ev.capacity)     return 'full';
     return 'open';
   }
 
@@ -1001,11 +1100,20 @@
     var p = phase(ev);
     if (p === 'always')   return { text: '🗓️ 상시 관람', cls: 'bg-slate-100 text-slate-500 border-slate-200' };
     if (p === 'closed')   return { text: '접수 마감',     cls: 'bg-slate-100 text-slate-400 border-slate-200' };
-    if (p === 'upcoming') {
-      var o = daysUntil(ev.openAt);
-      return { text: '🔔 D-' + o + ' 접수 시작', cls: 'bg-blue-50 text-blue-700 border-blue-200' };
+    if (p === 'full') {
+      return waitLeft(ev) > 0
+        ? { text: '정원 마감 · 대기 ' + waitLeft(ev) + '자리', cls: 'bg-amber-50 text-amber-700 border-amber-200' }
+        : { text: '정원 마감',                                 cls: 'bg-slate-100 text-slate-400 border-slate-200' };
     }
-    if (ev.status === 'firstcome') return { text: '⚠️ 선착순 마감중', cls: 'bg-rose-50 text-rose-600 border-rose-200' };
+    if (p === 'upcoming') {
+      var o = daysUntil(ev.openAt), t = hhmm(ev.openAt);
+      return {
+        text: o === 0 ? '🔔 오늘 ' + t + ' 접수 시작'
+            : o === 1 ? '🔔 내일 ' + t + ' 접수 시작'
+            : '🔔 D-' + o + ' 접수 시작',
+        cls: o <= 1 ? 'bg-blue-600 text-white border-blue-600' : 'bg-blue-50 text-blue-700 border-blue-200'
+      };
+    }
     var d = daysUntil(ev.deadline);
     if (d === 0) return { text: '⚠️ 오늘 마감',   cls: 'bg-rose-50 text-rose-600 border-rose-200' };
     if (d <= 3)  return { text: '⚠️ 마감 D-' + d, cls: 'bg-rose-50 text-rose-600 border-rose-200' };
@@ -1013,14 +1121,32 @@
     return { text: '마감 D-' + d, cls: 'bg-slate-100 text-slate-500 border-slate-200' };
   }
 
-  function isUrgent(ev) {
-    if (phase(ev) !== 'open') return false;
-    if (ev.status === 'firstcome') return true;
-    var d = daysUntil(ev.deadline);
-    return d >= 0 && d <= 3;
+  /* 「작은 정원 · 선착순」을 전면에 세우는 배지.
+     정원 6명이라는 숫자가 'D-4' 보다 훨씬 강하게 행동을 만듭니다. */
+  function seatsBadge(ev) {
+    var p = phase(ev);
+    if (ev.capacity == null) return null;
+
+    if (p === 'upcoming') {
+      return ev.capacity <= 12
+        ? { text: '⚡ 단 ' + ev.capacity + '명 정원', cls: 'bg-rose-50 text-rose-700 border-rose-200' }
+        : { text: '정원 ' + ev.capacity + '명',       cls: 'bg-slate-100 text-slate-500 border-slate-200' };
+    }
+    if (p === 'open') {
+      var left = seatsLeft(ev);
+      if (left === null) return null;
+      if (left <= 3)  return { text: '⚡ 단 ' + left + '자리 남음', cls: 'bg-rose-50 text-rose-700 border-rose-200' };
+      if (left <= 10) return { text: left + '자리 남음',            cls: 'bg-amber-50 text-amber-700 border-amber-200' };
+      return { text: left + '자리 남음',                            cls: 'bg-slate-100 text-slate-500 border-slate-200' };
+    }
+    return null;
   }
+
+  function isSmall(ev)    { return ev.capacity != null && ev.capacity <= 12; }
+  function isUrgent(ev)   { return phase(ev) === 'open' && daysUntil(ev.deadline) <= 3; }
   function isOpen(ev)     { return phase(ev) === 'open' || phase(ev) === 'always'; }
   function isUpcoming(ev) { return phase(ev) === 'upcoming'; }
+  function isLive(ev)     { return phase(ev) !== 'ended'; }
 
   /* ═══════════════ 카드 렌더 ═══════════════ */
 
@@ -1049,6 +1175,7 @@
 
   function cardHtml(ev) {
     var b = ddayBadge(ev);
+    var sb = seatsBadge(ev);
     var picked = likes.indexOf(ev.id) !== -1;
     var done = isSubmitted(ev.id);
 
@@ -1056,18 +1183,25 @@
     '<article id="card-' + ev.id + '" class="card bg-white rounded-2xl border border-slate-200/90 shadow-sm p-4">' +
 
       /* 상단: 기관 배지 + D-Day + 찜 */
-      '<div class="flex items-center gap-1.5">' +
-        '<span class="text-[11.5px] font-bold text-slate-600 bg-slate-100 border border-slate-200 rounded-md px-2 py-1 truncate max-w-[46%]">' +
+      /* 배지가 셋(기관 · 상태 · 정원)이라 좁은 화면에서는 줄을 바꿉니다.
+         한 줄에 욱여넣으면 기관명이 '어린...' 처럼 잘려 쓸모가 없어집니다. */
+      '<div class="flex flex-wrap items-center gap-1.5">' +
+        '<span class="text-[11.5px] font-bold text-slate-600 bg-slate-100 border border-slate-200 rounded-md px-2 py-1">' +
           esc(ev.org) +
         '</span>' +
         '<span class="text-[11.5px] font-bold border rounded-md px-2 py-1 whitespace-nowrap ' + b.cls + '">' +
           esc(b.text) +
         '</span>' +
+        (sb
+          ? '<span class="text-[11.5px] font-bold border rounded-md px-2 py-1 whitespace-nowrap ' + sb.cls + '">' +
+              esc(sb.text) +
+            '</span>'
+          : '') +
         /* 상단은 상태만 표시합니다 (행동은 하단 버튼이 담당).
            하트는 '좋아요'라는 상징이 강한데 실제로는 담기 기능이라 오해를 사고,
            하단 알림받기와 동작이 겹쳐서 없앴습니다. */
         (done
-          ? '<span class="ml-auto shrink-0 inline-flex items-center gap-1 text-[11.5px] font-bold ' +
+          ? '<span class="shrink-0 inline-flex items-center gap-1 text-[11.5px] font-bold ' +
             'text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-md px-2 py-1 whitespace-nowrap">' +
               '<i data-lucide="check" class="w-3 h-3"></i>알림 신청함' +
             '</span>'
@@ -1088,7 +1222,7 @@
       '<div class="mt-3.5 bg-slate-50 border border-slate-200/80 rounded-xl p-3 space-y-2.5">' +
         '<div class="flex gap-2.5">' +
           '<span class="text-[12px] font-bold ' + (phase(ev) === 'upcoming' ? 'text-blue-700' : 'text-rose-600') + ' whitespace-nowrap shrink-0">⏰ 접수 기간</span>' +
-          '<span class="text-[12.5px] text-slate-600 leading-snug">' + esc(ev.applyPeriod) + '</span>' +
+          '<span class="text-[12.5px] text-slate-600 leading-snug">' + esc(applyPeriodText(ev)) + '</span>' +
         '</div>' +
         '<div class="h-px bg-slate-200"></div>' +
         '<div class="flex gap-2.5">' +
@@ -1134,16 +1268,24 @@
   }
 
   function renderCards() {
-    var list = activePreset === 'all'
-      ? EVENTS.slice()
-      : EVENTS.filter(function (e) { return e.presets.indexOf(activePreset) !== -1; });
+    /* 끝난 프로그램은 여기서 걸러집니다 — 데이터를 지우지 않아도 화면에서 사라집니다 */
+    var list = EVENTS.filter(isLive);
 
-    /* 접수중(마감 임박순) → 접수 예정(오픈 임박순) → 상시 → 마감 */
-    var RANK = { open: 0, upcoming: 1, always: 2, closed: 3 };
+    if (activePreset === 'small') {
+      list = list.filter(isSmall);
+    } else if (activePreset !== 'all') {
+      list = list.filter(function (e) { return e.presets.indexOf(activePreset) !== -1; });
+    }
+
+    /* 「곧 열리는, 정원 작은 것」이 위로 옵니다.
+       이 서비스가 실제로 쓸모 있는 순간이 그때이기 때문입니다 —
+       정원 60명은 알림이 없어도 신청되지만, 6명은 알림이 없으면 못 잡습니다. */
+    var RANK = { upcoming: 0, open: 1, full: 2, always: 3, closed: 4 };
     function key(ev) {
       var p = phase(ev);
-      if (p === 'open')     return daysUntil(ev.deadline || '2999-12-31');
-      if (p === 'upcoming') return daysUntil(ev.openAt);
+      /* 날짜가 1순위, 정원 크기가 동점자 결정 (작을수록 위로) */
+      if (p === 'upcoming') return daysUntil(ev.openAt) * 100 + Math.min(ev.capacity || 99, 99);
+      if (p === 'open')     return daysUntil(ev.deadline) * 100 + Math.min(seatsLeft(ev) == null ? 99 : seatsLeft(ev), 99);
       return 0;
     }
     list.sort(function (a, b) {
@@ -1428,7 +1570,8 @@
         org: ev.orgShort,
         openAt: ev.openAt || '',
         deadline: ev.deadline || '',
-        applyPeriod: ev.applyPeriod || ''
+        applyPeriod: applyPeriodText(ev),
+        capacity: ev.capacity == null ? '' : ev.capacity
       };
     }).filter(Boolean);
 
@@ -1559,17 +1702,18 @@
      아직 접수 전이라 알림이 실제로 필요한 대상이고, 판단 근거가 날짜라 명확합니다.
      접수 예정이 하나도 없으면 마감이 임박한 접수중 강좌로 대체합니다. */
   var FEATURED = EVENTS.filter(isUpcoming).sort(function (a, b) {
-    return daysUntil(a.openAt) - daysUntil(b.openAt);
+    /* 같은 날 열리면 정원이 작은 쪽을 띄웁니다 — 알림이 더 절실한 쪽입니다 */
+    var d = daysUntil(a.openAt) - daysUntil(b.openAt);
+    return d !== 0 ? d : (a.capacity || 99) - (b.capacity || 99);
   })[0];
 
   var FEATURED_UPCOMING = !!FEATURED;
 
   if (!FEATURED) {
-    FEATURED = EVENTS.filter(function (e) {
-      return phase(e) === 'open' && e.status === 'dday';
-    }).sort(function (a, b) {
-      return daysUntil(a.deadline) - daysUntil(b.deadline);
-    })[0] || EVENTS[0];
+    FEATURED = EVENTS.filter(function (e) { return phase(e) === 'open'; })
+      .sort(function (a, b) {
+        return daysUntil(a.deadline) - daysUntil(b.deadline);
+      })[0] || EVENTS.filter(isLive)[0];
   }
 
   var bar = $('#floatingBar .floating-bar');
