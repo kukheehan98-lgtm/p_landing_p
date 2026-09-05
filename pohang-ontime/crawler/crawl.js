@@ -42,29 +42,68 @@ const MIN_ROWS = { 'phlib': 20, 'gbelib-yi': 5, 'gsei': 3 };
 /* 기관 사이트가 왜 막혔는지는 상태 코드만 봐서는 알기 어렵습니다.
    접속 자체가 안 된 건지, 차단당한 건지, 페이지가 바뀐 건지 구분되도록
    실패 사유를 그대로 남깁니다. */
+/* 기관 사이트가 첫 방문에 세션 쿠키를 심고, 그게 없으면 목록을 안 주는
+   경우가 있습니다. 도메인별로 쿠키를 기억해 다음 요청에 실어 보냅니다. */
+const jar = new Map();
+
+function cookieFor(url) {
+  return jar.get(new URL(url).host) || '';
+}
+
+function rememberCookies(url, res) {
+  const set = res.headers.getSetCookie ? res.headers.getSetCookie() : [];
+  if (!set.length) return;
+  const host = new URL(url).host;
+  const have = new Map(
+    (jar.get(host) || '').split('; ').filter(Boolean).map(c => [c.split('=')[0], c])
+  );
+  for (const c of set) {
+    const pair = c.split(';')[0];
+    have.set(pair.split('=')[0], pair);
+  }
+  jar.set(host, [...have.values()].join('; '));
+}
+
 async function get(url) {
   let res;
+  const headers = {
+    /* 기본 헤더만 보내면 거르는 기관 사이트가 있습니다 */
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8'
+  };
+  const cookie = cookieFor(url);
+  if (cookie) headers.Cookie = cookie;
+
   try {
-    res = await fetch(url, {
-      headers: {
-        /* 기본 헤더만 보내면 거르는 기관 사이트가 있습니다 */
-        'User-Agent': 'Mozilla/5.0 (compatible; culturepick-pohang/1.0; +https://github.com/kukheehan98-lgtm/p_landing_p)',
-        'Accept': 'text/html,application/xhtml+xml',
-        'Accept-Language': 'ko-KR,ko;q=0.9'
-      },
-      redirect: 'follow',
-      signal: AbortSignal.timeout(30000)
-    });
+    res = await fetch(url, { headers, redirect: 'follow', signal: AbortSignal.timeout(30000) });
   } catch (err) {
     throw new Error(`접속 실패 (${err.name}: ${err.message}) ${url}`);
   }
+  rememberCookies(url, res);
+
   if (!res.ok) throw new Error(`HTTP ${res.status} ${url}`);
   const body = await res.text();
-  if (body.length < 500) throw new Error(`응답이 ${body.length}자뿐 — 차단 가능성 ${url}`);
+  if (body.length < 500) {
+    /* 무엇이 돌아왔는지 알아야 차단인지 세션 문제인지 구분됩니다 */
+    const peek = body.replace(/\s+/g, ' ').slice(0, 220);
+    throw new Error(`응답이 ${body.length}자뿐 — ${url}\n      돌아온 내용: ${peek}`);
+  }
   return body;
 }
 
+/* 목록을 요청하기 전에 기관 첫 화면을 한 번 열어 세션을 받아둡니다 */
+async function warmUp(src) {
+  try {
+    await get(src.base + '/');
+  } catch (err) {
+    /* 첫 화면이 안 열려도 목록은 될 수 있으니 그냥 넘어갑니다 */
+  }
+  await sleep(DELAY_MS);
+}
+
 async function collectSource(src) {
+  await warmUp(src);
   const rows = parseList(await get(src.base + src.listPath), src);
   console.log(`  ${src.name}: 목록 ${rows.length}건`);
 
