@@ -41,11 +41,21 @@ jobs:
       - name: 결과와 실행 기록 커밋
         if: always()
         run: |
+          LOG=pohang-ontime/crawler/last-run.log
+          {
+            echo "--- 만들어진 파일 ---"
+            ls -la pohang-ontime/data 2>&1 || echo "data 폴더 없음"
+            echo "--- 바뀐 파일 ---"
+            git status --porcelain
+          } >> "$LOG"
+
           git config user.name  "culturepick-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # data/ 는 첫 성공 전에는 없습니다. 없는 경로를 짚으면 add 가 실패해
           # 기록조차 남지 않으므로, 폴더 전체를 넘깁니다.
           git add -A pohang-ontime
+          # .gitignore 의 *.log 규칙에 걸리므로 실행 기록은 강제로 포함합니다
+          git add -f "$LOG"
           if git diff --cached --quiet; then
             echo "바뀐 내용 없음 — 커밋하지 않습니다"
           else
