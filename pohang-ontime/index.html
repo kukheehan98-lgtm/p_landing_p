@@ -1486,19 +1486,23 @@
     });
   }
 
-  /* 신청 저장 + 전송. 전송 실패 시 큐에 적재 */
-  function saveSignup(entry) {
+  /* 신청을 브라우저에 먼저 남깁니다. 이 한 줄이 끝나면 신청은 잃지 않습니다.
+     화면은 여기까지만 기다리면 됩니다. */
+  function recordSignup(entry) {
     writeLS(LS_SIGNUP, readLS(LS_SIGNUP, []).concat([entry]));
-    if (!isConnected()) {
+  }
+
+  /* 전송은 화면을 막지 않고 뒤에서 진행합니다.
+     Apps Script 는 한동안 쓰이지 않으면 깨어나는 데 10초 가까이 걸립니다.
+     그 시간을 「신청 처리 중…」으로 붙잡아 두면, 접수가 열려 급한 사람일수록
+     멈춘 줄 알고 나가버립니다. 실패하면 큐에 쌓아 다음 방문 때 자동으로
+     다시 올립니다 — 기다리게 할 이유가 없습니다. */
+  function sendSignup(entry) {
+    function queue() {
       writeLS(LS_QUEUE, readLS(LS_QUEUE, []).concat([entry]));
-      return Promise.resolve('local');
     }
-    return postSignup(entry)
-      .then(function () { return 'sent'; })
-      .catch(function () {
-        writeLS(LS_QUEUE, readLS(LS_QUEUE, []).concat([entry]));
-        return 'queued';
-      });
+    if (!isConnected()) { queue(); return; }
+    postSignup(entry).catch(queue);
   }
 
   /* ═══════════════ 토스트 ═══════════════ */
@@ -2064,35 +2068,38 @@
       at: new Date().toISOString()
     };
 
-    /* 전송 중 잠금 — 중복 제출 방지 */
+    /* 두 번 눌리는 것만 막습니다. 폼은 곧바로 완료 화면으로 바뀝니다. */
     var btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
     btn.classList.add('opacity-60');
-    btn.textContent = '신청 처리 중…';
 
-    saveSignup(entry).then(function () {
-      /* 신청한 강좌를 '신청함' 으로 옮기고 장바구니를 비웁니다.
-         그대로 두면 새로고침 후 같은 신청이 또 전송되어 시트에 중복 행이 쌓입니다. */
-      entry.likes.forEach(function (id) {
-        if (submitted.indexOf(id) === -1) submitted.push(id);
-      });
-      writeLS(LS_SUBMITTED, submitted);
-      likes.length = 0;
-      writeLS(LS_LIKE, likes);
+    /* 브라우저에 먼저 남긴 뒤 화면을 바로 넘깁니다 */
+    recordSignup(entry);
 
-      renderCards();     /* 카드에 '신청함' 반영 */
-      renderPicked();    /* 폼 목록 비우고 플로팅 바를 추천 모드로 복귀 */
-      showDone(entry);
-
-      /* 이름은 선택 항목이라 비어 있을 수 있습니다 */
-      var who = name ? name + '님, ' : '';
-      toast(entry.likeTitles.length
-        ? who + entry.likeTitles.length + '개 강좌의 접수 알림을 신청했어요!'
-        : who + entry.slot + ' 새 강좌 알림을 신청했어요!', 'party-popper');
-
-      /* Primary 지표 — 알림 신청 전환 */
-      track('signup', { slot: entry.slot, liked_count: entry.likes.length });
+    /* 신청한 강좌를 '신청함' 으로 옮기고 장바구니를 비웁니다.
+       그대로 두면 새로고침 후 같은 신청이 또 전송되어 시트에 중복 행이 쌓입니다. */
+    entry.likes.forEach(function (id) {
+      if (submitted.indexOf(id) === -1) submitted.push(id);
     });
+    writeLS(LS_SUBMITTED, submitted);
+    likes.length = 0;
+    writeLS(LS_LIKE, likes);
+
+    renderCards();     /* 카드에 '신청함' 반영 */
+    renderPicked();    /* 폼 목록 비우고 플로팅 바를 추천 모드로 복귀 */
+    showDone(entry);
+
+    /* 이름은 선택 항목이라 비어 있을 수 있습니다 */
+    var who = name ? name + '님, ' : '';
+    toast(entry.likeTitles.length
+      ? who + entry.likeTitles.length + '개 강좌의 접수 알림을 신청했어요!'
+      : who + entry.slot + ' 새 강좌 알림을 신청했어요!', 'party-popper');
+
+    /* Primary 지표 — 알림 신청 전환 */
+    track('signup', { slot: entry.slot, liked_count: entry.likes.length });
+
+    /* 전송은 뒤에서. 실패해도 큐에 남아 다음 방문 때 다시 올라갑니다. */
+    sendSignup(entry);
   });
 
   /* ═══════════════ 신청 완료 패널 ═══════════════ */
