@@ -1,4 +1,4 @@
-# ══════════════════════════════════════════════════════════════════
+﻿# ══════════════════════════════════════════════════════════════════
 #  한 번만 실행하면 됩니다.
 #  이 PC에 「매일 오전 9시 10분에 강좌를 수집한다」는 예약을 걸어둡니다.
 #
@@ -18,8 +18,12 @@ if (-not (Test-Path $script)) { throw "run-local.ps1 을 찾을 수 없습니다
 
 $name = '컬처픽 강좌 수집'
 
+# PowerShell 7 은 스토어 앱으로 깔리면 작업 스케줄러가 경로를 못 찾습니다
+# (0x80070002). 어느 윈도우에나 같은 자리에 있는 5.1 을 씁니다.
+$shell = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
+
 $action = New-ScheduledTaskAction `
-  -Execute 'pwsh.exe' `
+  -Execute $shell `
   -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$script`""
 
 $trigger = New-ScheduledTaskTrigger -Daily -At '09:10'

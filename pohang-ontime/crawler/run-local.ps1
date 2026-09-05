@@ -1,4 +1,4 @@
-# ══════════════════════════════════════════════════════════════════
+﻿# ══════════════════════════════════════════════════════════════════
 #  우리동네 컬처픽_포항 — 이 PC에서 도는 강좌 수집
 # ------------------------------------------------------------------
 #  포항시립도서관은 웹 방화벽이 해외 IP를 막아서 깃허브 서버에서는
@@ -28,16 +28,29 @@ Set-Content -Path $log -Value "실행 $(Get-Date -Format 'yyyy-MM-dd HH:mm')" -E
 Set-Location $repo
 
 try {
+  # 설치 직후에는 실행 중인 프로세스의 PATH 가 아직 낡아 있어 node 를 못 찾습니다.
+  # 그래서 표준 설치 위치까지 직접 살펴봅니다.
   $node = (Get-Command node -ErrorAction SilentlyContinue).Source
-  if (-not $node) { throw 'Node.js 가 없습니다. winget install OpenJS.NodeJS.LTS 로 설치하세요.' }
+  if (-not $node) {
+    foreach ($p in @(
+      (Join-Path $env:ProgramFiles 'nodejs\node.exe'),
+      (Join-Path ${env:ProgramFiles(x86)} 'nodejs\node.exe'),
+      (Join-Path $env:LOCALAPPDATA 'Programs\nodejs\node.exe')
+    )) {
+      if ($p -and (Test-Path $p)) { $node = $p; break }
+    }
+  }
+  if (-not $node) { throw 'Node.js 를 찾을 수 없습니다. winget install OpenJS.NodeJS.LTS 로 설치하세요.' }
+  Say "node: $node"
 
   # 깃허브 액션도 같은 파일을 고치므로, 먼저 받아와 어긋남을 없앱니다
   Say '저장소 갱신'
-  git pull --rebase --quiet origin main 2>&1 | ForEach-Object { Say "  $_" }
+  # --autostash: 직전 실행이 중간에 끊겨 남은 변경이 있어도 멈추지 않습니다
+  git pull --rebase --autostash --quiet origin main 2>&1 | ForEach-Object { Say "  $_" }
 
   Say '수집 시작'
   Push-Location $site
-  & node 'crawler/crawl.js' 2>&1 | ForEach-Object { Say "  $_" }
+  & $node 'crawler/crawl.js' 2>&1 | ForEach-Object { Say "  $_" }
   $code = $LASTEXITCODE
   Pop-Location
   if ($code -ne 0) { throw "수집이 실패했습니다 (종료 코드 $code)" }
