@@ -164,6 +164,7 @@ function toCard(ev) {
     deadline:  ev.deadline || null,
     eventEnd:  ev.eventTo || ev.eventFrom || null,
     schedule:  ev.schedule || scheduleText(ev),
+    applyRule: ev.applyRule || '',
     presets:   ev.presets || presetsFor(ev),
     url:       ev.url
   };

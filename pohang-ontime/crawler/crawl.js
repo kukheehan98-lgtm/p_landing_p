@@ -134,7 +134,8 @@ async function collectSource(src) {
         enrolled: seats ? +seats[1] : ev.enrolled,
         capacity: seats ? +seats[2] : ev.capacity,
         eventFrom: d.eventFrom || ev.eventFrom,
-        eventTo:   d.eventTo || d.eventFrom || ev.eventTo
+        eventTo:   d.eventTo || d.eventFrom || ev.eventTo,
+        applyRule: d.applyRule || ev.applyRule
       });
       looked++;
     } catch (err) {

@@ -139,6 +139,7 @@ function normalize(src, raw) {
     id:        src.key + '-' + raw.srcId,   // 기관코드-원본ID · 절대 바뀌지 않는 열쇠
     source:    src.key,
     kind:      raw.kind || '',              // 'exhibit' 이면 접수 없는 관람형
+    applyRule: raw.applyRule || '',         // 'own-id' | 'guest-ok' | '' (안내 없음)
     org:       raw.org || src.name,
     orgShort:  raw.orgShort || '',
     title:     raw.title || '',
@@ -486,8 +487,27 @@ function parseDetail(html) {
     eventTo:   (thValue(html, '강의기간').match(/\d{4}-\d{2}-\d{2}/g) || [])[1] || '',
     eventTime: thValue(html, '강의시간'),
     weekday:   thValue(html, '강의요일'),
-    seats:     thValue(html, '현재 참여 / 모집')
+    seats:     thValue(html, '현재 참여 / 모집'),
+    applyRule: applyRule(html)
   };
+}
+
+/* 신청이 실제로 되느냐를 가르는 정보입니다.
+   「수강생 본인 ID 로그인 필수」인 강좌가 있고, 「비회원 신청 가능」인 강좌도
+   있어서 하나로 단정할 수 없습니다. 안내가 적혀 있는 강좌만 그대로 옮기고,
+   없으면 비워 둡니다 — 없다고 해서 로그인이 필요 없다는 뜻은 아닙니다.
+
+   원문을 그대로 오려오면 「강사명」 같은 옆 칸까지 딸려와 지저분해지므로
+   짧은 표준 문구로 바꿉니다. */
+function applyRule(html) {
+  var t = clean(html.replace(/<script[\s\S]*?<\/script>/gi, ''));
+  if (/본인\s*ID|본인ID|수강\s*학생\s*본인|로그인\s*필수/.test(t)) {
+    return 'own-id';
+  }
+  if (/비회원\s*신청\s*가능/.test(t)) {
+    return 'guest-ok';
+  }
+  return '';
 }
 
 /* <th>이름</th><td>값</td> 에서 값만 꺼냅니다.
