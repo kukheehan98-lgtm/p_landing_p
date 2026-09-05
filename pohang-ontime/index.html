@@ -161,10 +161,9 @@
 
 
   /* ── 화면 하단 고정 영역 ──
-     Netlify 무료 플랜이 우측 하단에 197×64px 배지(iframe#nl-badge-frame)를 붙입니다.
-     그 위로 띄워 「알림 신청」 버튼이 가려지지 않게 합니다.
-     배지가 없는 호스팅으로 옮기면 --dock-bottom 을 16px 로 줄이면 됩니다. */
-  :root { --dock-bottom: 72px; }
+     예전에는 호스팅이 우측 하단에 배지를 붙여서 「알림 신청」 버튼을 가렸고,
+     그만큼 띄워 두어야 했습니다. 지금은 배지가 없어 화면 끝에 붙입니다. */
+  :root { --dock-bottom: 16px; }
 
   .floating-dock {
     position: fixed;
