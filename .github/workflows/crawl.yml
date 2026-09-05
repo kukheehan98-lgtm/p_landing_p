@@ -43,7 +43,9 @@ jobs:
         run: |
           git config user.name  "culturepick-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A pohang-ontime/data pohang-ontime/index.html pohang-ontime/crawler/last-run.log
+          # data/ 는 첫 성공 전에는 없습니다. 없는 경로를 짚으면 add 가 실패해
+          # 기록조차 남지 않으므로, 폴더 전체를 넘깁니다.
+          git add -A pohang-ontime
           if git diff --cached --quiet; then
             echo "바뀐 내용 없음 — 커밋하지 않습니다"
           else
