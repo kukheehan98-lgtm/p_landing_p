@@ -140,6 +140,20 @@
     flex: 0 0 20%;
   }
 
+  /* 모바일은 기존 폭, 넓은 화면은 한 줄에 두 장을 표시합니다. */
+  .page-shell { width: 100%; max-width: 28rem; }
+  @media (min-width: 768px) {
+    .page-shell { max-width: 1080px; }
+    .carousel {
+      margin: 0;
+      padding: 0 0 4px;
+      scroll-padding-left: 0;
+    }
+    .carousel > .card { flex-basis: calc((100% - 12px) / 2); scroll-margin-left: 0; }
+    .carousel::after { display: none; }
+    #notifySection { max-width: 28rem; margin-inline: auto; }
+  }
+
   .carousel-btn {
     flex: none; width: 32px; height: 32px;
     display: grid; place-items: center;
@@ -205,7 +219,7 @@
 
 <body class="bg-slate-50 text-slate-900 font-sans">
 
-<div class="max-w-md mx-auto bg-slate-50 min-h-screen pb-32">
+<div class="page-shell mx-auto bg-slate-50 min-h-screen pb-32">
 
   <!-- ══════════════ 1. HEADER ══════════════ -->
   <header class="px-5 pt-5 pb-4">
@@ -1843,7 +1857,6 @@
 
     $('#cardList').innerHTML = list.map(cardHtml).join('');
     $('#emptyState').classList.toggle('hidden', list.length > 0);
-    $('#carouselNav').classList.toggle('hidden', list.length < 2);
 
     var preset = PRESETS.filter(function (p) { return p.key === activePreset; })[0];
     $('#listTitle').textContent = activePreset === 'all' ? '전체 프로그램' : preset.label;
@@ -1954,21 +1967,25 @@
   function syncCarousel() {
     var cards = carousel.querySelectorAll('.card');
     var total = cards.length;
+    var visibleCount = Math.min(total, window.matchMedia('(min-width: 768px)').matches ? 2 : 1);
+    $('#carouselNav').classList.toggle('hidden', total <= visibleCount);
     if (!total) {
       $('#carouselCount').textContent = '0 / 0';
       $('#carouselProgress').style.width = '0%';
       return;
     }
+    var lastIndex = Math.max(0, total - visibleCount);
     var idx = Math.round(carousel.scrollLeft / cardStep());
-    idx = Math.max(0, Math.min(total - 1, idx));
+    idx = Math.max(0, Math.min(lastIndex, idx));
 
-    $('#carouselCount').textContent = (idx + 1) + ' / ' + total;
-    $('#carouselProgress').style.width = (total < 2 ? 100 : (idx / (total - 1)) * 100) + '%';
+    $('#carouselCount').textContent = (idx + 1) +
+      (visibleCount > 1 ? '–' + (idx + visibleCount) : '') + ' / ' + total;
+    $('#carouselProgress').style.width = (lastIndex === 0 ? 100 : (idx / lastIndex) * 100) + '%';
 
-    /* scroll-snap(mandatory) 때문에 scrollLeft 가 최대값까지 가지 않으므로
-       버튼 활성 여부는 스크롤 좌표가 아니라 카드 인덱스로 판단합니다. */
+    /* 두 장 보기에서는 마지막 두 장이 함께 보이면 끝입니다.
+       모바일은 기존처럼 마지막 한 장까지 넘길 수 있습니다. */
     $('[data-carousel="prev"]').disabled = idx <= 0;
-    $('[data-carousel="next"]').disabled = idx >= total - 1;
+    $('[data-carousel="next"]').disabled = idx >= lastIndex;
   }
 
   /* syncCarousel 은 DOM 읽기·쓰기 몇 번뿐이라 스크롤마다 바로 호출해도 무겁지 않습니다.
