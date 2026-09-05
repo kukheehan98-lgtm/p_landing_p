@@ -62,7 +62,10 @@
 | 파일 | 역할 |
 | --- | --- |
 | `apps-script.js` | 신청 접수 `doPost`. 시트에 한 줄씩 |
-| `crawler/apps-script-sender.js` | 문자 발송. `준비()` 로 대상 추출, `보내기()` 로 전송 |
+| `crawler/apps-script-sender.js` | 기존 수동 문자 발송. `준비()` 로 대상 추출, `보내기()` 로 전송 |
+| `apps-script-reminders.js` | 접수 15분 전 예약 발송. 운영 설치/시험 전에는 비활성 |
+
+15분 전 예약으로 전환하는 절차와 현재 검증 범위는 [SMS-15MIN-SETUP.md](SMS-15MIN-SETUP.md)를 참고하세요. 이 저장소를 배포해도 Google Apps Script에는 자동 반영되지 않습니다.
 
 > ⚠️ **저장소 파일에 API 키를 넣지 마세요.** 공개 저장소입니다. 키는 구글 앱스크립트 편집기 안에만 넣습니다.
 

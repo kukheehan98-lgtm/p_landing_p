@@ -328,10 +328,10 @@
           <i data-lucide="bell-ring" class="w-5 h-5"></i>
         </span>
         <div>
-          <h2 class="text-[18px] font-extrabold leading-snug">접수 열리는 날 아침, 카톡 알림</h2>
+          <h2 class="text-[18px] font-extrabold leading-snug">접수 열리는 15분 전, 문자 알림</h2>
           <p class="mt-1 text-[13.5px] text-slate-500 leading-relaxed">
             선착순은 시작 10분이 전부입니다. 담아두신 강좌의
-            <b class="text-slate-700">접수가 열리는 날 아침</b>에 알려드릴게요.
+            <b class="text-slate-700">접수 시작 15분 전</b>에 문자로 알려드릴게요.
           </p>
         </div>
       </div>
@@ -2224,8 +2224,8 @@
   function showDone(entry) {
     $('#doneSummary').innerHTML = (entry.name && entry.name !== '(미입력)' ? esc(entry.name) + '님, ' : '') +
       (entry.likeTitles.length
-        ? '아래 <b class="text-slate-700">' + entry.likeTitles.length + '개 강좌</b>의 접수가 열리는 날 아침에<br />' +
-          '<b class="text-slate-700">' + esc(entry.phone) + '</b> 으로 알려드릴게요.'
+        ? '아래 <b class="text-slate-700">' + entry.likeTitles.length + '개 강좌</b>의 접수 시작 15분 전<br />' +
+          '<b class="text-slate-700">' + esc(entry.phone) + '</b> 으로 문자를 보내드릴게요.'
         : '<b class="text-slate-700">' + esc(entry.slot) + '</b> 에 맞는 새 강좌가 열리면<br />' +
           '<b class="text-slate-700">' + esc(entry.phone) + '</b> 으로 알려드릴게요.');
 

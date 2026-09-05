@@ -109,6 +109,9 @@ function 준비() {
 
 /* ══════════════ ② 보내기 — '대기' 줄을 실제로 발송 ══════════════ */
 function 보내기() {
+  if (PropertiesService.getScriptProperties().getProperty('CP15_ENABLED') === 'true') {
+    throw new Error('15분 전 자동 예약이 활성화되어 있습니다. 기존 즉시 보내기는 중복 발송 방지를 위해 중지됩니다.');
+  }
   if (!SOLAPI.apiKey || !SOLAPI.apiSecret || !SOLAPI.from) {
     throw new Error('SOLAPI 설정(apiKey / apiSecret / from)을 먼저 채워주세요');
   }
