@@ -419,7 +419,9 @@ function parsePhcfList(raw, src) {
 
     out.push(normalize(src, {
       srcId: r.event_id,
-      org: venue.org,
+      /* 카드 배지에 들어가므로 짧은 이름을 씁니다.
+         '포항문화예술회관 대공연장 및 포항시 일원' 같은 원본은 장소 줄에 남습니다. */
+      org: venue.shortName,
       orgShort: venue.shortName,
       title: plain(r.event_title || r.event_subtitle),
       place: venue.place,
