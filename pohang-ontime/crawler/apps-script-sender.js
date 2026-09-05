@@ -195,7 +195,10 @@ function deadlineText_(p) {
 
 /* ══════════════ 솔라피 ══════════════ */
 function sendOne_(to, text) {
-  var date = new Date().toISOString();
+  /* 문서 예시가 '2019-07-01T00:41:48Z' 형태라 밀리초를 뺍니다.
+     서명은 이 문자열 그대로 계산되므로, 헤더와 조금이라도 다르면
+     원인을 알기 어려운 401 이 돌아옵니다. */
+  var date = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');
   var salt = Utilities.getUuid().replace(/-/g, '').slice(0, 20);
 
   /* 서명 = HMAC-SHA256(날짜 + salt, API Secret) 를 16진수로 */
