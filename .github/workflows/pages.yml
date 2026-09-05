@@ -1,0 +1,39 @@
+name: 사이트 배포
+
+# pohang-ontime 폴더를 그대로 웹사이트로 올립니다.
+# 수집기가 데이터를 갱신해 커밋하면 여기가 이어받아 배포합니다.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pohang-ontime/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 배포가 겹치면 나중 것만 살립니다
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: pohang-ontime      # 이 폴더가 사이트의 최상위가 됩니다
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
