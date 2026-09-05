@@ -1,5 +1,5 @@
-실행 2026-09-05 10:36 KST
-수집 시작 — 2026-09-05T01:36:43.630Z
+실행 2026-09-05 10:41 KST
+수집 시작 — 2026-09-05T01:41:19.078Z
   포항시립도서관: 실패 — 응답이 310자뿐 — 차단 가능성 https://phlib.pohang.go.kr/phlib/module/teach/index.do?menu_idx=24
   경상북도교육청 영일도서관: 목록 14건
   경상북도교육청과학원: 목록 20건
@@ -9,10 +9,10 @@
 완료 — 데이터가 바뀌었습니다
 --- 만들어진 파일 ---
 total 28
-drwxr-xr-x 2 runner runner  4096 Sep  5 01:36 .
-drwxr-xr-x 4 runner runner  4096 Sep  5 01:36 ..
--rw-r--r-- 1 runner runner 18597 Sep  5 01:36 programs.json
+drwxr-xr-x 2 runner runner  4096 Sep  5 01:41 .
+drwxr-xr-x 4 runner runner  4096 Sep  5 01:41 ..
+-rw-r--r-- 1 runner runner 18577 Sep  5 01:41 programs.json
 --- 바뀐 파일 ---
  M pohang-ontime/crawler/last-run.log
+ M pohang-ontime/data/programs.json
  M pohang-ontime/index.html
-?? pohang-ontime/data/
