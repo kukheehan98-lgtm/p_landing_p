@@ -1,5 +1,5 @@
-실행 2026-09-05 12:00 KST
-수집 시작 — 2026-09-05T03:00:41.296Z
+실행 2026-09-05 12:02 KST
+수집 시작 — 2026-09-05T03:02:47.314Z
   포항시립도서관: 실패 — 응답이 310자뿐 — https://phlib.pohang.go.kr/phlib/module/teach/index.do?menu_idx=24
       돌아온 내용: <br> <br> <center> <h2> The request / response that are contrary to the Web firewall security policies have been blocked. </h2> <table> <tr> <td>Detect time</td> <td></td> </tr> <tr> <td>Detect client IP</td> <td></td> <
   경상북도교육청 영일도서관: 목록 14건
@@ -11,8 +11,8 @@
 완료 — 바뀐 내용 없음
 --- 만들어진 파일 ---
 total 32
-drwxr-xr-x 2 runner runner  4096 Sep  5 03:00 .
-drwxr-xr-x 4 runner runner  4096 Sep  5 03:00 ..
--rw-r--r-- 1 runner runner 21099 Sep  5 03:00 programs.json
+drwxr-xr-x 2 runner runner  4096 Sep  5 03:02 .
+drwxr-xr-x 4 runner runner  4096 Sep  5 03:02 ..
+-rw-r--r-- 1 runner runner 21036 Sep  5 03:02 programs.json
 --- 바뀐 파일 ---
  M pohang-ontime/crawler/last-run.log
