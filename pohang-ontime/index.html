@@ -1865,24 +1865,39 @@
 
   window.addEventListener('resize', syncCarousel);
 
+  /* .carousel 에 걸린 scroll-behavior:smooth 때문에 scrollLeft 대입도
+     애니메이션으로 처리됩니다. 애니메이션 프레임이 돌지 않는 환경
+     (백그라운드 탭·절전 모드·일부 웹뷰)에서는 조용히 아무 일도 일어나지 않아
+     이전·다음 버튼이 먹통이 됩니다.
+     부드럽게 시도한 뒤 움직이지 않았으면 즉시 이동으로 보정합니다. */
+  function slideCarousel(delta) {
+    var before = carousel.scrollLeft;
+    var target = Math.max(0, before + delta);
+    if (Math.abs(target - before) < 1) return;
+
+    carousel.scrollLeft = target;
+    setTimeout(function () {
+      if (Math.abs(carousel.scrollLeft - before) < 4) {
+        var keep = carousel.style.scrollBehavior;
+        carousel.style.scrollBehavior = 'auto';
+        carousel.scrollLeft = target;
+        carousel.style.scrollBehavior = keep;
+      }
+      syncCarousel();
+    }, 280);
+  }
+
   $('#carouselNav').addEventListener('click', function (e) {
     var btn = e.target.closest('[data-carousel]');
     if (!btn) return;
-    /* 부드러운 이동은 .carousel 의 scroll-behavior 가 담당합니다.
-       scrollLeft 직접 대입은 어떤 환경에서도 동작하므로 버튼이 먹통이 되지 않습니다. */
-    var step = cardStep();
-    var dir = btn.dataset.carousel === 'next' ? 1 : -1;
-    carousel.scrollLeft = Math.max(0, carousel.scrollLeft + step * dir);
-    setTimeout(syncCarousel, 400);
+    slideCarousel(cardStep() * (btn.dataset.carousel === 'next' ? 1 : -1));
   });
 
   /* 키보드 좌우 화살표 */
   carousel.addEventListener('keydown', function (e) {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
     e.preventDefault();
-    var step = cardStep();
-    carousel.scrollLeft = Math.max(0, carousel.scrollLeft + (e.key === 'ArrowRight' ? step : -step));
-    setTimeout(syncCarousel, 400);
+    slideCarousel(cardStep() * (e.key === 'ArrowRight' ? 1 : -1));
   });
 
   function renderStats() {
