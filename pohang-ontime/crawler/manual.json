@@ -1,0 +1,37 @@
+[
+  {
+    "_note": "자동 수집이 안 되는 곳만 여기에 둡니다. 포항문화포털은 세션을 요구하고 목록을 자바스크립트로 불러와 지금은 긁을 수 없습니다. 어댑터가 생기면 이 파일에서 빼면 됩니다.",
+    "id": "phcf-achim",
+    "kind": "exhibit",
+    "org": "동빈문화창고1969",
+    "title": "2026 지역전시 <아침놀>",
+    "place": "동빈문화창고1969 (북구 삼호로)",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "openAt": null,
+    "deadline": null,
+    "eventFrom": "2026-08-21",
+    "eventTo": "2026-09-30",
+    "schedule": "2026.08.21 ~ 09.30 10:00~18:00 · 월요일·추석 당일 휴관",
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260821_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-kkum",
+    "kind": "exhibit",
+    "org": "SPACE 298 꿈틀로",
+    "title": "꿈틀로 기획전시 <꿈의 항로>",
+    "place": "SPACE 298 (중앙동 꿈틀로)",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "openAt": null,
+    "deadline": null,
+    "eventFrom": "2026-07-28",
+    "eventTo": "2026-09-26",
+    "schedule": "2026.07.28 ~ 09.26 10:00~18:00 · 일·월요일 및 공휴일 휴관",
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260728_001&menu_site_id=performance_detail"
+  }
+]

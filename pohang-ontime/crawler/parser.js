@@ -34,6 +34,15 @@ var SOURCES = [
     listPath: '/yi/module/teach/index.do?menu_idx=209&searchCate1=16,17,18',
     detailPath: '/yi/module/teach/detail.do?menu_idx=209&group_idx={group}&teach_idx={id}',
     needDetail: false
+  },
+  {
+    key: 'gsei',
+    name: '경상북도교육청과학원',
+    adapter: 'gsei',
+    base: 'https://www.gbe.kr',
+    listPath: '/gsei/eq/view/selectEqList.do?mi=10867',
+    detailPath: '/gsei/eq/view/selectEqList.do?mi=10867',
+    needDetail: false
   }
 ];
 
@@ -92,10 +101,11 @@ function splitPeriod(s) {
   };
 }
 
-/* 'n / m' 을 순서대로 모두 뽑습니다. 앞이 신청, 뒤가 대기입니다. */
+/* 'n / m' 을 순서대로 모두 뽑습니다. 앞이 신청, 뒤가 대기입니다.
+   기관마다 단위가 붙기도 합니다 — '35 / 60' 과 '0가족 / 6가족' 을 모두 받습니다. */
 function pickRatios(s) {
   var t = clean(s);
-  var re = /(\d+)\s*\/\s*(\d+)/g;
+  var re = /(\d+)\s*[가-힣]{0,3}\s*\/\s*(\d+)/g;
   var out = [], m;
   while ((m = re.exec(t)) !== null) out.push([toInt(m[1]), toInt(m[2])]);
   return out;
@@ -299,6 +309,69 @@ function parseGbelibEventDay(s) {
   };
 }
 
+/* ══════════════ 어댑터 ③ 경북교육청과학원 (표 · 가족 단위) ══════════════
+   정원을 '명' 이 아니라 '가족' 으로 셉니다. 6가족 선착순이라 알림의 가치가
+   가장 큰 유형이고, 회차가 몇 달 앞까지 미리 공개돼 있습니다. */
+function parseGseiList(html, src) {
+  var out = [];
+  var rows = html.split(/<tr[\s>]/i);
+
+  for (var i = 1; i < rows.length; i++) {
+    var row = rows[i];
+
+    var title = (row.match(/<p[^>]*font-weight:\s*bold[^>]*>([\s\S]*?)<\/p>/i) || [])[1];
+    if (!title) continue;
+
+    var apply = splitPeriod(afterLabel(row, '접수기간'));
+    if (!apply.from) continue;
+
+    var course = clean(afterLabel(row, '강좌기간'));
+    var dates = (course.match(/\d{4}[-.\/]\d{1,2}[-.\/]\d{1,2}/g) || []).map(normDateTime);
+    var time  = (course.match(/(\d{1,2}:\d{2})\s*~\s*(\d{1,2}:\d{2})/) || [])[0] || '';
+
+    /* '신청 : 0가족 / 6가족' 과 '대기 : 0가족 / 2가족'.
+       행 전체에서 세면 날짜의 '2026/09/16' 이 9 대 16 으로 읽히므로
+       반드시 신청 현황 칸 안에서만 셉니다. */
+    var seatCell = row.match(/신청\s*:\s*([\s\S]*?)<\/td>/i);
+    var r = seatCell ? pickRatios(seatCell[1]) : [];
+
+    /* 상태 버튼에 붙은 예약 번호가 가장 안정적인 열쇠입니다 */
+    var id = (row.match(/data-id="(\d+)"/i) || [])[1];
+    if (!id) continue;
+
+    out.push(normalize(src, {
+      srcId: id,
+      org: src.name,
+      /* '[가족천체관측교실] 2026 가족천체관측교실 4회 [9.16.(수) 운영]'
+         → '2026 가족천체관측교실 4회' (분류 딱지와 운영일은 다른 칸에 이미 있습니다) */
+      title: clean(title).replace(/^\[[^\]]*\]\s*/, '').replace(/\s*\[[^\]]*운영[^\]]*\]\s*$/, ''),
+      target: '가족 (2~5인)',
+      place: '경상북도교육청과학원 (북구 우미길 93)',
+      fee: '무료',
+      enrolled:     r[0] ? r[0][0] : null,
+      capacity:     r[0] ? r[0][1] : null,
+      waitEnrolled: r[1] ? r[1][0] : null,
+      waitCapacity: r[1] ? r[1][1] : null,
+      openAt:   apply.from,
+      deadline: apply.to,
+      eventFrom: dates[0] || '',
+      eventTo:   dates[1] || dates[0] || '',
+      eventTime: time,
+      url: src.base + src.listPath
+    }));
+  }
+  return out;
+}
+
+/* '접수기간\n : 2026/09/09 09:00 ~ …' 처럼 라벨과 값이 줄바꿈으로 떨어져 있습니다 */
+function afterLabel(chunk, name) {
+  var i = chunk.indexOf(name);
+  if (i === -1) return '';
+  var rest = chunk.slice(i + name.length);
+  var end = rest.search(/<br|<\/td|<p[\s>]/i);
+  return clean(rest.slice(0, end === -1 ? 120 : end)).replace(/^:\s*/, '');
+}
+
 /* ══════════════ 상세 페이지 ══════════════
    포항시립도서관·경북교육청 도서관 모두 상세 화면은 같은 표 구조라
    하나의 함수로 처리됩니다. (목록만 서로 다릅니다) */
@@ -330,6 +403,7 @@ function thValue(html, name) {
 /* ══════════════ 목록 파싱 진입점 ══════════════ */
 function parseList(html, src) {
   if (src.adapter === 'gbelib') return parseGbelibList(html, src);
+  if (src.adapter === 'gsei')   return parseGseiList(html, src);
   return parsePhlibList(html, src);
 }
 
