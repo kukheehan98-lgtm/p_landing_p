@@ -170,7 +170,13 @@ function curate(all, lifecycle, now) {
 
   full.sort(function (a, b) { return (a.capacity || 99) - (b.capacity || 99); });
 
-  return kept.concat(full.slice(0, FULL_LIMIT)).map(toCard);
+  /* 파일에 적히는 순서를 id 로 고정합니다.
+     이 PC 와 깃허브 서버가 기관을 도는 순서가 달라, 같은 내용인데도
+     배열이 통째로 뒤바뀌어 매번 파일 전체가 바뀐 것처럼 보였습니다.
+     (화면에 보이는 순서는 여기와 무관하게 renderCards 가 따로 정합니다) */
+  return kept.concat(full.slice(0, FULL_LIMIT))
+    .map(toCard)
+    .sort(function (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
 }
 
 if (typeof module !== 'undefined') {
