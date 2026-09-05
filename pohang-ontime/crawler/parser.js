@@ -410,7 +410,13 @@ function parsePhcfList(raw, src) {
     if (!r.event_id || !r.start_date) continue;
 
     var venue = phcfVenue(r);
-    var hasApply = !!(r.application_start && r.application_end);
+
+    /* 접수기간 칸에 행사 날짜를 그대로 복사해 둔 축제가 있습니다.
+       그대로 믿으면 「D-6 접수 시작」처럼 뜨는데, 실제로는 신청 없이
+       그냥 가면 되는 행사입니다. 행사 기간과 다를 때만 접수로 봅니다. */
+    var hasApply = !!(r.application_start && r.application_end) &&
+                   !(sameDay(r.application_start, r.start_date) &&
+                     sameDay(r.application_end, r.end_date));
 
     /* 정원은 접수를 받을 때만 뜻이 있습니다. 접수가 없는 전시의
        숫자는 공간 수용 인원이라 '몇 자리 남음' 으로 쓰면 오해를 삽니다. */
@@ -447,6 +453,10 @@ function parsePhcfList(raw, src) {
      space_name  전시장·공연장 이름 (동빈문화창고1969, SPACE 298)
      event_venue 그 안의 방 (2층 상영관) 또는 넓은 지역 (흥해읍 일원)
    space_name 이 '기타' 인 축제 같은 경우가 있어 차례로 물러섭니다. */
+function sameDay(a, b) {
+  return String(a || '').slice(0, 10) === String(b || '').slice(0, 10);
+}
+
 function phcfVenue(r) {
   var space = plain(r.space_name);
   var venue = plain(r.event_venue);
