@@ -142,6 +142,12 @@
     flex: 0 0 20%;
   }
 
+  /* 한글은 기본 설정에서 글자 단위로 잘립니다 — 칸이 좁아지면 「다목적실」이
+     「다목적 / 실」처럼 끊어져 읽기 어려워집니다. 폰의 「글자 크게」 설정을 켠
+     분에게 특히 심하게 나타납니다. keep-all 로 낱말을 지키고, 띄어쓰기 없는
+     아주 긴 낱말만 예외로 쪼개 넘침을 막습니다. */
+  body { word-break: keep-all; overflow-wrap: break-word; }
+
   /* 모바일은 기존 폭, 넓은 화면은 한 줄에 두 장을 표시합니다. */
   .page-shell { width: 100%; max-width: 28rem; }
   @media (min-width: 768px) {
@@ -241,15 +247,18 @@
       <br class="sm:hidden" />접수 시작 15분 전에 문자로 알려드려요.
     </p>
 
-    <div class="mt-2.5 flex items-center gap-3 text-[12px] text-slate-500">
-      <span class="flex items-center gap-1.5">
+    <!-- 폰의 「글자 크게」 설정을 켠 분(또는 인스타처럼 확대해 그리는 인앱 브라우저)에게는
+         이 줄이 가장 먼저 깨집니다 — 칸이 좁아지면 「접수중」이 「접/수/중」으로 쪼개졌습니다.
+         nowrap 으로 단어를 지키고, 대신 줄바꿈을 허용해 아래로 흐르게 합니다. -->
+    <div class="mt-2.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-slate-500">
+      <span class="flex items-center gap-1.5 whitespace-nowrap">
         <span class="live-dot w-1.5 h-1.5 rounded-full bg-rose-500"></span>
         접수중 <b id="statOpen" class="text-slate-900">0</b>건
       </span>
       <span class="w-px h-3 bg-slate-200"></span>
-      <span>곧 접수 시작 <b id="statUrgent" class="text-blue-600">0</b>건</span>
+      <span class="whitespace-nowrap">곧 접수 시작 <b id="statUrgent" class="text-blue-600">0</b>건</span>
       <span class="w-px h-3 bg-slate-200"></span>
-      <span>기관 <b id="statHosts" class="text-slate-900">0</b>곳</span>
+      <span class="whitespace-nowrap">기관 <b id="statHosts" class="text-slate-900">0</b>곳</span>
     </div>
   </header>
 
