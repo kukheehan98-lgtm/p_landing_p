@@ -57,6 +57,7 @@
 | `manual.json` | 자동 수집이 안 되는 곳 (지금은 비어 있음) |
 | `run-local.ps1` · `작업등록.ps1` | 이 PC의 매일 수집 |
 | `run-observe.ps1` · `관측등록.ps1` | 이 PC의 접수 관측 |
+| `run-local-hidden.vbs` · `run-observe-hidden.vbs` | 작업 스케줄러가 실제로 부르는 진입점. `powershell.exe` 를 검은 창 없이 실행합니다(`-WindowStyle Hidden` 만으로는 짧게 깜빡일 수 있어 한 단계 더 감쌌습니다) |
 
 ### 백엔드 (앱스크립트 — 저장소 파일은 **사본**입니다)
 | 파일 | 역할 |
@@ -101,6 +102,11 @@
 ---
 
 ## 다시 밟으면 안 되는 함정
+
+**작업 스케줄러가 `powershell.exe` 를 직접 부르면 검은 창이 깜빡입니다.**
+`-WindowStyle Hidden` 을 줘도 창을 만들었다가 숨기는 방식이라 순간적으로 보일 수 있습니다.
+사용자가 "컴퓨터를 뭔가 건드리는 것 같다"고 느낄 만큼 매일 여러 번 반복되면 신뢰에 영향을 줍니다.
+→ `wscript.exe //B run-*-hidden.vbs` 를 거쳐 부르면 창 자체가 생기지 않습니다.
 
 **`scroll-behavior: smooth` 는 애니메이션 프레임이 없으면 아무 일도 안 합니다.**
 백그라운드 탭·절전 모드에서 `scrollTo` 와 `scrollLeft` 대입이 조용히 무시됩니다. 화면 전환이 실패해도 오류가 없어 원인을 찾기 어렵습니다. → 중요한 이동은 `scroll-behavior: auto` 로 잠시 바꿔 즉시 이동시킵니다.
