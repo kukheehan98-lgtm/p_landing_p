@@ -524,31 +524,7 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3539"
   },
   {
-    "id": "phlib-3541",
-    "org": "동해석곡도서관",
-    "orgShort": "동해석곡",
-    "title": "시간여행 독서여행사(동해석곡도서관 독서의달 어...",
-    "place": "동해석곡도서관",
-    "target": "초등1~6학년",
-    "fee": "무료",
-    "capacity": 10,
-    "enrolled": 10,
-    "waitCapacity": 5,
-    "waitEnrolled": 0,
-    "openAt": "2026-08-26 10:00",
-    "deadline": "2026-09-05 16:00",
-    "eventEnd": "2026-09-06",
-    "schedule": "2026.09.06(일) 10:00 ~ 12:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=86&teach_idx=3541"
-  },
-  {
-    "id": "phlib-3550",
+    "id": "phlib-3549",
     "org": "포은흥해도서관",
     "orgShort": "포은흥해",
     "title": "[독서의달]-북 퍼퓸 만들기(일반)",
@@ -562,11 +538,11 @@
     "openAt": "2026-09-11 10:00",
     "deadline": "2026-09-17 18:00",
     "eventEnd": "2026-09-20",
-    "schedule": "2026.09.20(일) 13:00 ~ 15:00 (1회)",
+    "schedule": "2026.09.20(일) 10:00 ~ 12:00 (1회)",
     "applyRule": "own-id",
     "unit": "명",
     "presets": [],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3550"
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3549"
   },
   {
     "id": "phlib-3561",
@@ -590,29 +566,6 @@
       "weekend"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=136&teach_idx=3561"
-  },
-  {
-    "id": "phlib-3571",
-    "org": "포은중앙도서관",
-    "orgShort": "포은중앙",
-    "title": "2026년 9월 책놀이터(7세)",
-    "place": "1층 이야기방",
-    "target": "7세(2020년생)",
-    "fee": "무료",
-    "capacity": 8,
-    "enrolled": 7,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": "2026-09-01 10:00",
-    "deadline": "2026-09-18 18:00",
-    "eventEnd": "2026-09-19",
-    "schedule": "2026.09.19(토) 10:20 ~ 11:20 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "kid"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=62&teach_idx=3571"
   },
   {
     "id": "phlib-3573",

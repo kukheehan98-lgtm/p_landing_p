@@ -154,18 +154,40 @@ function toEmbeddedJson(cards) {
   return JSON.stringify(cards, null, 2).replace(/</g, '\\u003c');
 }
 
-function patchHtml(cards) {
-  const html = fs.readFileSync(HTML_FILE, 'utf8');
-  const open  = '<script type="application/json" id="programsData">';
+/* 호스트(윈도우 PC 는 이미 KST, 깃허브 액션은 UTC)와 무관하게 항상 한국 날짜를 얻습니다.
+   "정보 기준일" 이 실제 수집 시각을 보여주게 하는 데 씁니다. */
+function seoulToday() {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+}
+
+function replaceJsonBlock(html, id, value) {
+  const open  = `<script type="application/json" id="${id}">`;
   const close = '</script>';
   const i = html.indexOf(open);
-  if (i === -1) throw new Error('index.html 에 programsData 블록이 없습니다');
+  if (i === -1) throw new Error(`index.html 에 ${id} 블록이 없습니다`);
   const j = html.indexOf(close, i);
+  return html.slice(0, i + open.length) + JSON.stringify(value) + html.slice(j);
+}
 
-  const next = html.slice(0, i + open.length) + '\n' + toEmbeddedJson(cards) + '\n' + html.slice(j);
-  if (next === html) return false;
-  fs.writeFileSync(HTML_FILE, next);
-  return true;
+function patchHtml(cards) {
+  let html = fs.readFileSync(HTML_FILE, 'utf8');
+
+  const open = '<script type="application/json" id="programsData">';
+  const i = html.indexOf(open);
+  if (i === -1) throw new Error('index.html 에 programsData 블록이 없습니다');
+  const j = html.indexOf('</script>', i);
+  const nextCards = html.slice(0, i + open.length) + '\n' + toEmbeddedJson(cards) + '\n' + html.slice(j);
+  const cardsChanged = nextCards !== html;
+  html = nextCards;
+
+  /* 날짜 문자열은 하루에 한 번만 실제로 바뀝니다 — 같은 날 두 번째 실행에서는
+     이 부분이 그대로라, 강좌 내용도 안 바뀌었다면 커밋이 새로 생기지 않습니다. */
+  html = replaceJsonBlock(html, 'dataUpdatedAt', seoulToday());
+
+  const original = fs.readFileSync(HTML_FILE, 'utf8');
+  if (html === original) return { cardsChanged: false };
+  fs.writeFileSync(HTML_FILE, html);
+  return { cardsChanged };
 }
 
 /* 지금 화면에 실려 있는 데이터. 어느 기관이 막혔을 때 그 기관 몫을
@@ -231,8 +253,8 @@ async function main() {
 
   fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
   fs.writeFileSync(DATA_FILE, JSON.stringify(cards, null, 2) + '\n');
-  const changed = patchHtml(cards);
-  console.log(changed ? '완료 — 데이터가 바뀌었습니다' : '완료 — 바뀐 내용 없음');
+  const { cardsChanged } = patchHtml(cards);
+  console.log(cardsChanged ? '완료 — 데이터가 바뀌었습니다' : '완료 — 강좌 내용은 그대로 (기준일만 확인)');
 }
 
 main().catch(err => {
