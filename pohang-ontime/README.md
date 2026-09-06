@@ -64,7 +64,8 @@
 | --- | --- |
 | `apps-script.js` | 신청 접수 `doPost`. 시트에 한 줄씩 |
 | `crawler/apps-script-sender.js` | 기존 수동 문자 발송. `준비()` 로 대상 추출, `보내기()` 로 전송 |
-| `apps-script-reminders.js` | 접수 15분 전 예약 발송. 운영 설치/시험 전에는 비활성 |
+| `apps-script-reminders.js` | 접수 15분 전 예약 발송. 2026-09-06 부터 운영 중 |
+| `apps-script-briefing.js` | 매일 아침 운영 브리핑 메일. 조용히 실패하는 것들(잔액·수집·발송)을 대신 지켜봅니다 |
 
 15분 전 예약으로 전환하는 절차와 현재 검증 범위는 [SMS-15MIN-SETUP.md](SMS-15MIN-SETUP.md)를 참고하세요. 이 저장소를 배포해도 Google Apps Script에는 자동 반영되지 않습니다.
 
