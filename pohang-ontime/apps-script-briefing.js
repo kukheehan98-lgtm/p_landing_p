@@ -12,7 +12,10 @@
 var BRIEF = {
   to: 'ddak1998@naver.com',
   lowBalance: 2000,   // 이 아래면 제목에 경고를 붙입니다
-  hour: 7             // 매일 이 시각대(7~8시)에 보냅니다
+  hour: 7,            // 매일 이 시각대(7~8시)에 보냅니다
+  /* 운영자 본인 번호. 시험 삼아 넣은 신청과 진짜 신청을 갈라 세는 데 씁니다.
+     이걸 안 가르면 「누적 18명」처럼 스스로를 속이는 숫자가 나옵니다. */
+  myPhone: '01021704258'
 };
 
 /* ══════════════ 실행 진입점 ══════════════ */
@@ -144,6 +147,9 @@ function brfBody_(now, d) {
     d.signups ? d.signups.recent + '명' : '',
     d.signups
       ? '누적 <b>' + d.signups.total + '명</b>' +
+        '<br><span style="color:#94a3b8;font-size:12px">번호가 같으면 한 사람으로 셉니다' +
+        (d.signups.mine ? ' · 내 번호로 넣은 시험 ' + d.signups.mine + '건 제외' : '') +
+        ' · 시트 ' + d.signups.rows + '줄</span>' +
         (d.signups.recent ? '<br><span style="color:#64748b;font-size:13px">' +
           brfEsc_(d.signups.names.join(', ')) + '</span>' : '')
       : '<span style="color:#94a3b8">확인 못 함</span>'));
@@ -194,22 +200,44 @@ function brfJobs_(ss) {
   return sh ? cp15ReadJobs_(sh) : [];
 }
 
-/* 신청자 탭은 신청마다 한 줄이 늘어납니다. 첫 칸이 신청시각입니다. */
+/* 신청자 탭은 신청마다 한 줄이 늘어납니다. 첫 칸이 신청시각, 셋째가 휴대폰입니다.
+ *
+ * 줄 수를 그대로 세면 안 됩니다 — 한 사람이 강좌를 여러 개 담으면 줄이 여러 개
+ * 생기고, 개발 중에 본인 번호로 시험한 줄도 섞입니다. 실제로 「누적 18명」이라고
+ * 나왔는데 진짜 신청자는 그보다 훨씬 적었습니다. 그래서
+ *   · 같은 번호는 한 사람으로 세고
+ *   · 본인 번호(BRIEF.myPhone)는 따로 「시험」으로 빼서
+ * 마케팅이 실제로 통했는지 판단할 수 있는 숫자만 남깁니다.
+ */
 function brfSignups_(ss) {
+  var empty = {total: 0, recent: 0, names: [], rows: 0, mine: 0};
   var sh = ss.getSheetByName('신청자');
-  if (!sh || sh.getLastRow() < 2) return {total: 0, recent: 0, names: []};
+  if (!sh || sh.getLastRow() < 2) return empty;
+
   var rows = sh.getRange(2, 1, sh.getLastRow() - 1, 3).getValues();
   var since = new Date(Date.now() - 24 * 3600000);
-  var names = [];
-  var recent = 0;
+  var mine = String(BRIEF.myPhone || '').replace(/\D/g, '');
+  var people = {}, recentPeople = {}, mineRows = 0;
+
   rows.forEach(function (r) {
+    var phone = String(r[2] == null ? '' : r[2]).replace(/\D/g, '');
+    if (!phone) return;                     // 빈 줄은 사람이 아닙니다
+    if (mine && phone === mine) { mineRows++; return; }
+
+    var name = String(r[1] || '').replace(/^\(미입력\)$/, '') || '(이름 없음)';
+    people[phone] = name;
     var at = r[0] instanceof Date ? r[0] : new Date(r[0]);
-    if (!isNaN(at.getTime()) && at > since) {
-      recent++;
-      names.push(String(r[1] || '(이름 없음)'));
-    }
+    if (!isNaN(at.getTime()) && at > since) recentPeople[phone] = name;
   });
-  return {total: rows.length, recent: recent, names: names};
+
+  var recentNames = Object.keys(recentPeople).map(function (p) { return recentPeople[p]; });
+  return {
+    total: Object.keys(people).length,   // 번호 기준 실제 신청자
+    recent: recentNames.length,
+    names: recentNames,
+    rows: rows.length,                   // 시트 줄 수 (참고용)
+    mine: mineRows                        // 본인 번호로 넣은 시험 신청
+  };
 }
 
 /* 남은 캐시. 발송 API 와 같은 서명 방식이고 주소만 다릅니다. */
