@@ -2534,6 +2534,26 @@
     };
   }
 
+  /* ═══════════════ 마케팅 딥링크 ═══════════════
+     인스타·당근 글에서 "이 강좌", "이번 주말 것들"이라고 콕 짚어 링크해도,
+     지금까지는 전부 같은 전체 목록(30건)에 떨어졌습니다. 홍보 글을 보고
+     관심이 가장 높은 그 순간에, 다시 스크롤해서 찾게 만드는 건 없앨 수
+     있는 마찰입니다.
+
+       ?preset=weekend       그 칩이 눌린 채로 시작
+       ?open=phlib-3527      전체보기로 시작해 그 카드로 스크롤 + 잠깐 강조
+
+     둘 다 없으면(직접 방문 등) 지금처럼 전체보기 그대로입니다. */
+  var deepLink = new URLSearchParams(location.search);
+  var deepOpenId = deepLink.get('open');
+  var deepPreset = deepLink.get('preset');
+
+  if (deepOpenId) {
+    activePreset = 'all';   // 필터에 가려 그 카드가 안 보이는 일이 없도록
+  } else if (deepPreset && PRESETS.some(function (p) { return p.key === deepPreset; })) {
+    activePreset = deepPreset;
+  }
+
   /* ═══════════════ 초기화 ═══════════════ */
   renderChips();
   renderCards();
@@ -2561,6 +2581,40 @@
   })();
   renderAdmin();
   if (window.lucide) lucide.createIcons();
+
+  /* ?open=<id> 로 들어왔으면 그 카드를 캐러셀 맨 앞으로 스크롤하고 잠깐 강조합니다.
+     scroll-behavior:smooth 는 이 환경에서 조용히 실패하는 걸 여러 번 확인했으므로
+     (README "다시 밟으면 안 되는 함정" 참고) 여기서도 즉시 이동으로 못박습니다. */
+  if (deepOpenId) {
+    var deepCard = document.getElementById('card-' + deepOpenId);
+    if (deepCard) {
+      scrollToEl('#card-' + deepOpenId, 8);           /* 세로 — 캐러셀 줄까지 내려감 */
+
+      /* 가로 — 카드를 맨 앞으로. scroll-snap(mandatory) 이 위치를 스스로
+         "재보정"하려 들 때가 있는데, 그 보정이 smooth 상태에서 걸리면
+         이 환경에서 멈춰버립니다(다른 곳에서도 겪은 문제). auto 상태를
+         잠깐 유지하며 여러 번 다시 맞춰서 그 재보정 시도를 무력화합니다. */
+      var keepBehavior = carousel.style.scrollBehavior;
+      carousel.style.scrollBehavior = 'auto';
+      function landOnDeepCard() {
+        var d = deepCard.getBoundingClientRect().left - carousel.getBoundingClientRect().left;
+        carousel.scrollLeft = Math.max(0, carousel.scrollLeft + d);
+      }
+      landOnDeepCard();
+      setTimeout(landOnDeepCard, 0);
+      setTimeout(function () {
+        landOnDeepCard();
+        carousel.style.scrollBehavior = keepBehavior;
+        syncCarousel();
+      }, 200);
+
+      deepCard.style.transition = 'box-shadow .3s ease';
+      deepCard.style.boxShadow = '0 0 0 3px rgba(37,99,235,.6)';
+      setTimeout(function () { deepCard.style.boxShadow = ''; }, 2200);
+
+      track('deep_link_open', { program_id: deepOpenId });
+    }
+  }
 
   /* 지난 방문에서 전송하지 못한 신청이 있으면 조용히 재시도 */
   flushQueue();
