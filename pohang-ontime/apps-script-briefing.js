@@ -15,7 +15,8 @@ var BRIEF = {
   hour: 7,            // 매일 이 시각대(7~8시)에 보냅니다
   /* 운영자 본인 번호. 시험 삼아 넣은 신청과 진짜 신청을 갈라 세는 데 씁니다.
      이걸 안 가르면 「누적 18명」처럼 스스로를 속이는 숫자가 나옵니다. */
-  myPhone: '01021704258'
+  myPhone: '01021704258',
+  logSheet: '운영일지'   // 매일 한 줄씩 쌓이는 성장 기록
 };
 
 /* ══════════════ 실행 진입점 ══════════════ */
@@ -74,6 +75,22 @@ function 아침브리핑() {
 
   var lowCash = balance !== null && balance.balance < BRIEF.lowBalance;
   var stale   = freshness !== null && freshness !== today;
+
+  /* 메일보다 일지를 먼저 적습니다 — 메일은 못 보내도 숫자는 남아야 합니다.
+     매일 한 줄씩 쌓여 「성장 곡선」이 됩니다. GA4 보고서는 사람이 열어봐야
+     하고 숫자가 작을 때 가려지기도 하지만, 이 일지는 시트에서 읽은 정확한
+     값이라 그래프로 바로 쓸 수 있습니다. */
+  brfTry_(function () {
+    return brfLog_(ss, today, {
+      people: signups ? signups.total : '',
+      recent: signups ? signups.recent : '',
+      reserved: todaySend.length,
+      sent: jobs.filter(function (j) { return j.state === '발송완료'; }).length,
+      balance: balance ? balance.balance : '',
+      programs: programs ? programs.length : '',
+      freshness: freshness || ''
+    });
+  }, null);
 
   MailApp.sendEmail({
     to: BRIEF.to,
@@ -191,6 +208,40 @@ function brfBox_(title, inner, bg, border) {
   return '<div style="margin:0 0 18px;padding:12px 14px;background:' + bg +
     ';border:1px solid ' + border + ';border-radius:10px">' +
     '<b style="display:block;margin-bottom:6px">' + brfEsc_(title) + '</b>' + inner + '</div>';
+}
+
+/* ══════════════ 운영일지 ══════════════
+ *
+ * 매일 한 줄. 「9월 18일까지 데이터를 모아야 한다」는 요구에 대한 답입니다.
+ * 하루 여러 번 실행해도 같은 날짜 줄을 덮어쓰므로 날짜당 한 줄만 남습니다.
+ * 시트에 쌓이니 나중에 범위 선택 → 삽입 → 차트 로 성장 곡선이 바로 나옵니다.
+ */
+function brfLog_(ss, today, v) {
+  var sh = ss.getSheetByName(BRIEF.logSheet);
+  var headers = ['날짜', '실제 신청자', '신규(24h)', '오늘 예약 문자', '발송완료 누적',
+                 '문자 잔액', '공개 강좌', '정보 기준일', '기록시각'];
+  if (!sh) {
+    sh = ss.insertSheet(BRIEF.logSheet);
+    sh.appendRow(headers);
+    sh.setFrozenRows(1);
+    sh.getRange('A1:I1').setFontWeight('bold');
+  }
+  var row = [today, v.people, v.recent, v.reserved, v.sent,
+             v.balance, v.programs, v.freshness,
+             Utilities.formatDate(new Date(), 'Asia/Seoul', 'HH:mm')];
+
+  /* 오늘 줄이 이미 있으면 그 줄을 갱신합니다 */
+  var target = 0;
+  if (sh.getLastRow() > 1) {
+    var dates = sh.getRange(2, 1, sh.getLastRow() - 1, 1).getValues();
+    for (var i = 0; i < dates.length; i++) {
+      if (String(dates[i][0]).slice(0, 10) === today) { target = i + 2; break; }
+    }
+  }
+  if (!target) target = sh.getLastRow() + 1;
+  sh.getRange(target, 1, 1, row.length).setValues([row]);
+  SpreadsheetApp.flush();
+  return target;
 }
 
 /* ══════════════ 자료 모으기 ══════════════ */
