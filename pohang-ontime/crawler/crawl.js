@@ -169,7 +169,7 @@ function replaceJsonBlock(html, id, value) {
   return html.slice(0, i + open.length) + JSON.stringify(value) + html.slice(j);
 }
 
-function patchHtml(cards) {
+function patchHtml(cards, freshnessDate, sourceDates) {
   let html = fs.readFileSync(HTML_FILE, 'utf8');
 
   const open = '<script type="application/json" id="programsData">';
@@ -181,8 +181,13 @@ function patchHtml(cards) {
   html = nextCards;
 
   /* 날짜 문자열은 하루에 한 번만 실제로 바뀝니다 — 같은 날 두 번째 실행에서는
-     이 부분이 그대로라, 강좌 내용도 안 바뀌었다면 커밋이 새로 생기지 않습니다. */
-  html = replaceJsonBlock(html, 'dataUpdatedAt', seoulToday());
+     이 부분이 그대로라, 강좌 내용도 안 바뀌었다면 커밋이 새로 생기지 않습니다.
+
+     freshnessDate 는 오늘이 아니라 "가장 오래 확인 못 한 기관" 의 날짜입니다.
+     예전에는 기관 하나가 막혀도 무조건 오늘 날짜를 찍어서, 그 기관 몫이
+     실제로는 며칠 전 데이터인데 화면은 "오늘 확인함"이라고 말했습니다. */
+  html = replaceJsonBlock(html, 'dataUpdatedAt', freshnessDate);
+  html = replaceJsonBlock(html, 'sourceUpdatedAt', sourceDates);
 
   const original = fs.readFileSync(HTML_FILE, 'utf8');
   if (html === original) return { cardsChanged: false };
@@ -201,6 +206,20 @@ function previousCards() {
     return JSON.parse(html.slice(i + open.length, j).replace(/\\u003c/g, '<'));
   } catch (err) {
     return [];
+  }
+}
+
+/* 기관별로 "마지막으로 실제 확인에 성공한 날"을 기억합니다.
+   실패한 기관은 이 값을 갱신하지 않고 예전 값을 그대로 들고 갑니다. */
+function previousSourceDates() {
+  try {
+    const html = fs.readFileSync(HTML_FILE, 'utf8');
+    const open = '<script type="application/json" id="sourceUpdatedAt">';
+    const i = html.indexOf(open);
+    const j = html.indexOf('</script>', i);
+    return JSON.parse(html.slice(i + open.length, j));
+  } catch (err) {
+    return {};
   }
 }
 
@@ -251,9 +270,23 @@ async function main() {
     return;
   }
 
+  /* 성공한 기관만 오늘 날짜로 갱신하고, 실패한 기관은 예전 날짜를 유지합니다.
+     화면에 보여줄 "정보 기준일"은 그중 가장 오래된 날짜 — 가장 약한 고리
+     기준으로 정직하게 말합니다. 하나라도 실패하면 "오늘"이라고 못 박지 않습니다. */
+  const today = seoulToday();
+  const sourceDates = previousSourceDates();
+  SOURCES.forEach(src => {
+    if (failed.indexOf(src.key) === -1) sourceDates[src.key] = today;
+  });
+  const known = Object.keys(sourceDates).map(k => sourceDates[k]).filter(Boolean);
+  const freshnessDate = known.length ? known.reduce((a, b) => (a < b ? a : b)) : today;
+  if (freshnessDate !== today) {
+    console.log(`  기준일은 ${freshnessDate} — 아직 확인 못 한 기관이 있습니다`);
+  }
+
   fs.mkdirSync(path.dirname(DATA_FILE), { recursive: true });
   fs.writeFileSync(DATA_FILE, JSON.stringify(cards, null, 2) + '\n');
-  const { cardsChanged } = patchHtml(cards);
+  const { cardsChanged } = patchHtml(cards, freshnessDate, sourceDates);
   console.log(cardsChanged ? '완료 — 데이터가 바뀌었습니다' : '완료 — 강좌 내용은 그대로 (기준일만 확인)');
 }
 

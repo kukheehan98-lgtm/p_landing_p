@@ -460,7 +460,7 @@
     "target": "초등1~6학년 및 학부모",
     "fee": "무료",
     "capacity": 60,
-    "enrolled": 35,
+    "enrolled": 36,
     "waitCapacity": 0,
     "waitEnrolled": 0,
     "openAt": "2026-08-25 10:00",
@@ -524,7 +524,7 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3539"
   },
   {
-    "id": "phlib-3549",
+    "id": "phlib-3550",
     "org": "포은흥해도서관",
     "orgShort": "포은흥해",
     "title": "[독서의달]-북 퍼퓸 만들기(일반)",
@@ -538,11 +538,11 @@
     "openAt": "2026-09-11 10:00",
     "deadline": "2026-09-17 18:00",
     "eventEnd": "2026-09-20",
-    "schedule": "2026.09.20(일) 10:00 ~ 12:00 (1회)",
+    "schedule": "2026.09.20(일) 13:00 ~ 15:00 (1회)",
     "applyRule": "own-id",
     "unit": "명",
     "presets": [],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3549"
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3550"
   },
   {
     "id": "phlib-3561",

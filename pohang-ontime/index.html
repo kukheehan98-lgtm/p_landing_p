@@ -1014,7 +1014,7 @@
     "target": "초등1~6학년 및 학부모",
     "fee": "무료",
     "capacity": 60,
-    "enrolled": 35,
+    "enrolled": 36,
     "waitCapacity": 0,
     "waitEnrolled": 0,
     "openAt": "2026-08-25 10:00",
@@ -1078,7 +1078,7 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3539"
   },
   {
-    "id": "phlib-3549",
+    "id": "phlib-3550",
     "org": "포은흥해도서관",
     "orgShort": "포은흥해",
     "title": "[독서의달]-북 퍼퓸 만들기(일반)",
@@ -1092,11 +1092,11 @@
     "openAt": "2026-09-11 10:00",
     "deadline": "2026-09-17 18:00",
     "eventEnd": "2026-09-20",
-    "schedule": "2026.09.20(일) 10:00 ~ 12:00 (1회)",
+    "schedule": "2026.09.20(일) 13:00 ~ 15:00 (1회)",
     "applyRule": "own-id",
     "unit": "명",
     "presets": [],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3549"
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3550"
   },
   {
     "id": "phlib-3561",
@@ -1264,8 +1264,11 @@
 ]
 </script>
 
-<!-- 위 데이터가 마지막으로 갱신된 시각 — crawler/crawl.js 가 매번 새로 씁니다 -->
+<!-- 위 데이터가 마지막으로 갱신된 시각 — crawler/crawl.js 가 매번 새로 씁니다.
+     기관 하나라도 그날 확인에 실패하면 여기 날짜는 "오늘"로 앞당겨지지
+     않습니다. 아래 기관별 날짜 중 가장 오래된 것을 그대로 보여줍니다. -->
 <script type="application/json" id="dataUpdatedAt">"2026-09-06"</script>
+<script type="application/json" id="sourceUpdatedAt">{"phlib":"2026-09-06","gbelib-yi":"2026-09-06","gsei":"2026-09-06","phcf":"2026-09-06"}</script>
 
 <script>
 (function () {
@@ -2575,12 +2578,21 @@
 
   /* 「정보 기준일」— crawler/crawl.js 가 매번 남기는 실제 수집 날짜를 보여줍니다.
      예전에는 이 날짜를 손으로 적어 넣었는데, 자동 수집이 매일 도는 사이
-     고치는 걸 잊어 실제로는 매일 갱신되는데도 몇 주 전 날짜로 보였습니다. */
+     고치는 걸 잊어 실제로는 매일 갱신되는데도 몇 주 전 날짜로 보였습니다.
+
+     그 다음엔 기관 하나가 막혀도 무조건 "오늘"을 찍는 문제가 있었습니다.
+     지금은 crawl.js 가 기관별로 마지막 확인일을 따로 기억해서, 이 날짜는
+     그중 가장 오래된 것 — 하나라도 확인 못 했으면 "오늘"이라고 하지 않습니다. */
   (function () {
     var el = document.getElementById('dataUpdatedAt');
     var raw = el && el.textContent;
     var m = raw && JSON.parse(raw).match(/^(\d{4})-(\d{2})-(\d{2})/);
-    var text = m ? m[1] + '년 ' + (+m[2]) + '월 ' + (+m[3]) + '일 (자동 갱신)' : '확인 중';
+    var todayKST = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date());
+    var isFullyFresh = m && (m[1] + '-' + m[2] + '-' + m[3]) === todayKST;
+    var text = m
+      ? m[1] + '년 ' + (+m[2]) + '월 ' + (+m[3]) + '일' +
+        (isFullyFresh ? ' (자동 갱신)' : ' (일부 기관 확인 지연 — 곧 다시 확인합니다)')
+      : '확인 중';
     $('#dataFreshness').innerHTML =
       '정보 기준일 <b class="text-slate-500">' + esc(text) + '</b> · ' +
       '포항시립도서관 문화행사신청 및 포항문화포털 공개 정보 기준';
