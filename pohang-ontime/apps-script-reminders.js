@@ -273,12 +273,21 @@ function cp15SlotSubscribers_(ss) {
     throw new Error('신청자 열 구성을 확인하세요. C열이 휴대폰, F열이 찜 ID 여야 합니다.');
   }
   if (sh.getLastRow() < 2) return [];
+  var rows = sh.getRange(2, 1, sh.getLastRow() - 1, 7).getValues();
+
+  /* 운영 시트는 신청할 때마다 행이 늘어납니다(SMS-15MIN-SETUP.md 참고). 한 사람이
+     강좌를 담은 신청과 담지 않은 신청을 둘 다 했으면 행이 둘로 나뉘어, 행 단위로
+     거르면 그 사람이 두 갈래 문자를 모두 받습니다. 번호를 먼저 모아 통째로 뺍니다. */
+  var picked = {};
+  rows.forEach(function (r) {
+    if (String(r[5] || '').trim()) picked[cp15Phone_(r[2])] = true;
+  });
+
   var seen = {};
   var out = [];
-  sh.getRange(2, 1, sh.getLastRow() - 1, 7).getValues().forEach(function (r) {
-    if (String(r[5] || '').trim()) return;        // 찜한 강좌가 있는 사람
+  rows.forEach(function (r) {
     var phone = cp15Phone_(r[2]);
-    if (!phone || seen[phone]) return;            // 같은 번호가 두 줄이어도 한 번만
+    if (!phone || picked[phone] || seen[phone]) return;
     seen[phone] = true;
     out.push({phone: phone, name: String(r[1] || '')});
   });
