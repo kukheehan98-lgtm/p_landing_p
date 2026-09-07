@@ -311,30 +311,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260811_001&menu_site_id=performance_detail"
   },
   {
-    "id": "phcf-EVT_20260827_001",
-    "org": "인디플러스 포항",
-    "orgShort": "인디플러스 포항",
-    "title": "다들 잘 지내는 것 같았다",
-    "place": "인디플러스 포항/중앙아트홀 1층 전시실",
-    "target": "전체",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-09-06",
-    "schedule": "2026.09.01 ~ 09.06",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing",
-      "weekend"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260827_001&menu_site_id=performance_detail"
-  },
-  {
     "id": "phcf-FST_ETC_2025_001",
     "org": "포항문화예술회관",
     "orgShort": "포항문화예술회관",
@@ -383,52 +359,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_FEST_2026_001&menu_site_id=performance_detail"
   },
   {
-    "id": "phlib-3480",
-    "org": "어린이영어도서관",
-    "orgShort": "어린이영어",
-    "title": "(초등2-4)Smart Reading 2.1",
-    "place": "어린이영어도서관 다목적실",
-    "target": "초등2-4학년(16~18년생)",
-    "fee": "무료",
-    "capacity": 14,
-    "enrolled": 11,
-    "waitCapacity": 5,
-    "waitEnrolled": 0,
-    "openAt": "2026-08-10 10:00",
-    "deadline": "2026-09-06 18:00",
-    "eventEnd": "2026-12-18",
-    "schedule": "2026.08.28 ~ 12.18 매주 금 16:00 ~ 17:00",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3480"
-  },
-  {
-    "id": "phlib-3481",
-    "org": "어린이영어도서관",
-    "orgShort": "어린이영어",
-    "title": "(초등2-4)Story와 함께하는 영어 1",
-    "place": "어린이영어도서관 다목적실",
-    "target": "초등2-4학년(16~18년생)",
-    "fee": "무료",
-    "capacity": 14,
-    "enrolled": 12,
-    "waitCapacity": 5,
-    "waitEnrolled": 0,
-    "openAt": "2026-08-10 10:00",
-    "deadline": "2026-09-06 18:00",
-    "eventEnd": "2026-12-17",
-    "schedule": "2026.08.27 ~ 12.17 매주 목 16:05 ~ 16:55",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3481"
-  },
-  {
     "id": "phlib-3527",
     "org": "포은오천도서관",
     "orgShort": "포은오천",
@@ -437,7 +367,7 @@
     "target": "초등1~6학년 및 학부모",
     "fee": "무료",
     "capacity": 60,
-    "enrolled": 36,
+    "enrolled": 39,
     "waitCapacity": 0,
     "waitEnrolled": 0,
     "openAt": "2026-08-25 10:00",
@@ -501,7 +431,7 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3539"
   },
   {
-    "id": "phlib-3550",
+    "id": "phlib-3549",
     "org": "포은흥해도서관",
     "orgShort": "포은흥해",
     "title": "[독서의달]-북 퍼퓸 만들기(일반)",
@@ -515,11 +445,11 @@
     "openAt": "2026-09-11 10:00",
     "deadline": "2026-09-17 18:00",
     "eventEnd": "2026-09-20",
-    "schedule": "2026.09.20(일) 13:00 ~ 15:00 (1회)",
+    "schedule": "2026.09.20(일) 10:00 ~ 12:00 (1회)",
     "applyRule": "own-id",
     "unit": "명",
     "presets": [],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3550"
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3549"
   },
   {
     "id": "phlib-3561",
@@ -530,7 +460,7 @@
     "target": "누구나",
     "fee": "무료",
     "capacity": 20,
-    "enrolled": 14,
+    "enrolled": 19,
     "waitCapacity": 5,
     "waitEnrolled": 0,
     "openAt": "2026-08-27 10:00",
@@ -555,7 +485,7 @@
     "capacity": 7,
     "enrolled": 7,
     "waitCapacity": 4,
-    "waitEnrolled": 0,
+    "waitEnrolled": 1,
     "openAt": "2026-08-27 10:00",
     "deadline": "2026-09-09 18:00",
     "eventEnd": "2026-09-11",
