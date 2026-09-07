@@ -15,6 +15,26 @@ var CP15 = {
     'text', 'groupId', 'updatedAt', 'result', 'sentAt', 'kind']
 };
 
+/* ── 소수 정원 알림 ─────────────────────────────────────────────
+   강좌를 담지 않고 「주로 다니는 때」만 고른 신청자를 위한 알림입니다.
+   그분들은 찜 ID 가 없어 발송목록에 행이 생기지 않고, 지금까지 문자를 한 통도
+   받지 못했습니다. 신청 화면에서는 문자로 알려주겠다고 약속한 상태입니다.
+
+   무엇을 보낼지는 고른 시간대가 아니라 정원으로 정합니다. 시간대로 거르면
+   두 가지를 놓치기 때문입니다.
+     · 「평일 방과후」에 맞는 강좌는 앞으로 열리는 것 중 하나도 없습니다
+     · 6가족 천체관측은 행사가 평일 저녁이라 어느 시간대에도 걸리지 않습니다
+       — 정작 알림이 가장 필요한 강좌입니다
+
+   기준은 화면의 「소수 정원 ⚡」 칩과 같은 12명 이하입니다 (index.html 의 isSmall).
+   60명짜리는 알림이 없어도 신청되고 6가족은 못 잡습니다. 그 차이가 이 서비스의
+   존재 이유이므로, 알림도 화면과 같은 선을 씁니다. */
+var CP15_SMALL = {
+  kind: '소수정원',
+  maxCapacity: 12,     // index.html 의 isSmall 과 같은 값입니다
+  from: 'sms'          // GA4 에서 문자 유입을 따로 셉니다
+};
+
 // 번호나 비밀키를 출력하지 않는 연결 전 점검입니다. 문자를 발송하지 않습니다.
 function 십오분전설정확인() {
   var p = PropertiesService.getScriptProperties();
@@ -23,6 +43,7 @@ function 십오분전설정확인() {
   var result = {
     leadMinutes: CP15.leadMinutes,
     enabled: p.getProperty('CP15_ENABLED') === 'true',
+    smallEnabled: p.getProperty('CP15_SMALL_ENABLED') === 'true',
     apiKeySet: !!cp15RawConfig_().key,
     apiSecretSet: !!cp15RawConfig_().secret,
     senderSet: !!cp15RawConfig_().from,
@@ -66,6 +87,58 @@ function 십오분전자동중지() {
 function 십오분전자동실행() {
   var enabled = PropertiesService.getScriptProperties().getProperty('CP15_ENABLED') === 'true';
   return cp15Locked_(function () { return cp15Cycle_(true, !enabled); });
+}
+
+/* ── 소수 정원 알림 켜고 끄기 ───────────────────────────────────
+   번호는 출력하지 않습니다. 사람 수와 강좌만 봅니다. SOLAPI 를 부르지 않습니다. */
+function 소수정원미리보기() {
+  var ss = SpreadsheetApp.openById(CP15.spreadsheetId);
+  var people = cp15SlotSubscribers_(ss);
+  var blocked = cp15Blocked_(ss);
+  var 대상 = people.filter(function (s) { return /^01\d{8,9}$/.test(s.phone) && !blocked[s.phone]; });
+  var groups = cp15SmallGroups_(cp15FetchPrograms_());
+  var now = new Date();
+  var times = Object.keys(groups).filter(function (at) { return new Date(at) > now; }).sort();
+  var 예약 = times.map(function (at) {
+    var send = new Date(new Date(at).getTime() - CP15.leadMinutes * 60000);
+    return {
+      발송시각: Utilities.formatDate(send, 'Asia/Seoul', 'MM/dd(E) HH:mm'),
+      강좌: groups[at].map(function (p) { return p.title + ' ' + p.capacity + (p.unit || '명'); }),
+      문자: 대상.length + '통',
+      곧예약함: (send - now) <= CP15.horizonHours * 3600000
+    };
+  });
+  var result = {
+    켜짐: cp15SmallEnabled_(),
+    정원기준: CP15_SMALL.maxCapacity + '명 이하',
+    대상인원: 대상.length,
+    제외: people.length - 대상.length,     // 번호 형식 이상 또는 수신거부
+    예약: 예약,
+    본문예시: times.length
+      ? cp15SmallJob_({phone: '01000000000', name: ''}, groups[times[0]], times[0]).text
+      : '(보낼 강좌 없음)'
+  };
+  Logger.log(JSON.stringify(result, null, 2));
+  return result;
+}
+
+// 이 함수의 실행은 실제 신청자 대상 발송을 활성화합니다.
+function 소수정원알림켜기() {
+  var check = 십오분전설정확인();
+  if (!check.enabled) {
+    throw new Error('접수 15분 전 예약(십오분전자동설치)이 먼저 켜져 있어야 합니다.');
+  }
+  var preview = 소수정원미리보기();   // 먼저 검증합니다. 실패하면 켜지 않습니다.
+  PropertiesService.getScriptProperties().setProperty('CP15_SMALL_ENABLED', 'true');
+  cp15EnsureTrigger_();
+  Logger.log('소수 정원 알림 켜짐. 대상 ' + preview.대상인원 + '명.');
+  return preview;
+}
+
+// 끄면 다음 실행(1분 안)이 아직 발송되지 않은 예약을 업체에서 취소합니다.
+function 소수정원알림끄기() {
+  PropertiesService.getScriptProperties().setProperty('CP15_SMALL_ENABLED', 'false');
+  return cp15Locked_(function () { return cp15Cycle_(true, false); });
 }
 
 // 테스트도 실제 문자를 예약합니다. 명시적으로 지정한 본인 번호만 사용합니다.
@@ -118,7 +191,14 @@ function cp15Cycle_(live, stop, stopTests) {
   var now = new Date();
   if (!stop) {
     var data = cp15FetchPrograms_(); // 데이터 조회 실패 시 기존 예약을 삭제하지 않고 실행 오류로 남깁니다.
-    wanted = cp15Plan_(data, cp15ReadSubscriptions_(ss), cp15Blocked_(ss));
+    var blocked = cp15Blocked_(ss);
+    wanted = cp15Plan_(data, cp15ReadSubscriptions_(ss), blocked);
+    // 소수 정원 알림을 같은 목록에 얹습니다. 예약·취소·결과 확인은 아래 로직을 그대로 씁니다.
+    // 꺼져 있으면 wanted 에서 빠지므로 이미 잡아둔 예약은 다음 실행이 취소합니다.
+    if (cp15SmallEnabled_()) {
+      var small = cp15SmallPlan_(data, cp15SlotSubscribers_(ss), blocked);
+      Object.keys(small).forEach(function (key) { wanted[key] = small[key]; });
+    }
     var keys = {};
     jobs.forEach(function (j) { keys[j.key] = j; });
     Object.keys(wanted).forEach(function (key) {
@@ -176,6 +256,96 @@ function cp15Plan_(programs, subscriptions, blocked) {
     desired[job.key] = job;
   });
   return desired;
+}
+
+function cp15SmallEnabled_() {
+  return PropertiesService.getScriptProperties().getProperty('CP15_SMALL_ENABLED') === 'true';
+}
+
+/* 강좌를 담지 않은 사람만 골라냅니다.
+   담은 사람은 발송목록으로 이미 알림을 받고 있어, 여기서 빼지 않으면 같은
+   강좌로 두 통을 받게 됩니다. 나중에 강좌를 담으면 자동으로 이 명단에서 빠집니다. */
+function cp15SlotSubscribers_(ss) {
+  var sh = ss.getSheetByName('신청자');
+  if (!sh) throw new Error('신청자 탭이 없습니다.');
+  var header = sh.getRange(1, 1, 1, 7).getValues()[0];
+  if (header[2] !== '휴대폰' || header[5] !== '찜 ID') {
+    throw new Error('신청자 열 구성을 확인하세요. C열이 휴대폰, F열이 찜 ID 여야 합니다.');
+  }
+  if (sh.getLastRow() < 2) return [];
+  var seen = {};
+  var out = [];
+  sh.getRange(2, 1, sh.getLastRow() - 1, 7).getValues().forEach(function (r) {
+    if (String(r[5] || '').trim()) return;        // 찜한 강좌가 있는 사람
+    var phone = cp15Phone_(r[2]);
+    if (!phone || seen[phone]) return;            // 같은 번호가 두 줄이어도 한 번만
+    seen[phone] = true;
+    out.push({phone: phone, name: String(r[1] || '')});
+  });
+  return out;
+}
+
+/* 정원이 작은 강좌를 접수 시각별로 묶습니다.
+   같은 시각에 두 건이 열리면 문자가 두 통 가는 게 아니라 한 통에 담깁니다. */
+function cp15SmallGroups_(programs) {
+  var groups = {};
+  programs.forEach(function (p) {
+    if (!p || !p.id) return;
+    if (p.capacity == null || !(Number(p.capacity) <= CP15_SMALL.maxCapacity)) return;
+    var open = cp15Date_(p.openAt);
+    if (!open) return;
+    var at = open.toISOString();
+    (groups[at] = groups[at] || []).push(p);
+  });
+  // 수집 순서가 바뀌어도 예약키가 흔들리지 않도록 강좌 순서를 고정합니다
+  Object.keys(groups).forEach(function (at) {
+    groups[at].sort(function (a, b) { return a.id < b.id ? -1 : a.id > b.id ? 1 : 0; });
+  });
+  return groups;
+}
+
+function cp15SmallPlan_(programs, subscribers, blocked) {
+  var groups = cp15SmallGroups_(programs);
+  var times = Object.keys(groups);
+  var desired = {};
+  subscribers.forEach(function (s) {
+    if (!/^01\d{8,9}$/.test(s.phone) || blocked[s.phone]) return;
+    times.forEach(function (at) {
+      var job = cp15SmallJob_(s, groups[at], at);
+      desired[job.key] = job;
+    });
+  });
+  return desired;
+}
+
+/* 한 건이면 그 강좌로 바로 가는 링크를, 여러 건이면 목록을 담습니다.
+   눌러서 다시 찾게 만들면 그 사이에 마감됩니다. */
+function cp15SmallJob_(s, list, at) {
+  var open = new Date(at);
+  var send = new Date(open.getTime() - CP15.leadMinutes * 60000);
+  var ids = list.map(function (p) { return p.id; }).join(',');
+  var size = function (p) { return p.capacity + (p.unit || '명'); };
+  var head, link;
+  if (list.length === 1) {
+    head = '「' + String(list[0].title || '').slice(0, 120) + '」 ' + size(list[0]);
+    link = CP15.siteUrl + '?open=' + encodeURIComponent(list[0].id) + '&from=' + CP15_SMALL.from;
+  } else {
+    head = '정원 작은 강좌 ' + list.length + '건\n' + list.map(function (p) {
+      return '· ' + String(p.title || '').slice(0, 60) + ' ' + size(p);
+    }).join('\n');
+    link = CP15.siteUrl + '?from=' + CP15_SMALL.from;
+  }
+  return {
+    key: CP15_SMALL.kind + '|' + s.phone + '|' + ids + '|' + open.toISOString(),
+    state: '준비', phone: s.phone, name: s.name || '', id: ids,
+    title: list.map(function (p) { return String(p.title || ''); }).join(' / ').slice(0, 250),
+    openAt: open.toISOString(), sendAt: send.toISOString(),
+    text: '[컬처픽] 접수 15분 전 알림\n' + head +
+      '\n접수 시작: ' + Utilities.formatDate(open, 'Asia/Seoul', 'MM/dd HH:mm') +
+      '\n정원이 작아 금방 마감됩니다. 로그인을 미리 준비해 주세요.\n' + link +
+      '\n수신거부: 그만 회신',
+    groupId: '', updatedAt: '', result: '', sentAt: '', kind: CP15_SMALL.kind
+  };
 }
 
 function cp15Active_(state) { return ['', '대기', '미발송', 'FALSE'].indexOf(String(state == null ? '' : state).trim().toUpperCase()) >= 0; }
