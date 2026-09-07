@@ -54,7 +54,8 @@
 ```
 ?preset=weekend   그 칩이 눌린 채로 시작 (weekend/kid/elem/small/morning/outing)
 ?open=gsei-1467   그 강좌 카드로 스크롤 + 잠깐 강조
-?from=instagram   유입 경로 표시 (GA4 에서 채널별 비교)
+?from=kakao       유입 경로. GA4 의 campaign_source 로 옮겨져 「트래픽 획득」에 잡힙니다
+                  (kakao / instagram / danggeun / blog / sms)
 ```
 
 강좌 ID 는 `data/programs.json` 의 `id` 값을 그대로 씁니다.

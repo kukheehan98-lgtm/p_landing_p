@@ -29,7 +29,24 @@
     gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
     document.head.appendChild(gaScript);
     gtag('js', new Date());
-    gtag('config', GA_ID);
+
+    /* 홍보 링크의 ?from=kakao 같은 꼬리표를 GA4 가 원래 아는 「소스」로 옮깁니다.
+       그냥 두면 주소 안의 글자로만 남아, 채널별 비교를 하려면 「트래픽 획득」이
+       아니라 페이지 목록을 뒤져야 합니다. 이렇게 옮겨두면 카톡·인스타·당근·문자가
+       표준 보고서에서 나란히 비교됩니다.
+       꼬리표가 없으면 아무것도 건드리지 않습니다 — GA4 가 스스로 알아낸
+       유입 경로를 덮어쓰면 안 되기 때문입니다. */
+    var gaFrom = '';
+    try {
+      gaFrom = (new URLSearchParams(location.search).get('from') || '')
+                 .replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40);
+    } catch (e) { gaFrom = ''; }
+
+    if (gaFrom) {
+      gtag('config', GA_ID, { campaign_source: gaFrom, campaign_medium: 'referral' });
+    } else {
+      gtag('config', GA_ID);
+    }
   }
 </script>
 
