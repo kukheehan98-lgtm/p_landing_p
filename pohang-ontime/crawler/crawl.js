@@ -67,8 +67,11 @@ function rememberCookies(url, res) {
 async function get(url) {
   let res;
   const headers = {
-    /* 기본 헤더만 보내면 거르는 기관 사이트가 있습니다 */
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36',
+    /* 기본 헤더만 보내면 거르는 기관 사이트가 있어 브라우저 형식을 유지하되,
+       뒤에 서비스 이름과 주소를 붙여 누가 긁는지 로그에서 알 수 있게 합니다.
+       익명으로 긁으면 기관이 문의할 방법조차 없습니다. */
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36 ' +
+      'CulturePick/1.0 (+https://kukheehan98-lgtm.github.io/p_landing_p/)',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
     'Accept-Language': 'ko-KR,ko;q=0.9,en;q=0.8',
     'X-Requested-With': 'XMLHttpRequest'
