@@ -52,14 +52,22 @@ const PLAN_MODE = process.argv.includes('--plan');
 const DRY      = process.argv.includes('--dry');   /* 기록은 하되 올리지 않음 (예행연습) */
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
+/* 기관이 적는 접수 시각은 언제나 한국시간입니다. 실행 환경의 시간대에 기대면
+   깃허브 러너(UTC)에서 아홉 시간이 어긋나 '오늘' 이 하루 밀리고, 그날 접수를
+   찾지 못한 채 «볼 것이 없습니다» 하며 초록 체크로 끝납니다.
+   그래서 양쪽 다 한국시간으로 못 박습니다 — 이 PC 에서도 러너에서도 같은 값입니다. */
+const KST_MS = 9 * 60 * 60 * 1000;
+
 function toDate(s) {
   const p = String(s).split(/[-\s:]+/);
-  return new Date(+p[0], +p[1] - 1, +p[2], +(p[3] || 0), +(p[4] || 0));
+  return new Date(Date.UTC(+p[0], +p[1] - 1, +p[2], +(p[3] || 0), +(p[4] || 0)) - KST_MS);
 }
 
 function stamp(d) {
+  const k = new Date(d.getTime() + KST_MS);   /* UTC 필드로 읽으면 한국시간입니다 */
   const p = n => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+  return `${k.getUTCFullYear()}-${p(k.getUTCMonth() + 1)}-${p(k.getUTCDate())} ` +
+         `${p(k.getUTCHours())}:${p(k.getUTCMinutes())}:${p(k.getUTCSeconds())}`;
 }
 
 async function get(url) {
@@ -177,20 +185,7 @@ function publish(openAt) {
   console.log('기록을 올렸습니다');
 }
 
-/* 접수 시각은 모두 한국시간이고, 아래 계산은 전부 로컬 시각 기준입니다.
-   깃허브 러너는 UTC 로 도는데 새벽 실행이면 '오늘' 이 하루 어긋나, 그날
-   접수를 못 찾고도 «볼 것이 없습니다» 하며 초록 체크로 끝납니다.
-   조용히 놓치느니 시끄럽게 멈춥니다 — 빨간 X 는 눈에 띄지만 빈 기록은 아닙니다. */
-function assertKst() {
-  const offMin = -new Date().getTimezoneOffset();
-  if (offMin === 540) return;
-  const h = offMin / 60;
-  throw new Error('시간대가 한국(UTC+9)이 아닙니다 — 지금 UTC' + (h >= 0 ? '+' : '') + h +
-    '. 실행 환경에 TZ=Asia/Seoul 을 설정하세요.');
-}
-
 async function main() {
-  assertKst();
   if (NOW_MODE) {
     const all = JSON.parse(fs.readFileSync(DATA, 'utf8')).filter(p => p.openAt && p.capacity);
     const targets = all.slice(0, 3);
