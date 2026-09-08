@@ -50,7 +50,11 @@ jobs:
       - name: 오늘 지켜볼 접수가 있는지
         id: plan
         working-directory: pohang-ontime
-        run: node crawler/observe.js --plan >> "$GITHUB_OUTPUT"
+        run: |
+          # 러너는 UTC 로 돕니다. 이 줄이 KST 로 찍혀야 TZ 가 먹은 것입니다.
+          # 안 먹으면 새벽 실행에서 '오늘' 이 하루 어긋나 그날 접수를 통째로 놓칩니다.
+          echo "러너가 보는 지금: $(date '+%Y-%m-%d %H:%M %Z')"
+          node crawler/observe.js --plan >> "$GITHUB_OUTPUT"
 
       - name: 접수 시각까지 지켜보기
         if: steps.plan.outputs.watch == 'yes'
