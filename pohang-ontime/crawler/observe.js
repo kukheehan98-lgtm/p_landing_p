@@ -177,7 +177,20 @@ function publish(openAt) {
   console.log('기록을 올렸습니다');
 }
 
+/* 접수 시각은 모두 한국시간이고, 아래 계산은 전부 로컬 시각 기준입니다.
+   깃허브 러너는 UTC 로 도는데 새벽 실행이면 '오늘' 이 하루 어긋나, 그날
+   접수를 못 찾고도 «볼 것이 없습니다» 하며 초록 체크로 끝납니다.
+   조용히 놓치느니 시끄럽게 멈춥니다 — 빨간 X 는 눈에 띄지만 빈 기록은 아닙니다. */
+function assertKst() {
+  const offMin = -new Date().getTimezoneOffset();
+  if (offMin === 540) return;
+  const h = offMin / 60;
+  throw new Error('시간대가 한국(UTC+9)이 아닙니다 — 지금 UTC' + (h >= 0 ? '+' : '') + h +
+    '. 실행 환경에 TZ=Asia/Seoul 을 설정하세요.');
+}
+
 async function main() {
+  assertKst();
   if (NOW_MODE) {
     const all = JSON.parse(fs.readFileSync(DATA, 'utf8')).filter(p => p.openAt && p.capacity);
     const targets = all.slice(0, 3);
