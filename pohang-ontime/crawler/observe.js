@@ -42,7 +42,13 @@ const OFFSETS = (process.env.OBSERVE_OFFSETS || '-1,0,0.5,1,2,3,5,8,12,20,30,45,
    윈도우 작업 스케줄러가 5분마다 깨우므로 그보다 넉넉하게 잡습니다. */
 const LOOKAHEAD_MIN = 7;
 
-const NOW_MODE = process.argv.includes('--now');
+/* 깃허브 서버에서 돌 때는 해외 IP 가 막힌 기관을 건너뜁니다. 목록을 못 받아
+   빈손으로 두 시간을 기다리며, 그동안 다른 기관 관측까지 막습니다.
+   예: CP_SKIP=phlib-  (아이디 앞부분으로 지정) */
+const SKIP = (process.env.CP_SKIP || '').split(',').map(s => s.trim()).filter(Boolean);
+
+const NOW_MODE  = process.argv.includes('--now');
+const PLAN_MODE = process.argv.includes('--plan');
 const DRY      = process.argv.includes('--dry');   /* 기록은 하되 올리지 않음 (예행연습) */
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -80,6 +86,7 @@ function todaysOpenings() {
 
   for (const p of all) {
     if (!p.openAt || p.openAt.slice(0, 10) !== today) continue;
+    if (SKIP.some(k => String(p.id).startsWith(k))) continue;
     if (!groups.has(p.openAt)) groups.set(p.openAt, []);
     groups.get(p.openAt).push(p);
   }
@@ -163,6 +170,9 @@ function publish(openAt) {
   if (!git('status', '--porcelain', '--', 'data/fill-log.csv')) return;
   git('add', 'data/fill-log.csv');
   git('commit', '-q', '-m', `Log how fast ${openAt} filled up`);
+  /* 그 사이 수집 워크플로가 올렸으면 push 가 거부되고, 기록은 러너와 함께
+     사라집니다. 먼저 받아온 뒤 올립니다. */
+  git('pull', '--rebase', '--autostash', '--quiet', 'origin', 'main');
   git('push', '-q', 'origin', 'main');
   console.log('기록을 올렸습니다');
 }
@@ -181,6 +191,28 @@ async function main() {
   }
 
   const openings = todaysOpenings();
+
+  /* 깃허브 워크플로가 「오늘 볼 것이 있는지, 언제까지 지켜봐야 하는지」를
+     묻는 모드입니다. 사람이 읽을 줄은 stderr 로, 워크플로가 쓸 값만 stdout
+     으로 내보냅니다 — 그래야 $GITHUB_OUTPUT 이 더러워지지 않습니다. */
+  if (PLAN_MODE) {
+    const maxOff = Math.max(...OFFSETS);
+    const live = openings.filter(([at]) =>
+      !alreadyObserved(at) && (Date.now() - toDate(at)) / 60000 < maxOff);
+    if (!live.length) {
+      console.error('오늘 지켜볼 접수가 없습니다');
+      console.log('watch=no');
+      return;
+    }
+    const last = toDate(live[live.length - 1][0]);
+    console.error('지켜볼 접수 ' + live.length + '건');
+    live.forEach(([at, t]) => console.error('  ' + at + ' — ' +
+      t.map(x => x.title.slice(0, 18) + ' ' + x.capacity + (x.unit || '명')).join(', ')));
+    console.log('watch=yes');
+    console.log('until=' + Math.floor((last.getTime() + (maxOff + 10) * 60000) / 1000));
+    return;
+  }
+
   if (!openings.length) { console.log('오늘 접수가 열리는 강좌가 없습니다'); return; }
 
   for (const [openAt, targets] of openings) {

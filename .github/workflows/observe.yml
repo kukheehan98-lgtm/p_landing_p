@@ -1,0 +1,72 @@
+name: 접수 정원 관측
+
+# 접수가 열리는 순간 정원이 차는 속도를 기록합니다.
+#
+# 왜 깃허브에서도 도는가 — 관측기는 원래 이 프로젝트의 PC에서만 돌았습니다.
+# 그런데 그 PC는 이동 중에 꺼져 있고, 켜져 있어도 5분이면 절전에 듭니다.
+# 2026-09-08 에 실제로 09:10 예약이 10:22 에야 실행됐고(그때 인터넷이 아직
+# 안 붙어 실패), 그날 10:30 접수는 한 줄도 기록되지 않았습니다.
+# 접수 순간은 다시 오지 않으므로, 막히지 않은 기관만이라도 여기서 대신 봅니다.
+#
+# 포항시립도서관은 해외 IP 를 막아 깃허브에서 목록을 받을 수 없습니다.
+# CP_SKIP 으로 빼지 않으면 빈손으로 두 시간을 기다리며 다른 기관 관측까지
+# 막습니다. 그 기관은 여전히 PC 관측에만 의존합니다.
+on:
+  schedule:
+    # 러너는 UTC 로 돕니다. 아래는 한국시간 07:00 과 08:20 입니다.
+    # 두 번 거는 이유: 깃허브 예약 실행은 자주 늦습니다(2026-09-07 에는
+    # 05:20 예정이 07:08 에 돌았습니다). 앞 실행이 통째로 건너뛰어도
+    # 뒤 실행이 09:00 접수를 잡습니다.
+    - cron: '0 22 * * *'
+    - cron: '20 23 * * *'
+  workflow_dispatch:          # Actions 탭에서 손으로도 돌릴 수 있습니다
+
+permissions:
+  contents: write             # 기록을 되돌려 커밋하기 위해 필요합니다
+
+concurrency:
+  group: observe
+  cancel-in-progress: false   # 관측 중인 작업을 절대 끊지 않습니다
+
+env:
+  TZ: Asia/Seoul              # 이게 없으면 러너의 '오늘' 이 하루 어긋납니다
+  CP_SKIP: phlib-             # 해외 IP 차단 — 이 PC 에서만 관측됩니다
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350      # 07:00 시작 → 마지막 접수 + 2시간까지 버팁니다
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0      # 관측기가 push 전에 rebase 로 받아옵니다
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # 의존성이 없어 install 단계가 필요 없습니다
+
+      # 오늘 볼 것이 없으면 몇 초 만에 끝납니다. 사람이 읽을 줄은 stderr 로
+      # 나가고, watch/until 만 stdout 으로 나와 출력값이 더러워지지 않습니다.
+      - name: 오늘 지켜볼 접수가 있는지
+        id: plan
+        working-directory: pohang-ontime
+        run: node crawler/observe.js --plan >> "$GITHUB_OUTPUT"
+
+      - name: 접수 시각까지 지켜보기
+        if: steps.plan.outputs.watch == 'yes'
+        working-directory: pohang-ontime
+        run: |
+          git config user.name  "culturepick-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          UNTIL='${{ steps.plan.outputs.until }}'
+          echo "$(date '+%H:%M') 부터 $(date -d "@$UNTIL" '+%H:%M') 까지 지켜봅니다"
+
+          # 관측기는 접수 7분 전이 되면 스스로 붙잡고 정해진 시점마다 찍습니다.
+          # 그 전까지는 곧바로 끝나므로, 2분마다 다시 물어보면 됩니다.
+          while [ "$(date +%s)" -lt "$UNTIL" ]; do
+            node crawler/observe.js || echo "  이번 호출 실패 — 다음에 다시 봅니다"
+            [ "$(date +%s)" -ge "$UNTIL" ] && break
+            sleep 120
+          done
+          echo "$(date '+%H:%M') 관측 종료"
