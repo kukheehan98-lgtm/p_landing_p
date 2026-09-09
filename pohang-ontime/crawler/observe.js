@@ -120,6 +120,67 @@ function append(rows) {
   fs.appendFileSync(LOG, rows.map(r => r.map(csvCell).join(',')).join('\n') + '\n');
 }
 
+/* csvCell 이 감싼 것을 도로 풉니다. 강좌 이름에 쉼표가 들어가면 따옴표가
+   씌워지므로, 쉼표로 그냥 자르면 칸이 밀립니다. */
+function splitCsvLine(line) {
+  const out = [];
+  let cur = '', quoted = false;
+  for (let i = 0; i < line.length; i++) {
+    const c = line[i];
+    if (quoted) {
+      if (c !== '"') cur += c;
+      else if (line[i + 1] === '"') { cur += '"'; i++; }
+      else quoted = false;
+    } else if (c === '"') quoted = true;
+    else if (c === ',') { out.push(cur); cur = ''; }
+    else cur += c;
+  }
+  out.push(cur);
+  return out;
+}
+
+/* 자리값 그대로 견줍니다. localeCompare 는 실행 환경의 언어 설정을 따라가서
+   이 PC 와 리눅스 러너가 서로 다른 순서를 내놓습니다. */
+function cmp(a, b) { return a < b ? -1 : a > b ? 1 : 0; }
+
+/* 이 PC 와 깃허브가 같은 접수를 함께 봅니다. 겹치는 게 낭비 같지만 일부러
+   그렇게 두었습니다 — 2026-09-08 에 PC 가 절전에 들어 그날 관측이 통째로
+   비었고, 깃허브는 포항시립도서관을 아예 못 봅니다. 한쪽이 빠져도 기록이
+   남으려면 둘 다 봐야 합니다.
+   그 대가로 같은 시점이 두 번 적힙니다. union 병합이 양쪽 줄을 모두 남기므로,
+   올리기 직전에 여기서 (강좌 · 접수시각 · 경과분) 이 같은 줄을 하나로 줄입니다.
+
+   양쪽이 각자 정리해도 결과가 같아야 합니다. 다르면 서로의 정리를 뒤집으며
+   커밋이 끝없이 오갑니다. 그래서 남길 줄도 줄 순서도 파일에 적힌 값만으로
+   정합니다 — 실행 시각이나 누가 돌렸는지는 쓰지 않습니다.
+   겹친 둘 중에는 먼저 찍은 줄을 남깁니다. 정해진 시점에 더 가깝습니다. */
+function dedupeLog() {
+  if (!fs.existsSync(LOG)) return 0;
+  const raw   = fs.readFileSync(LOG, 'utf8');
+  const lines = raw.split('\n').filter(l => l.trim() !== '');
+  if (!lines.length) return 0;
+
+  const body = lines[0].startsWith('at,') ? lines.slice(1) : lines;
+  const best = new Map();
+  for (const line of body) {
+    const f = splitCsvLine(line);
+    if (f.length < 10) continue;                 /* 칸이 모자란 줄은 버립니다 */
+    const key = [f[2], f[9], f[1]].join('|');   /* 강좌 · 접수시각 · 경과분 */
+    const prev = best.get(key);
+    if (!prev || cmp(f[0], prev.at) < 0 || (f[0] === prev.at && cmp(line, prev.line) < 0)) {
+      best.set(key, { at: f[0], off: Number(f[1]), id: f[2], openAt: f[9], line });
+    }
+  }
+
+  const kept = [...best.values()].sort((a, b) =>
+    cmp(a.openAt, b.openAt) || cmp(a.id, b.id) || (a.off - b.off) || cmp(a.line, b.line));
+
+  const out = HEADER + kept.map(r => r.line).join('\n') + '\n';
+  if (out === raw) return 0;
+  fs.writeFileSync(LOG, out);
+  return body.length - kept.length;
+}
+
 /* 관측 대상이 속한 기관만 긁습니다. 필요 없는 곳을 부르지 않습니다. */
 async function snapshot(targets) {
   const keys = [...new Set(targets.map(t => t.id.replace(/-[^-]*$/, '')))];
@@ -181,6 +242,23 @@ function publish(openAt) {
   /* 그 사이 수집 워크플로가 올렸으면 push 가 거부되고, 기록은 러너와 함께
      사라집니다. 먼저 받아온 뒤 올립니다. */
   git('pull', '--rebase', '--autostash', '--quiet', 'origin', 'main');
+
+  /* 상대가 올린 줄은 합쳐진 뒤에야 보입니다. 그래서 정리는 pull 다음입니다. */
+  const cut = dedupeLog();
+  if (cut) {
+    git('add', 'data/fill-log.csv');
+    git('commit', '-q', '--amend', '--no-edit');
+    console.log(`겹친 기록 ${cut}줄을 걸렀습니다`);
+  }
+
+  /* 우리가 본 것을 상대도 남김없이 봤다면 새로 올릴 게 없습니다.
+     빈 커밋을 얹어 기록을 지저분하게 만들지 않습니다. */
+  if (!git('diff', 'HEAD~1', '--name-only', '--', 'data/fill-log.csv')) {
+    git('reset', '--soft', 'HEAD~1');
+    console.log('이미 다 기록돼 있습니다 — 올리지 않습니다');
+    return;
+  }
+
   git('push', '-q', 'origin', 'main');
   console.log('기록을 올렸습니다');
 }
