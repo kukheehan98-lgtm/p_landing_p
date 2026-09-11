@@ -72,6 +72,16 @@ test('어느 쪽이 먼저 합쳐지든 결과가 같다 — 서로의 정리를
   assert.equal(두번째.read(), 이PC먼저.read());
 });
 
+test('지운 줄이 없어도 순서가 틀렸으면 파일을 고쳐 쓴다 — 반환값 0 이 「안 바뀜」을 뜻하지 않는다', () => {
+  /* 2026-09-11 관측에서 이 성질 때문에 정돈된 파일이 커밋되지 않았습니다.
+     publish() 가 반환값 대신 파일 상태를 보도록 고쳤고, 그 근거를 여기 남깁니다. */
+  const 뒤집힌순서 = file(다른시점, 이PC);          // 경과분 1 이 0.5 보다 앞에 옴
+  const {dedupeLog, read} = load(뒤집힌순서);
+  assert.equal(dedupeLog(), 0);                      // 지운 줄은 없지만
+  assert.notEqual(read(), 뒤집힌순서);               // 파일은 바뀌었다
+  assert.equal(read(), file(이PC, 다른시점));        // 경과분 순으로 정돈됨
+});
+
 test('겹친 게 없으면 파일을 건드리지 않는다', () => {
   const 원본 = file(이PC, 다른시점);
   const {dedupeLog, read} = load(원본);

@@ -245,10 +245,14 @@ function publish(openAt) {
 
   /* 상대가 올린 줄은 합쳐진 뒤에야 보입니다. 그래서 정리는 pull 다음입니다. */
   const cut = dedupeLog();
-  if (cut) {
+  /* 지운 줄이 없어도 파일이 바뀔 수 있습니다 — 줄 순서만 고쳐질 때가 그렇습니다.
+     걸러낸 줄 수로 판단하면 그 경우를 놓쳐, 정돈된 파일이 이 PC 에만 남고
+     저장소에는 안 올라갑니다. 실제로 2026-09-11 관측에서 그렇게 됐습니다.
+     그래서 반환값이 아니라 파일의 현재 상태를 보고 정합니다. */
+  if (git('status', '--porcelain', '--', 'data/fill-log.csv')) {
     git('add', 'data/fill-log.csv');
     git('commit', '-q', '--amend', '--no-edit');
-    console.log(`겹친 기록 ${cut}줄을 걸렀습니다`);
+    console.log(cut ? `겹친 기록 ${cut}줄을 걸렀습니다` : '기록 순서를 정돈했습니다');
   }
 
   /* 우리가 본 것을 상대도 남김없이 봤다면 새로 올릴 게 없습니다.
