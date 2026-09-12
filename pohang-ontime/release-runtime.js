@@ -17,7 +17,7 @@ function prepareUI(){
  document.querySelector('#success p').innerHTML='<span id="integration-result"></span><br>실제 수강 신청은 기관 홈페이지에서 진행해주세요.';
  document.querySelector('footer a[href^="mailto:"]').textContent='알림 중지·개인정보 삭제 요청';
  document.querySelector('.data-note').textContent='기관 공고를 바탕으로 안내합니다. 최종 일정과 신청 조건은 기관 홈페이지에서 확인해주세요.';
- document.querySelector('footer>span').textContent='접수 알림은 기관의 수강 신청을 대신하지 않습니다.';
+ document.querySelector('footer>span').textContent='담기 취소는 신청 전 목록에서 빼는 기능입니다. 이미 신청한 알림은 수신거부를 요청해주세요. 접수 알림은 기관의 수강 신청을 대신하지 않습니다.';
  const sections=[
  ['수집 항목 및 목적','휴대폰 번호, 선택한 강좌와 신청 시각을 접수 알림 제공에 사용합니다. 기존 신청자의 선택 입력 이름은 기존 기록에 남아 있을 수 있습니다.'],
  ['보유 및 이용 기간','수신거부 요청 또는 서비스 종료 시 파기합니다.'],
@@ -27,7 +27,35 @@ function prepareUI(){
  ['신청과 담기의 차이','담기 취소는 신청 전 목록에서 빼는 기능입니다. 이미 신청한 문자 알림은 운영자에게 수신거부를 요청해주세요.'],
  ['고지','처리방침 변경 시 시행일과 변경 내용을 이 화면에 알립니다. 디자인 전환 시 연락처 수집 화면과 처리 서비스 안내를 정리했습니다.']
  ];
- document.querySelectorAll('.privacy-preview').forEach(el=>{el.innerHTML='<summary>개인정보 및 이용 안내</summary>'+sections.map(x=>'<h3>'+x[0]+'</h3><p>'+x[1]+'</p>').join('');});
+ document.querySelectorAll('#signup-dialog .privacy-preview').forEach(el=>{el.innerHTML='<summary>개인정보 및 이용 안내</summary>'+sections.map(x=>'<h3>'+x[0]+'</h3><p>'+x[1]+'</p>').join('');});
+ const footerSections=[
+  [
+    "수집 항목 및 목적",
+    "휴대폰 번호, 선택 강좌, 신청 시각을 접수 알림 제공에 사용합니다. 기존에 선택 입력한 이름이 있는 경우 함께 보관합니다."
+  ],
+  [
+    "보유 및 이용 기간",
+    "수신거부 요청 또는 서비스 종료 시 파기합니다."
+  ],
+  [
+    "처리 업체와 업무",
+    "Google Sheets·Apps Script: 신청 정보 보관 및 처리. SOLAPI: 문자 알림 발송."
+  ],
+  [
+    "방문 통계",
+    "Google Analytics로 방문·강좌 선택 통계를 수집합니다. 이름과 휴대폰 번호는 분석 이벤트에 넣지 않으며, 브라우저 설정으로 쿠키를 차단할 수 있습니다."
+  ],
+  [
+    "권리 행사 및 문의",
+    "개인정보 열람·정정·삭제 및 알림 수신거부는 <a href=\"mailto:petercat2004@daum.net\">petercat2004@daum.net</a>으로 요청해주세요."
+  ],
+  [
+    "시행일 및 변경 안내",
+    "시행일: 2026.09.13. 처리방침이 변경되면 시행일과 변경 내용을 안내합니다."
+  ]
+];
+ document.querySelector('footer .privacy-preview').innerHTML='<summary>개인정보 처리방침</summary>'+footerSections.map(x=>'<h3>'+x[0]+'</h3><p>'+x[1]+'</p>').join('');
+
 }
 window.CulturePickRelease={config,track,prepareUI};
 })();
