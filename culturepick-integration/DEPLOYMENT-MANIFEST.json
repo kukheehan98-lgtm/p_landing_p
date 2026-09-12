@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-09-12T10:20:27.874Z",
-  "status": "approved-for-deployment",
+  "status": "deployed-and-verified",
   "restoreTag": "before-design-20260912-19cd08d",
   "mobileDeviceVerification": "deferred-by-user",
   "files": [
@@ -71,5 +71,9 @@
       "bytes": 23725
     }
   ],
-  "approvedOn": "2026-09-12"
+  "approvedOn": "2026-09-12",
+  "deploymentCommit": "ddc1bee078552a7fa8abe37d3ac03edfb8cbce4c",
+  "deploymentRun": "https://github.com/kukheehan98-lgtm/p_landing_p/actions/runs/34688381060",
+  "verifiedAt": "2026-09-12T10:29:53.969Z",
+  "remoteContentComparison": "All 11 files match; text line endings normalized to LF."
 }

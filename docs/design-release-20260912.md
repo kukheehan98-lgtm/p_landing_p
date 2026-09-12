@@ -12,3 +12,12 @@
 - 원격 복원 태그: before-design-20260912-19cd08d (19cd08d3974804fe3fb882866d1dcd0e11af5442).
 - 복원은 과거 화면을 가져오는 새 커밋으로 수행하되 최신 data/programs.json 및 index.html 데이터 블록을 유지한다. 시트·문자·Apps Script는 화면 복원과 별개다.
 - 상세 검증: culturepick-integration/VERIFICATION.md. 배포 파일: culturepick-integration/DEPLOYMENT-MANIFEST.json.
+
+
+## 배포 완료
+- 사용자 승인 후 ddc1bee078552a7fa8abe37d3ac03edfb8cbce4c를 기존 GitHub Pages에 배포.
+- 실행 결과 success: https://github.com/kukheehan98-lgtm/p_landing_p/actions/runs/34688381060
+- 실제 주소의11개 파일 HTTP200 및 배포본 일치 확인(텍스트 LF 정규화).
+- 실제 화면16개 프로그램, 담기0→1→0, 신청창·동의 안내 정상, 브라우저 경고·오류0건.
+- 확인 중 번호 입력·신청 제출·문자 추가 발송 없음. 실기기 숫자 키패드는 계속 보류.
+- GA 설정과 유입 태그 코드는 유지. GA 보고서 집계는 별도 확인 대상.
