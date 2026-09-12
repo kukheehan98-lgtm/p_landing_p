@@ -1,0 +1,75 @@
+{
+  "generatedAt": "2026-09-12T10:20:27.874Z",
+  "status": "approved-for-deployment",
+  "restoreTag": "before-design-20260912-19cd08d",
+  "mobileDeviceVerification": "deferred-by-user",
+  "files": [
+    {
+      "source": "culturepick-integration/candidate/app.js",
+      "destination": "pohang-ontime/app.js",
+      "sha256": "bfd8997b2324b41217464a457dc6a90f18872c378cd7c1516cb6d4b1cab44a21",
+      "bytes": 18188
+    },
+    {
+      "source": "culturepick-integration/candidate/data/programs.json",
+      "destination": "pohang-ontime/data/programs.json",
+      "sha256": "06b93a0680815a3688856a721c6b7351aba41875511d308a19cd5900cf1900f7",
+      "bytes": 11072
+    },
+    {
+      "source": "culturepick-integration/candidate/favicon.svg",
+      "destination": "pohang-ontime/favicon.svg",
+      "sha256": "4b6044d6d9bc8088fa9fc3ce777558a28791aac9965187796eeb28d12f12ed84",
+      "bytes": 471
+    },
+    {
+      "source": "culturepick-integration/candidate/gallery.js",
+      "destination": "pohang-ontime/gallery.js",
+      "sha256": "f252e287135f9fd492f3b995d1fa2e15a67ef92adf9d880a57fa53e1bb90cfd2",
+      "bytes": 1608
+    },
+    {
+      "source": "culturepick-integration/candidate/hero-family-v1.png",
+      "destination": "pohang-ontime/hero-family-v1.png",
+      "sha256": "0b3f54ed62b9e6b2a1cf272844b42731e9f98e314f35b1d427f62f0e619e21e1",
+      "bytes": 2241075
+    },
+    {
+      "source": "culturepick-integration/candidate/hero-father-daughter-v1.png",
+      "destination": "pohang-ontime/hero-father-daughter-v1.png",
+      "sha256": "002bc9407c3c33e2db45a19b32e74b885223b8f9344d2a5113d7dd6ad6c0d6c3",
+      "bytes": 2160836
+    },
+    {
+      "source": "culturepick-integration/candidate/index.html",
+      "destination": "pohang-ontime/index.html",
+      "sha256": "dfdb64a0b356875c8c9fc4e815443260070918c8fef40299eeef157013317bf8",
+      "bytes": 21373
+    },
+    {
+      "source": "culturepick-integration/candidate/release-runtime.js",
+      "destination": "pohang-ontime/release-runtime.js",
+      "sha256": "3cd213dfad29cd93a4a62962776b34b8745cc28de7564b0be6f20a8bca61e6a6",
+      "bytes": 4105
+    },
+    {
+      "source": "culturepick-integration/candidate/signup-adapter.js",
+      "destination": "pohang-ontime/signup-adapter.js",
+      "sha256": "4e0839c8fdbffcec3af7d5e7e8fea0101d962e617da875c4333db9c29690fa4b",
+      "bytes": 2141
+    },
+    {
+      "source": "culturepick-integration/candidate/signup-state.js",
+      "destination": "pohang-ontime/signup-state.js",
+      "sha256": "d9a56118e7553f879971b08d9688fcf70c69d4d855f2b1ed913ad70e0794c590",
+      "bytes": 2271
+    },
+    {
+      "source": "culturepick-integration/candidate/style.css",
+      "destination": "pohang-ontime/style.css",
+      "sha256": "e4c6f130f38c5277b7b880f7dfcd4f397ef6816cfbe6d708eeb67ae45dca8c0d",
+      "bytes": 23725
+    }
+  ],
+  "approvedOn": "2026-09-12"
+}

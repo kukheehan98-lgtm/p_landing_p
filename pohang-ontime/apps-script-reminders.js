@@ -352,7 +352,7 @@ function cp15SmallJob_(s, list, at) {
     text: '[컬처픽] 접수 15분 전 알림\n' + head +
       '\n접수 시작: ' + Utilities.formatDate(open, 'Asia/Seoul', 'MM/dd HH:mm') +
       '\n정원이 작아 금방 마감됩니다. 로그인을 미리 준비해 주세요.\n' + link +
-      '\n수신거부: 그만 회신',
+      '',
     groupId: '', updatedAt: '', result: '', sentAt: '', kind: CP15_SMALL.kind
   };
 }
@@ -369,7 +369,7 @@ function cp15Job_(s, kind) {
     text: (kind === '시험' ? '[컬처픽 시험]' : '[컬처픽]') + ' 접수 15분 전 알림\n「' +
       String(s.title || '').slice(0, 180) + '」\n접수 시작: ' +
       Utilities.formatDate(open, 'Asia/Seoul', 'MM/dd HH:mm') + '\n접수 전 로그인을 준비해 주세요.\n' +
-      CP15.siteUrl + '\n수신거부: 그만 회신', groupId: '', updatedAt: '', result: '', sentAt: '', kind: kind};
+      CP15.siteUrl + '', groupId: '', updatedAt: '', result: '', sentAt: '', kind: kind};
 }
 
 // 모든 전송 단계는 먼저 groupId를 저장합니다. 예약 응답이 끊겨도 같은 그룹을 조회하며 재발송하지 않습니다.

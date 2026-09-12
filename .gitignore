@@ -23,3 +23,7 @@ dist/
 # 강의자료 (대용량, 프로젝트 파일 아님)
 image/*.pptx
 pohang-ontime/crawler/.samples/
+
+# Generated design candidate and local one-time setup
+culturepick-integration/candidate/
+culturepick-integration/setup.cjs

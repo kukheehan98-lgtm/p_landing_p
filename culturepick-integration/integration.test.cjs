@@ -1,0 +1,9 @@
+const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const {buildPayloads,programPayload}=require('./signup-adapter.js');
+test('payloads exactly match existing production postSignup fields and ordering',async()=>{
+const src=fs.readFileSync(__dirname+'/fixtures/legacy-post-signup.js','utf8');const captured=[];
+const ctx={SUBMIT:{provider:'appsscript',endpoint:'mock'},isConnected:()=>true,location:{href:'http://127.0.0.1:4174/?from=test'},URLSearchParams,Promise,fetch:async(url,opt)=>{captured.push(Object.fromEntries(opt.body));}};vm.createContext(ctx);vm.runInContext(src,ctx);
+const entry={name:'시험',phone:'01000000000',slot:'미선택',at:'2026-09-12T00:00:00Z',programs:[{id:'a',org:'기관',title:'강좌',openAt:'2026-09-23 09:00',deadline:'2026-09-28 23:59'},{id:'b',org:'기관2',title:'다른 강좌',openAt:'2026-10-01 10:00'}]};await ctx.postSignup(entry);assert.deepEqual(buildPayloads(entry,ctx.location.href),captured);assert.equal(captured.length,2);
+});
+test('mapped course keeps SMS identifiers, timestamps and capacity',()=>{const p={id:'gsei-1468',title:'강좌',org:'긴 기관',orgShort:'과학원',openAt:'2026-09-23 09:00',deadline:'2026-09-28 23:59',capacity:6};const g=programPayload(p);assert.equal(g.id,p.id);assert.equal(g.openAt,p.openAt);assert.equal(g.org,p.orgShort);assert.equal(g.capacity,6);});
+test('preview and integration stay outside deployed folder; browser cannot send to production',()=>{const html=fs.readFileSync('culturepick-integration/index.html','utf8');assert(html.includes("connect-src 'self'"));assert(html.includes("form-action 'none'"));const server=fs.readFileSync('culturepick-integration/server.cjs','utf8');assert(server.includes('CP_TEST_PHONE'));assert(server.includes('fields.phone!==testPhone'));assert(server.includes('if(liveAttempts.size)')); assert(!server.includes('solapi.com'));assert(fs.readFileSync('.github/workflows/pages.yml','utf8').includes('path: pohang-ontime'));});

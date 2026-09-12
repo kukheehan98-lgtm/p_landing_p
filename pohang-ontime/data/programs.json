@@ -216,27 +216,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_FEST_2026_001&menu_site_id=performance_detail"
   },
   {
-    "id": "phlib-3551",
-    "org": "포은흥해도서관",
-    "orgShort": "포은흥해",
-    "title": "[독서의달]-북 퍼퓸 만들기(일반)",
-    "place": "2층 프로그램실3",
-    "target": "일반",
-    "fee": "무료",
-    "capacity": 10,
-    "enrolled": 10,
-    "waitCapacity": 3,
-    "waitEnrolled": 0,
-    "openAt": "2026-09-11 10:00",
-    "deadline": "2026-09-17 18:00",
-    "eventEnd": "2026-09-20",
-    "schedule": "2026.09.20(일) 15:00 ~ 17:00 (1회)",
-    "applyRule": "own-id",
-    "unit": "명",
-    "presets": [],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=140&teach_idx=3551"
-  },
-  {
     "id": "phlib-3554",
     "org": "포은오천도서관",
     "orgShort": "포은오천",
@@ -269,7 +248,7 @@
     "target": "성인",
     "fee": "무료",
     "capacity": 8,
-    "enrolled": 3,
+    "enrolled": 4,
     "waitCapacity": 4,
     "waitEnrolled": 0,
     "openAt": "2026-08-27 10:00",
@@ -282,29 +261,6 @@
       "morning"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3575"
-  },
-  {
-    "id": "phlib-3576",
-    "org": "솔개재작은도서관",
-    "orgShort": "솔개재",
-    "title": "(추가모집)그림책 속 문학여행",
-    "place": "솔개재작은도서관",
-    "target": "초등 1-3",
-    "fee": "무료",
-    "capacity": 3,
-    "enrolled": 1,
-    "waitCapacity": 2,
-    "waitEnrolled": 0,
-    "openAt": "2026-08-29 10:00",
-    "deadline": "2026-09-12 15:00",
-    "eventEnd": "2026-11-27",
-    "schedule": "2026.09.04 ~ 11.27 매주 금 16:00 ~ 18:00",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3576"
   },
   {
     "id": "phlib-3581",
@@ -361,7 +317,7 @@
     "target": "성인",
     "fee": "무료",
     "capacity": 4,
-    "enrolled": 1,
+    "enrolled": 3,
     "waitCapacity": 2,
     "waitEnrolled": 0,
     "openAt": "2026-09-08 17:00",

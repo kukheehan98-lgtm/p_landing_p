@@ -1,0 +1,13 @@
+const {test}=require('node:test'),assert=require('node:assert/strict'),fs=require('fs'),vm=require('vm');
+const stateApi=require('./signup-state.js');
+const course={id:'a',title:'시험',org:'기관',openAt:'2026-09-23 09:00',deadline:'2026-09-24 18:00'};
+function state(){const m=new Map();return stateApi.create({getItem:k=>m.get(k),setItem:(k,v)=>m.set(k,v)},'test.');}
+function adapter(fetch){const context={window:{},fetch,URLSearchParams,console};vm.createContext(context);vm.runInContext(fs.readFileSync(__dirname+'/signup-adapter.js','utf8'),context);return context.window.SignupAdapter;}
+const entry={phone:'01000000000',programs:[course,{...course,id:'b'}]};
+test('15 minute cutoff excludes last-minute and expired enrollment',()=>{assert(stateApi.eligible(course,Date.parse('2026-09-23T08:44:59+09:00')));assert(!stateApi.eligible(course,Date.parse('2026-09-23T08:45:00+09:00')));assert(!stateApi.eligible({...course,deadline:'2026-09-21 12:00'},Date.parse('2026-09-22T08:00:00+09:00')));});
+test('full program cannot be added',()=>{assert(!stateApi.eligible({...course,capacity:2,enrolled:2},Date.parse('2026-09-22T08:00:00+09:00')));});
+test('rescheduled opening is a different receipt',()=>{const s=state();s.mark(course,'confirmed');assert.equal(s.status({...course,openAt:'2026-09-24 09:00'}),'');});
+test('partial success retry does not repeat confirmed course',async()=>{let calls=[];let fail=true;const s=state(),a=adapter(async(u,o)=>{const id=o.body.get('likeIds');calls.push(id);if(id==='b'&&fail)return {ok:false,json:async()=>({ok:false})};return {ok:true,json:async()=>({ok:true})};});await assert.rejects(a.submit(entry,'test',{state:s}));assert.equal(s.status(course),'confirmed');fail=false;await a.submit(entry,'test',{state:s});assert.deepEqual(calls,['a','b','b']);});
+test('network uncertainty is never automatically resent',async()=>{let calls=0;const s=state(),a=adapter(async()=>{calls++;throw Error('connection lost');});await assert.rejects(a.submit({...entry,programs:[course]},'test',{state:s}));const r=await a.submit({...entry,programs:[course]},'test',{state:s});assert.equal(calls,1);assert(r[0].uncertain);});
+test('live uncertain response also blocks repeat',async()=>{let calls=0;const s=state(),a=adapter(async()=>{calls++;return {ok:false,json:async()=>({ok:false,uncertain:true})};});await assert.rejects(a.submit({...entry,programs:[course]},'test',{state:s}));await a.submit({...entry,programs:[course]},'test',{state:s});assert.equal(calls,1);});
+test('receipt storage failure prevents sending',async()=>{let calls=0;const s={status:()=>'',mark:()=>{throw Error('storage full');}},a=adapter(async()=>{calls++;});await assert.rejects(a.submit(entry,'test',{state:s}));assert.equal(calls,0);});

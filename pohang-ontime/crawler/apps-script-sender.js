@@ -166,7 +166,7 @@ function composeText_(name, list) {
       ? '오늘 ' + hhmm_(p.openAt) + ' 접수 시작'
       : deadlineText_(p) + ' 접수 마감';
     return '[컬처픽] ' + who + '담아두신 「' + p.title + '」 ' + head + seatText_(p) + '.\n' +
-           '접수 전 로그인 필수!\n' + SITE_URL + '\n수신거부 \'그만\'';
+           '접수 전 로그인 필수!\n' + SITE_URL + '';
   }
 
   var lines = list.map(function (p) {
@@ -176,7 +176,7 @@ function composeText_(name, list) {
   }).join('\n');
 
   return '[컬처픽] ' + who + '담아두신 강좌 소식입니다.\n' +
-         lines + '\n접수 전 로그인 필수!\n' + SITE_URL + '\n수신거부 \'그만\'';
+         lines + '\n접수 전 로그인 필수!\n' + SITE_URL + '';
 }
 
 /* 남은 자리는 정원보다 강한 신호입니다.
