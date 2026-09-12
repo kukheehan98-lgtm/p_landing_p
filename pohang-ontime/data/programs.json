@@ -216,78 +216,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_FEST_2026_001&menu_site_id=performance_detail"
   },
   {
-    "id": "phlib-3538",
-    "org": "어린이영어도서관",
-    "orgShort": "어린이영어",
-    "title": "(유아6-7)독서의 달 프로그램",
-    "place": "어린이영어도서관 다목적실",
-    "target": "유아6~7세(2020~21년생)",
-    "fee": "무료",
-    "capacity": 10,
-    "enrolled": 10,
-    "waitCapacity": 5,
-    "waitEnrolled": 4,
-    "openAt": "2026-09-07 10:00",
-    "deadline": "2026-09-18 18:00",
-    "eventEnd": "2026-09-19",
-    "schedule": "2026.09.19(토) 14:00 ~ 15:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "kid",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3538"
-  },
-  {
-    "id": "phlib-3539",
-    "org": "어린이영어도서관",
-    "orgShort": "어린이영어",
-    "title": "(초등1-2)독서의 달 프로그램",
-    "place": "어린이영어도서관 다목적실",
-    "target": "초등1~2학년(2018~19년생)",
-    "fee": "무료",
-    "capacity": 15,
-    "enrolled": 7,
-    "waitCapacity": 5,
-    "waitEnrolled": 0,
-    "openAt": "2026-09-07 10:00",
-    "deadline": "2026-09-11 18:00",
-    "eventEnd": "2026-09-12",
-    "schedule": "2026.09.12(토) 13:30 ~ 15:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=92&teach_idx=3539"
-  },
-  {
-    "id": "phlib-3540",
-    "org": "구룡포도서관",
-    "orgShort": "구룡포",
-    "title": "두근두근 세계 여행 (구룡포도서관 독서의 달 ...",
-    "place": "구룡포도서관 1층 다목적실",
-    "target": "초등 2~5학년",
-    "fee": "무료",
-    "capacity": 10,
-    "enrolled": 10,
-    "waitCapacity": 3,
-    "waitEnrolled": 2,
-    "openAt": "2026-09-04 10:00",
-    "deadline": "2026-09-18 18:00",
-    "eventEnd": "2026-09-19",
-    "schedule": "2026.09.19(토) 14:00 ~ 16:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=134&teach_idx=3540"
-  },
-  {
     "id": "phlib-3551",
     "org": "포은흥해도서관",
     "orgShort": "포은흥해",
@@ -296,7 +224,7 @@
     "target": "일반",
     "fee": "무료",
     "capacity": 10,
-    "enrolled": 0,
+    "enrolled": 10,
     "waitCapacity": 3,
     "waitEnrolled": 0,
     "openAt": "2026-09-11 10:00",
@@ -341,7 +269,7 @@
     "target": "성인",
     "fee": "무료",
     "capacity": 8,
-    "enrolled": 4,
+    "enrolled": 3,
     "waitCapacity": 4,
     "waitEnrolled": 0,
     "openAt": "2026-08-27 10:00",
@@ -379,54 +307,6 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3576"
   },
   {
-    "id": "phlib-3577",
-    "org": "환여 해맞이꿈터작은도서관",
-    "orgShort": "환여 해맞이꿈터",
-    "title": "조물조물 그림책 공예",
-    "place": "환여 해맞이꿈터작은도서관",
-    "target": "초등1~6학년",
-    "fee": "무료",
-    "capacity": 7,
-    "enrolled": 0,
-    "waitCapacity": 3,
-    "waitEnrolled": 0,
-    "openAt": "2026-09-11 10:00",
-    "deadline": "2026-09-17 18:00",
-    "eventEnd": "2026-09-19",
-    "schedule": "2026.09.19(토) 16:00 ~ 18:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3577"
-  },
-  {
-    "id": "phlib-3578",
-    "org": "동해석곡도서관",
-    "orgShort": "동해석곡",
-    "title": "동해석곡도서관 어린이 독서회(하반기)",
-    "place": "동해석곡도서관 3층 다목적실",
-    "target": "초등학생 1~6학년",
-    "fee": "무료",
-    "capacity": 13,
-    "enrolled": 9,
-    "waitCapacity": 3,
-    "waitEnrolled": 0,
-    "openAt": "2026-09-02 10:00",
-    "deadline": "2026-09-12 17:00",
-    "eventEnd": "2026-11-08",
-    "schedule": "2026.09.13 ~ 11.08 매주 일 10:00 ~ 12:00",
-    "applyRule": "own-id",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=81&teach_idx=3578"
-  },
-  {
     "id": "phlib-3581",
     "org": "대잠도서관",
     "orgShort": "대잠",
@@ -435,7 +315,7 @@
     "target": "성인",
     "fee": "무료",
     "capacity": 20,
-    "enrolled": 15,
+    "enrolled": 17,
     "waitCapacity": 3,
     "waitEnrolled": 0,
     "openAt": "2026-09-09 10:00",
@@ -494,5 +374,51 @@
       "morning"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3584"
+  },
+  {
+    "id": "phlib-3585",
+    "org": "어울 작은도서관",
+    "orgShort": "어울",
+    "title": "나는야 정리수납전문가",
+    "place": "어울 작은도서관 회의실",
+    "target": "성인",
+    "fee": "무료",
+    "capacity": 8,
+    "enrolled": 0,
+    "waitCapacity": 4,
+    "waitEnrolled": 0,
+    "openAt": "2026-09-15 10:00",
+    "deadline": "2026-09-22 18:00",
+    "eventEnd": "2026-12-08",
+    "schedule": "2026.10.13 ~ 12.08 매주 화 10:00 ~ 12:00",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "morning"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3585"
+  },
+  {
+    "id": "phlib-3586",
+    "org": "어울 작은도서관",
+    "orgShort": "어울",
+    "title": "오토데스크 스케치북 원데이 클래스",
+    "place": "어울 작은도서관 회의실",
+    "target": "성인",
+    "fee": "무료",
+    "capacity": 10,
+    "enrolled": 0,
+    "waitCapacity": 4,
+    "waitEnrolled": 0,
+    "openAt": "2026-09-15 10:00",
+    "deadline": "2026-09-22 18:00",
+    "eventEnd": "2026-10-16",
+    "schedule": "2026.10.16(금) 10:20 ~ 11:50 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "morning"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3586"
   }
 ]
