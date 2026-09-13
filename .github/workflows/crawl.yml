@@ -2,14 +2,24 @@ name: 강좌 데이터 수집
 
 # 매일 새벽 한국시간 05:20 (UTC 20:20 전날).
 # 도서관 접수는 대개 오전 10시에 열려서, 그 전에 한 번 훑어둡니다.
+# ───────────────────────────────────────────────────────────────
+# 2026-09-14 운영자 판단으로 자동 수집을 멈췄습니다.
+# 포항시립도서관 robots.txt 가 `Disallow: /` 로 되어 있는 것을 확인했고,
+# 기관과 이용 방식을 협의하기 전까지는 스스로 멈춰 두기로 했습니다.
+# (그 도서관 홈페이지가 깨져 보인 것은 그쪽 자바스크립트 오류였고 우리와
+#  무관합니다. 멈추는 이유는 그 사고가 아니라 robots.txt 입니다.)
+#
+# 다시 켤 때: 아래 schedule·push 블록의 주석(#)을 지우면 됩니다.
+# 그때까지도 Actions 탭에서 workflow_dispatch 로 손수 돌릴 수는 있습니다.
+# ───────────────────────────────────────────────────────────────
 on:
-  schedule:
-    - cron: '20 20 * * *'
+  # schedule:
+  #   - cron: '20 20 * * *'
   workflow_dispatch:          # 저장소 Actions 탭에서 손으로도 돌릴 수 있습니다
-  push:
-    paths:                    # 수집기를 고쳤을 때 바로 한 번 돌려 확인합니다
-      - 'pohang-ontime/crawler/**'
-      - '.github/workflows/crawl.yml'
+  # push:
+  #   paths:                  # 수집기를 고쳤을 때 바로 한 번 돌려 확인합니다
+  #     - 'pohang-ontime/crawler/**'
+  #     - '.github/workflows/crawl.yml'
 
 permissions:
   contents: write             # 바뀐 데이터를 되돌려 커밋하기 위해 필요합니다
