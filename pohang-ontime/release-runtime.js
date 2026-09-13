@@ -3,6 +3,12 @@
 const input=JSON.parse(document.getElementById('releaseConfig').textContent);
 const production=location.origin==='https://kukheehan98-lgtm.github.io'&&location.pathname.startsWith('/p_landing_p/');
 const config={mode:production?'production':'simulation',endpoint:input.endpoint};
+/* 시험 배너는 HTML 에서 hidden 으로 시작합니다. 예전에는 반대였습니다 — 보이는 채로
+   그려 놓고 prepareUI() 가 나중에 숨겼는데, 그 사이의 틈이 느린 기기에서는 눈에 띄게
+   길어져 운영 화면에 「모의 저장 / 실제 문자 발송 없음」이 깜빡였습니다.
+   이제 숨은 채로 시작하고 시험 중일 때만 여기서 꺼냅니다. 운영 주소에서는 이 줄이
+   실행되지 않으므로 한 순간도 나타날 수 없습니다 — 타이밍에 기대지 않습니다. */
+if(!production){const note=document.querySelector('.preview-note');if(note)note.hidden=false;}
 function track(name,data){if(production&&window.gtag)window.gtag('event',name,data||{});}
 if(production&&input.ga){window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments);};const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(input.ga);document.head.append(s);gtag('js',new Date());const from=(new URLSearchParams(location.search).get('from')||'').replace(/[^A-Za-z0-9_-]/g,'').slice(0,40);gtag('config',input.ga,from?{campaign_source:from,campaign_medium:'referral'}:{});}
 function prepareUI(){
