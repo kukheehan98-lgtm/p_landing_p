@@ -27,3 +27,13 @@ pohang-ontime/crawler/.samples/
 # Generated design candidate and local one-time setup
 culturepick-integration/candidate/
 culturepick-integration/setup.cjs
+
+# 사업화 신청 서류 — 공개 저장소에 올리지 않습니다.
+# 사업비 계획·수익모델·시장 분석이 들어 있어 공개되면 안 됩니다.
+# docs/ 를 통째로 막고, 공개해도 되는 기술 기록만 예외로 되살립니다.
+# 이렇게 해 두면 나중에 새 서류를 만들어도 이름과 상관없이 자동으로 막힙니다.
+docs/*
+!docs/design-release-*.md
+
+# 화면 시안 작업본 (로컬 전용)
+culturepick-preview/
