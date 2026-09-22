@@ -1,5 +1,28 @@
 [
   {
+    "id": "gbelib-yi-16422",
+    "org": "경상북도교육청 영일도서관",
+    "orgShort": "영일",
+    "title": "2026 미래교육 학부모 아카데미 포항권역 워크숍",
+    "place": "제2평생학습실",
+    "target": "포항권역 초중고 자녀를 키우는 학부모 및 도서관 이용자 50명",
+    "fee": "필기도구",
+    "capacity": 30,
+    "enrolled": 0,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-01 10:00",
+    "deadline": "2026-10-26 18:00",
+    "eventEnd": "2026-11-04",
+    "schedule": "2026.11.04(수) 09:30 ~ 12:30 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "morning"
+    ],
+    "url": "https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=3&teach_idx=16422"
+  },
+  {
     "id": "gsei-1468",
     "org": "경상북도교육청과학원",
     "orgShort": "과학원",
