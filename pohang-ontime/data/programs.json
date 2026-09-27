@@ -119,30 +119,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260601_002&menu_site_id=performance_detail"
   },
   {
-    "id": "phcf-EVT_20260728_001",
-    "org": "SPACE 298",
-    "orgShort": "SPACE 298",
-    "title": "꿈틀로 기획전시 프로젝트 시리즈 '꿈의 탐색', <꿈의 항로>",
-    "place": "SPACE 298",
-    "target": "누구나",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-09-26",
-    "schedule": "2026.07.28 ~ 09.26 10:00~18:00",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing",
-      "weekend"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20260728_001&menu_site_id=performance_detail"
-  },
-  {
     "id": "phcf-EVT_20260811_001",
     "org": "동빈문화창고1969",
     "orgShort": "동빈문화창고1969",
