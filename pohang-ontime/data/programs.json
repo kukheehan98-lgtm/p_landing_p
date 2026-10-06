@@ -190,6 +190,30 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_ETC_2026_001&menu_site_id=performance_detail"
   },
   {
+    "id": "phcf-FST_STEEL_2026_001",
+    "org": "미정",
+    "orgShort": "미정",
+    "title": "2026 포항스틸아트페스티벌",
+    "place": "미정",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-11-15",
+    "schedule": "2026.10.24 ~ 11.15",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_STEEL_2026_001&menu_site_id=performance_detail"
+  },
+  {
     "id": "phlib-3589",
     "org": "동해석곡도서관",
     "orgShort": "동해석곡",
