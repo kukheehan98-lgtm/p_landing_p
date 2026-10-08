@@ -1,51 +1,5 @@
 [
   {
-    "id": "gbelib-yi-16422",
-    "org": "경상북도교육청 영일도서관",
-    "orgShort": "영일",
-    "title": "2026 미래교육 학부모 아카데미 포항권역 워크숍",
-    "place": "제2평생학습실",
-    "target": "포항권역 초중고 자녀를 키우는 학부모 및 도서관 이용자 30명",
-    "fee": "필기도구",
-    "capacity": 30,
-    "enrolled": 28,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": "2026-10-01 10:00",
-    "deadline": "2026-10-26 18:00",
-    "eventEnd": "2026-11-04",
-    "schedule": "2026.11.04(수) 09:30 ~ 12:30 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "morning"
-    ],
-    "url": "https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=3&teach_idx=16422"
-  },
-  {
-    "id": "gbelib-yi-16479",
-    "org": "경상북도교육청 영일도서관",
-    "orgShort": "영일",
-    "title": "태원준 여행작가 특강",
-    "place": "제2평생학습실",
-    "target": "청소년 및 성인",
-    "fee": "무료",
-    "capacity": 25,
-    "enrolled": 0,
-    "waitCapacity": 5,
-    "waitEnrolled": 0,
-    "openAt": "2026-10-13 10:00",
-    "deadline": "2026-10-22 18:00",
-    "eventEnd": "2026-10-24",
-    "schedule": "2026.10.24(토) 14:00 ~ 16:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "weekend"
-    ],
-    "url": "https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=15&teach_idx=16479"
-  },
-  {
     "id": "gsei-1469",
     "org": "경상북도교육청과학원",
     "orgShort": "과학원",
@@ -166,6 +120,30 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261001_001&menu_site_id=performance_detail"
   },
   {
+    "id": "phcf-EVT_20261007_001",
+    "org": "귀비고",
+    "orgShort": "귀비고",
+    "title": "가무백희 10월 공연 [화랑의 무예: 전쟁과 용맹의 서사]",
+    "place": "귀비고/신라마을 신라마을",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-10-10",
+    "schedule": "2026.10.10 13:30~14:30 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261007_001&menu_site_id=performance_detail"
+  },
+  {
     "id": "phcf-FST_ETC_2026_001",
     "org": "포항문화예술회관",
     "orgShort": "포항문화예술회관",
@@ -191,10 +169,10 @@
   },
   {
     "id": "phcf-FST_STEEL_2026_001",
-    "org": "미정",
-    "orgShort": "미정",
+    "org": "동빈문화창고1969",
+    "orgShort": "동빈문화창고1969",
     "title": "2026 포항스틸아트페스티벌",
-    "place": "미정",
+    "place": "동빈문화창고1969",
     "target": "누구나",
     "fee": "무료 관람",
     "capacity": null,
@@ -212,6 +190,52 @@
       "weekend"
     ],
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_STEEL_2026_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "gbelib-yi-16422",
+    "org": "경상북도교육청 영일도서관",
+    "orgShort": "영일",
+    "title": "2026 미래교육 학부모 아카데미 포항권역 워크숍",
+    "place": "제2평생학습실",
+    "target": "포항권역 초중고 자녀를 키우는 학부모 및 도서관 이용자 30명",
+    "fee": "필기도구",
+    "capacity": 30,
+    "enrolled": 28,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-01 10:00",
+    "deadline": "2026-10-26 18:00",
+    "eventEnd": "2026-11-04",
+    "schedule": "2026.11.04(수) 09:30 ~ 12:30 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "morning"
+    ],
+    "url": "https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=3&teach_idx=16422"
+  },
+  {
+    "id": "gbelib-yi-16479",
+    "org": "경상북도교육청 영일도서관",
+    "orgShort": "영일",
+    "title": "태원준 여행작가 특강",
+    "place": "제2평생학습실",
+    "target": "청소년 및 성인",
+    "fee": "무료",
+    "capacity": 25,
+    "enrolled": 0,
+    "waitCapacity": 5,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-13 10:00",
+    "deadline": "2026-10-22 18:00",
+    "eventEnd": "2026-10-24",
+    "schedule": "2026.10.24(토) 14:00 ~ 16:00 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "weekend"
+    ],
+    "url": "https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=15&teach_idx=16479"
   },
   {
     "id": "phlib-3589",
