@@ -144,6 +144,53 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261007_001&menu_site_id=performance_detail"
   },
   {
+    "id": "phcf-EVT_20261008_001",
+    "org": "포항문화예술회관",
+    "orgShort": "포항문화예술회관",
+    "title": "2026 꿈의 오케스트라 포항 정기 연주회",
+    "place": "포항문화예술회관 대공연장",
+    "target": "전체",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-10-28",
+    "schedule": "2026.10.28 19:30~20:30 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261008_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-EVT_20261008_002",
+    "org": "대잠홀",
+    "orgShort": "대잠홀",
+    "title": "2026 꿈의 무용단 정기공연",
+    "place": "대잠홀",
+    "target": "전체",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-10-24",
+    "schedule": "2026.10.24 16:00~17:00 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261008_002&menu_site_id=performance_detail"
+  },
+  {
     "id": "phcf-FST_ETC_2026_001",
     "org": "포항문화예술회관",
     "orgShort": "포항문화예술회관",
