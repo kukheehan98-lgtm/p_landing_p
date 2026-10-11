@@ -120,30 +120,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261001_001&menu_site_id=performance_detail"
   },
   {
-    "id": "phcf-EVT_20261007_001",
-    "org": "귀비고",
-    "orgShort": "귀비고",
-    "title": "가무백희 10월 공연 [화랑의 무예: 전쟁과 용맹의 서사]",
-    "place": "귀비고/신라마을 신라마을",
-    "target": "누구나",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-10-10",
-    "schedule": "2026.10.10 13:30~14:30 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing",
-      "weekend"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261007_001&menu_site_id=performance_detail"
-  },
-  {
     "id": "phcf-EVT_20261008_001",
     "org": "포항문화예술회관",
     "orgShort": "포항문화예술회관",
