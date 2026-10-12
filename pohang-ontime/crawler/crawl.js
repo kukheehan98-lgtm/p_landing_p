@@ -37,7 +37,28 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
    페이지 구조가 바뀌거나 서버가 장애면 0건이 옵니다. 그때 그대로 반영하면
    사이트가 텅 빕니다. 개별 강좌는 오직 날짜로만 사라지게 하고,
    수집 결과 자체가 수상하면 아예 쓰지 않고 실패로 끝냅니다. */
-const MIN_ROWS = { 'phlib': 20, 'gbelib-yi': 5, 'gsei': 3, 'phcf': 2 };
+// 영일도서관 목록은 모집 시기에 따라 5건보다 적을 수 있습니다.
+// 건수 대신 아래에서 강좌 식별자와 접수·진행 날짜를 함께 확인합니다.
+const MIN_ROWS = { 'phlib': 20, 'gbelib-yi': 1, 'gsei': 3, 'phcf': 2 };
+
+function validateSourceRows(src, rows) {
+  const floor = MIN_ROWS[src.key] || 1;
+  if (rows.length < floor) {
+    throw new Error(`${src.name} 수집 결과가 ${rows.length}건 — 최소 ${floor}건 미만이라 중단합니다`);
+  }
+  if (src.adapter === 'gbelib') {
+    const seen = new Set();
+    for (const row of rows) {
+      const date = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value) &&
+        Number.isFinite(Date.parse(value.replace(' ', 'T')));
+      if (!row.id || !row.id.startsWith(src.key + '-') || seen.has(row.id) || !row.title ||
+          !date(row.openAt) || !date(row.deadline) || !date(row.eventFrom)) {
+        throw new Error(`${src.name} 필수 강좌 정보 누락/중복 — 기존 데이터를 유지합니다`);
+      }
+      seen.add(row.id);
+    }
+  }
+}
 
 /* 기관 사이트가 왜 막혔는지는 상태 코드만 봐서는 알기 어렵습니다.
    접속 자체가 안 된 건지, 차단당한 건지, 페이지가 바뀐 건지 구분되도록
@@ -113,10 +134,7 @@ async function collectSource(src) {
   const rows = parseList(await get(src.base + src.listPath), src);
   console.log(`  ${src.name}: 목록 ${rows.length}건`);
 
-  const floor = MIN_ROWS[src.key] || 1;
-  if (rows.length < floor) {
-    throw new Error(`${src.name} 수집 결과가 ${rows.length}건 — 최소 ${floor}건 미만이라 중단합니다`);
-  }
+  validateSourceRows(src, rows);
   if (!src.needDetail) return rows;
 
   /* 목록에 접수기간이 없는 기관만 상세를 봅니다.
@@ -293,8 +311,11 @@ async function main() {
   console.log(cardsChanged ? '완료 — 데이터가 바뀌었습니다' : '완료 — 강좌 내용은 그대로 (기준일만 확인)');
 }
 
-main().catch(err => {
-  console.error('수집 실패:', err.message);
-  console.error(err.stack);
-  process.exit(1);
-});
+module.exports = { validateSourceRows };
+if (require.main === module) {
+  main().catch(err => {
+    console.error('수집 실패:', err.message);
+    console.error(err.stack);
+    process.exit(1);
+  });
+}

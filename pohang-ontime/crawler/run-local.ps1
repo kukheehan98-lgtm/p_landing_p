@@ -28,6 +28,22 @@ function Say([string]$m) {
   Add-Content -Path $log -Value $line -Encoding utf8
 }
 
+# Windows PowerShell 5.1은 stderr 경고도 오류 레코드로 바꿉니다.
+# 경고는 기록하고, 실제 실패 여부는 외부 프로그램의 종료 코드로 판단합니다.
+function Invoke-LoggedNative {
+  param([string]$FilePath, [string[]]$Arguments)
+  $previousPreference = $ErrorActionPreference
+  try {
+    $ErrorActionPreference = 'Continue'
+    & $FilePath @Arguments 2>&1 | ForEach-Object { Say "  $_" }
+    $nativeExitCode = $LASTEXITCODE
+  }
+  finally { $ErrorActionPreference = $previousPreference }
+  if ($nativeExitCode -ne 0) {
+    throw "$FilePath 실행 실패 (종료 코드 $nativeExitCode)"
+  }
+}
+
 Set-Content -Path $log -Value "실행 $(Get-Date -Format 'yyyy-MM-dd HH:mm')" -Encoding utf8
 Set-Location $repo
 
@@ -50,21 +66,19 @@ try {
   # 깃허브 액션도 같은 파일을 고치므로, 먼저 받아와 어긋남을 없앱니다
   Say '저장소 갱신'
   # --autostash: 직전 실행이 중간에 끊겨 남은 변경이 있어도 멈추지 않습니다
-  git pull --rebase --autostash --quiet origin main 2>&1 | ForEach-Object { Say "  $_" }
+  Invoke-LoggedNative 'git' @('pull', '--rebase', '--autostash', '--quiet', 'origin', 'main')
 
   Say '수집 시작'
   Push-Location $site
-  & $node 'crawler/crawl.js' 2>&1 | ForEach-Object { Say "  $_" }
-  $code = $LASTEXITCODE
-  Pop-Location
-  if ($code -ne 0) { throw "수집이 실패했습니다 (종료 코드 $code)" }
+  try { Invoke-LoggedNative $node @('crawler/crawl.js') }
+  finally { Pop-Location }
 
   $changed = git status --porcelain -- 'pohang-ontime/data' 'pohang-ontime/index.html'
   if (-not $changed) { Say '바뀐 내용 없음 — 올리지 않습니다'; exit 0 }
 
-  git add 'pohang-ontime/data' 'pohang-ontime/index.html'
-  git commit -q -m "Refresh program data from Pohang ($(Get-Date -Format 'yyyy-MM-dd HH:mm') KST)"
-  git push --quiet origin main
+  Invoke-LoggedNative 'git' @('add', 'pohang-ontime/data', 'pohang-ontime/index.html')
+  Invoke-LoggedNative 'git' @('commit', '-q', '-m', "Refresh program data from Pohang ($(Get-Date -Format 'yyyy-MM-dd HH:mm') KST)")
+  Invoke-LoggedNative 'git' @('push', '--quiet', 'origin', 'main')
   Say '올렸습니다 — 잠시 뒤 사이트에 반영됩니다'
 }
 catch {
