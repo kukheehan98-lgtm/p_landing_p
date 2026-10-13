@@ -1,28 +1,5 @@
 [
   {
-    "id": "gbelib-yi-16479",
-    "org": "경상북도교육청 영일도서관",
-    "orgShort": "영일",
-    "title": "태원준 여행작가 특강",
-    "place": "제2평생학습실",
-    "target": "청소년 및 성인",
-    "fee": "무료",
-    "capacity": 25,
-    "enrolled": 5,
-    "waitCapacity": 5,
-    "waitEnrolled": 0,
-    "openAt": "2026-10-13 10:00",
-    "deadline": "2026-10-22 18:00",
-    "eventEnd": "2026-10-24",
-    "schedule": "2026.10.24(토) 14:00 ~ 16:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "weekend"
-    ],
-    "url": "https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=15&teach_idx=16479"
-  },
-  {
     "id": "gsei-1469",
     "org": "경상북도교육청과학원",
     "orgShort": "과학원",
@@ -270,7 +247,7 @@
     "target": "6세(2021년생)",
     "fee": "무료",
     "capacity": 8,
-    "enrolled": 8,
+    "enrolled": 7,
     "waitCapacity": 2,
     "waitEnrolled": 0,
     "openAt": "2026-10-06 10:00",
@@ -283,30 +260,6 @@
       "kid"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=62&teach_idx=3601"
-  },
-  {
-    "id": "phlib-3603",
-    "org": "장량 해뜰참 작은도서관",
-    "orgShort": "장량 해뜰참",
-    "title": "지구를 위한 새 활용",
-    "place": "장량 해뜰참 작은도서관",
-    "target": "초등1~3학년",
-    "fee": "무료",
-    "capacity": 6,
-    "enrolled": 5,
-    "waitCapacity": 3,
-    "waitEnrolled": 0,
-    "openAt": "2026-09-29 14:30",
-    "deadline": "2026-10-13 10:00",
-    "eventEnd": "2026-10-17",
-    "schedule": "2026.10.17(토) 10:30 ~ 12:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3603"
   },
   {
     "id": "phlib-3604",
@@ -452,13 +405,13 @@
     "id": "phlib-3612",
     "org": "흥해내맏이작은도서관",
     "orgShort": "흥해내맏이",
-    "title": "[공연] 찾아가는 작은도서관",
+    "title": "[공연] 키다리 삐에로, 벌룬 매직쇼 - 찾아...",
     "place": "흥해내맏이작은도서관",
-    "target": "6세~초등4학년",
+    "target": "5세~초등",
     "fee": "무료",
-    "capacity": 12,
-    "enrolled": 2,
-    "waitCapacity": 3,
+    "capacity": 15,
+    "enrolled": 4,
+    "waitCapacity": 0,
     "waitEnrolled": 0,
     "openAt": "2026-10-10 10:00",
     "deadline": "2026-10-22 09:59",
@@ -482,7 +435,7 @@
     "target": "6~7세",
     "fee": "무료",
     "capacity": 5,
-    "enrolled": 0,
+    "enrolled": 2,
     "waitCapacity": 0,
     "waitEnrolled": 0,
     "openAt": "2026-10-12 15:00",
@@ -505,7 +458,7 @@
     "target": "초등 1~3학년",
     "fee": "무료",
     "capacity": 5,
-    "enrolled": 0,
+    "enrolled": 2,
     "waitCapacity": 0,
     "waitEnrolled": 0,
     "openAt": "2026-10-12 15:00",
@@ -529,7 +482,7 @@
     "target": "초등 4~6학년",
     "fee": "무료",
     "capacity": 5,
-    "enrolled": 0,
+    "enrolled": 2,
     "waitCapacity": 0,
     "waitEnrolled": 0,
     "openAt": "2026-10-12 15:00",
@@ -553,7 +506,7 @@
     "target": "초등(고학년)·중·고등학생, 일반시민",
     "fee": "무료",
     "capacity": 30,
-    "enrolled": 0,
+    "enrolled": 9,
     "waitCapacity": 5,
     "waitEnrolled": 0,
     "openAt": "2026-10-13 10:00",
@@ -567,5 +520,28 @@
       "weekend"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=132&teach_idx=3616"
+  },
+  {
+    "id": "phlib-3617",
+    "org": "우창 어울작은도서관",
+    "orgShort": "우창 어울",
+    "title": "역사 톡톡! 만들기 뚝딱!",
+    "place": "우창 어울작은도서관",
+    "target": "초등 전학년",
+    "fee": "무료",
+    "capacity": 12,
+    "enrolled": 0,
+    "waitCapacity": 6,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-14 10:00",
+    "deadline": "2026-10-26 18:00",
+    "eventEnd": "2026-11-11",
+    "schedule": "2026.11.04 ~ 11.11 매주 수 15:30 ~ 17:00",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "elem"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3617"
   }
 ]
