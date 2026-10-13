@@ -167,6 +167,54 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261008_002&menu_site_id=performance_detail"
   },
   {
+    "id": "phcf-EVT_20261013_001",
+    "org": "아트436",
+    "orgShort": "아트436",
+    "title": "2026 포항스틸아트페스티벌 포항문행文行 「과정중심 보고형 전시」",
+    "place": "아트436",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-11-15",
+    "schedule": "2026.09.15 ~ 11.15",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261013_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-EVT_20261013_002",
+    "org": "꿈틀로",
+    "orgShort": "꿈틀로",
+    "title": "2026 포항스틸아트페스티벌 포항문행文行 「과정중심 보고형 전시 2차」",
+    "place": "꿈틀로 코워킹스페이스",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-11-15",
+    "schedule": "2026.10.13 ~ 11.15",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261013_002&menu_site_id=performance_detail"
+  },
+  {
     "id": "phcf-FST_ETC_2026_001",
     "org": "포항문화예술회관",
     "orgShort": "포항문화예술회관",
