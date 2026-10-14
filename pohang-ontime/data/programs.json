@@ -10,7 +10,7 @@
     "capacity": 6,
     "enrolled": 6,
     "waitCapacity": 2,
-    "waitEnrolled": 0,
+    "waitEnrolled": 1,
     "openAt": "2026-10-14 09:00",
     "deadline": "2026-10-19 23:59",
     "eventEnd": "2026-10-21",
