@@ -263,52 +263,28 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_STEEL_2026_001&menu_site_id=performance_detail"
   },
   {
-    "id": "phlib-3594",
-    "org": "상대 큰섬마을 작은도서관",
-    "orgShort": "상대 큰섬마을",
-    "title": "찾아가는 지구 살리기-나 혼자 못 산다",
-    "place": "상대 큰섬마을 작은도서관",
-    "target": "초등 1~3학년",
-    "fee": "무료",
-    "capacity": 6,
-    "enrolled": 2,
-    "waitCapacity": 2,
-    "waitEnrolled": 0,
-    "openAt": "2026-09-17 10:00",
-    "deadline": "2026-10-14 18:00",
-    "eventEnd": "2026-10-24",
-    "schedule": "2026.10.17 ~ 10.24 매주 토 10:30 ~ 11:50",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3594"
-  },
-  {
-    "id": "phlib-3595",
-    "org": "흥해 참새미 작은도서관",
-    "orgShort": "흥해 참새미",
-    "title": "우리 동네 과학 교실",
-    "place": "흥해 참새미 작은도서관",
-    "target": "초등3~5학년",
+    "id": "phlib-3596",
+    "org": "대잠도서관",
+    "orgShort": "대잠",
+    "title": "대잠도서관 하반기 그림책 특강",
+    "place": "대잠도서관 3층 세오녀방",
+    "target": "4-5세 유아 및 양육자",
     "fee": "무료",
     "capacity": 10,
     "enrolled": 10,
-    "waitCapacity": 2,
-    "waitEnrolled": 1,
-    "openAt": "2026-09-18 10:00",
-    "deadline": "2026-10-15 18:00",
-    "eventEnd": "2026-11-21",
-    "schedule": "2026.10.17 ~ 11.21 매주 토 10:00 ~ 12:00",
+    "waitCapacity": 5,
+    "waitEnrolled": 4,
+    "openAt": "2026-10-01 10:00",
+    "deadline": "2026-10-16 18:00",
+    "eventEnd": "2026-10-31",
+    "schedule": "2026.10.17 ~ 10.31 매주 토 13:30 ~ 15:00",
     "applyRule": "",
     "unit": "명",
     "presets": [
-      "elem",
+      "kid",
       "weekend"
     ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3595"
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=68&teach_idx=3596"
   },
   {
     "id": "phlib-3601",
@@ -319,7 +295,7 @@
     "target": "6세(2021년생)",
     "fee": "무료",
     "capacity": 8,
-    "enrolled": 8,
+    "enrolled": 7,
     "waitCapacity": 2,
     "waitEnrolled": 0,
     "openAt": "2026-10-06 10:00",
@@ -342,7 +318,7 @@
     "target": "성인",
     "fee": "무료",
     "capacity": 6,
-    "enrolled": 6,
+    "enrolled": 5,
     "waitCapacity": 2,
     "waitEnrolled": 0,
     "openAt": "2026-09-29 18:00",
@@ -355,30 +331,6 @@
       "morning"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3604"
-  },
-  {
-    "id": "phlib-3605",
-    "org": "흥해 어리골 작은도서관",
-    "orgShort": "흥해 어리골",
-    "title": "책과 보드랑 놀고 질문이랑 자라요(QBL)",
-    "place": "흥해 어리골 작은도서관",
-    "target": "초등 1~2학년",
-    "fee": "무료",
-    "capacity": 4,
-    "enrolled": 3,
-    "waitCapacity": 2,
-    "waitEnrolled": 0,
-    "openAt": "2026-09-29 18:00",
-    "deadline": "2026-10-16 18:00",
-    "eventEnd": "2026-10-24",
-    "schedule": "2026.10.17 ~ 10.24 매주 토 10:00 ~ 11:30",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3605"
   },
   {
     "id": "phlib-3606",
@@ -413,7 +365,7 @@
     "target": "누구나",
     "fee": "무료",
     "capacity": 80,
-    "enrolled": 28,
+    "enrolled": 36,
     "waitCapacity": 0,
     "waitEnrolled": 0,
     "openAt": "2026-10-08 10:00",
@@ -434,7 +386,7 @@
     "target": "초등1~5학년",
     "fee": "무료",
     "capacity": 6,
-    "enrolled": 3,
+    "enrolled": 4,
     "waitCapacity": 3,
     "waitEnrolled": 0,
     "openAt": "2026-10-07 10:00",
@@ -448,6 +400,30 @@
       "weekend"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3608"
+  },
+  {
+    "id": "phlib-3609",
+    "org": "동해석곡도서관",
+    "orgShort": "동해석곡",
+    "title": "동해석곡도서관 10월 유아프로그램",
+    "place": "동해석곡도서관 1층 북스타트방",
+    "target": "유아 6~7세",
+    "fee": "무료",
+    "capacity": 5,
+    "enrolled": 1,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-07 10:00",
+    "deadline": "2026-10-25 10:00",
+    "eventEnd": "2026-10-25",
+    "schedule": "2026.10.11 ~ 10.25 매주 일 13:30 ~ 15:00",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "kid",
+      "weekend"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=86&teach_idx=3609"
   },
   {
     "id": "phlib-3610",
@@ -474,6 +450,31 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=62&teach_idx=3610"
   },
   {
+    "id": "phlib-3611",
+    "org": "해도 바다섬 작은도서관",
+    "orgShort": "해도 바다섬",
+    "title": "[체험] 버블 아트 퍼포먼스 or 벌룬 매직쇼",
+    "place": "해도 바다섬 작은도서관",
+    "target": "6세~초등4학년",
+    "fee": "무료",
+    "capacity": 15,
+    "enrolled": 14,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-07 11:00",
+    "deadline": "2026-10-16 17:00",
+    "eventEnd": "2026-10-17",
+    "schedule": "2026.10.17(토) 11:00 ~ 11:40 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "kid",
+      "elem",
+      "weekend"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=35&teach_idx=3611"
+  },
+  {
     "id": "phlib-3612",
     "org": "흥해내맏이작은도서관",
     "orgShort": "흥해내맏이",
@@ -482,7 +483,7 @@
     "target": "5세~초등",
     "fee": "무료",
     "capacity": 15,
-    "enrolled": 7,
+    "enrolled": 14,
     "waitCapacity": 0,
     "waitEnrolled": 0,
     "openAt": "2026-10-10 10:00",
@@ -529,7 +530,7 @@
     "place": "포은오천도서관 2층 상상1뜰",
     "target": "초등 1~3학년",
     "fee": "무료",
-    "capacity": 5,
+    "capacity": 6,
     "enrolled": 4,
     "waitCapacity": 0,
     "waitEnrolled": 0,
@@ -570,30 +571,6 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=80&teach_idx=3615"
   },
   {
-    "id": "phlib-3616",
-    "org": "연일도서관",
-    "orgShort": "연일",
-    "title": "과학자들의 재능기부 도서관 과학 강연",
-    "place": "연일도서관 1층 다목적실",
-    "target": "초등(고학년)·중·고등학생, 일반시민",
-    "fee": "무료",
-    "capacity": 30,
-    "enrolled": 18,
-    "waitCapacity": 5,
-    "waitEnrolled": 0,
-    "openAt": "2026-10-13 10:00",
-    "deadline": "2026-10-30 18:00",
-    "eventEnd": "2026-10-31",
-    "schedule": "2026.10.31(토) 14:00 ~ 16:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=132&teach_idx=3616"
-  },
-  {
     "id": "phlib-3617",
     "org": "우창 어울작은도서관",
     "orgShort": "우창 어울",
@@ -602,7 +579,7 @@
     "target": "초등 전학년",
     "fee": "무료",
     "capacity": 12,
-    "enrolled": 2,
+    "enrolled": 8,
     "waitCapacity": 6,
     "waitEnrolled": 0,
     "openAt": "2026-10-14 10:00",
@@ -617,30 +594,6 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3617"
   },
   {
-    "id": "phlib-3618",
-    "org": "장량꿈마루작은도서관",
-    "orgShort": "장량꿈마루",
-    "title": "어린이 환경 프로그램",
-    "place": "장량꿈마루작은도서관",
-    "target": "초등1~3학년",
-    "fee": "무료",
-    "capacity": 10,
-    "enrolled": 0,
-    "waitCapacity": 4,
-    "waitEnrolled": 0,
-    "openAt": "2026-10-14 10:00",
-    "deadline": "2026-11-06 11:00",
-    "eventEnd": "2026-11-07",
-    "schedule": "2026.11.07(토) 10:30 ~ 12:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3618"
-  },
-  {
     "id": "phlib-3620",
     "org": "장량꿈마루작은도서관",
     "orgShort": "장량꿈마루",
@@ -652,7 +605,7 @@
     "enrolled": 0,
     "waitCapacity": 4,
     "waitEnrolled": 0,
-    "openAt": "2026-11-13 10:00",
+    "openAt": "2026-10-14 10:00",
     "deadline": "2026-11-13 11:00",
     "eventEnd": "2026-11-14",
     "schedule": "2026.11.14(토) 10:30 ~ 12:00 (1회)",
@@ -663,5 +616,77 @@
       "weekend"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3620"
+  },
+  {
+    "id": "phlib-3621",
+    "org": "장량꿈마루작은도서관",
+    "orgShort": "장량꿈마루",
+    "title": "어린이 환경 프로그램 <오늘도 나는 지구를 구...",
+    "place": "장량꿈마루작은도서관",
+    "target": "초등1~3학년",
+    "fee": "무료",
+    "capacity": 10,
+    "enrolled": 0,
+    "waitCapacity": 4,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-14 10:00",
+    "deadline": "2026-11-20 10:00",
+    "eventEnd": "2026-11-21",
+    "schedule": "2026.11.21(토) 10:30 ~ 12:00 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "elem",
+      "weekend"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3621"
+  },
+  {
+    "id": "phlib-3622",
+    "org": "대잠도서관",
+    "orgShort": "대잠",
+    "title": "2026년 대잠도서관 북스타트 59기",
+    "place": "대잠도서관 3층 세오녀방",
+    "target": "19~35개월 유아 및 양육자",
+    "fee": "무료",
+    "capacity": 10,
+    "enrolled": 0,
+    "waitCapacity": 5,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-23 10:00",
+    "deadline": "2026-11-06 18:00",
+    "eventEnd": "2026-11-21",
+    "schedule": "2026.11.07 ~ 11.21 매주 토 15:30 ~ 17:00",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "kid",
+      "weekend"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=64&teach_idx=3622"
+  },
+  {
+    "id": "phlib-3623",
+    "org": "연일도서관",
+    "orgShort": "연일",
+    "title": "2026년 연일도서관 하반기 어린이독서회(2~...",
+    "place": "연일도서관 1층 다목적실",
+    "target": "초등 2~3학년",
+    "fee": "무료",
+    "capacity": 15,
+    "enrolled": 0,
+    "waitCapacity": 5,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-21 10:00",
+    "deadline": "2026-10-28 18:00",
+    "eventEnd": "2026-11-29",
+    "schedule": "2026.11.08 ~ 11.29 매주 일 10:00 ~ 12:00",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "elem",
+      "weekend"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=132&teach_idx=3623"
   }
 ]
