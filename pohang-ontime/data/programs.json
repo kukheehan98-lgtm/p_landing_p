@@ -1,29 +1,5 @@
 [
   {
-    "id": "gsei-1469",
-    "org": "경상북도교육청과학원",
-    "orgShort": "과학원",
-    "title": "2026 가족천체관측교실 6회",
-    "place": "경상북도교육청과학원 (북구 우미길 93)",
-    "target": "가족 (2~5인)",
-    "fee": "무료",
-    "capacity": 6,
-    "enrolled": 6,
-    "waitCapacity": 2,
-    "waitEnrolled": 1,
-    "openAt": "2026-10-14 09:00",
-    "deadline": "2026-10-19 23:59",
-    "eventEnd": "2026-10-21",
-    "schedule": "2026.10.21 19:00~21:30 (1회)",
-    "applyRule": "",
-    "unit": "가족",
-    "presets": [
-      "kid",
-      "elem"
-    ],
-    "url": "https://www.gbe.kr/gsei/eq/view/selectEqList.do?mi=10867"
-  },
-  {
     "id": "gsei-1470",
     "org": "경상북도교육청과학원",
     "orgShort": "과학원",
@@ -189,6 +165,30 @@
       "weekend"
     ],
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261013_002&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-EVT_20261019_001",
+    "org": "아르코공연연습센터",
+    "orgShort": "아르코공연연습센터",
+    "title": "2026 아트브릿지 <마스터클래스> 참여자 모집 공고",
+    "place": "아르코공연연습센터 포항문화예술회관",
+    "target": "전체",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-10-25",
+    "schedule": "2026.10.19 ~ 10.25",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261019_001&menu_site_id=performance_detail"
   },
   {
     "id": "phcf-FST_ETC_2026_001",
