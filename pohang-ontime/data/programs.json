@@ -27,7 +27,7 @@
     "org": "경상북도교육청 영일도서관",
     "orgShort": "영일",
     "title": "슈링클스 캐릭터 키링 만들기",
-    "place": "제2평생학습실",
+    "place": "제1평생학습실",
     "target": "초등 1~6학년",
     "fee": "무료",
     "capacity": 20,
@@ -308,6 +308,30 @@
       "weekend"
     ],
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_ETC_2026_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-FST_LIGHT_2026_001",
+    "org": "영일대해수욕장 일원",
+    "orgShort": "영일대해수욕장 일원",
+    "title": "2026 포항국제불빛축제",
+    "place": "영일대해수욕장 일원",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-11-21",
+    "schedule": "2026.11.19 ~ 11.21",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_LIGHT_2026_001&menu_site_id=performance_detail"
   },
   {
     "id": "phcf-FST_STEEL_2026_001",
