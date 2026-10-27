@@ -286,6 +286,30 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261027_006&menu_site_id=performance_detail"
   },
   {
+    "id": "phcf-EVT_20261027_009",
+    "org": "포항경주공항",
+    "orgShort": "포항경주공항",
+    "title": "2026 포항국제음악제 프린지_MUSIC EVERYWHERE",
+    "place": "포항경주공항 탑승게이트, 포항문화예술회관 야외공연장, 포항문화예술회관 소공연장, 포항 오브레멘 백야드",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-11-09",
+    "schedule": "2026.10.30 ~ 11.09",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261027_009&menu_site_id=performance_detail"
+  },
+  {
     "id": "phcf-FST_ETC_2026_001",
     "org": "포항문화예술회관",
     "orgShort": "포항문화예술회관",
