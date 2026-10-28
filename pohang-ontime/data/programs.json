@@ -310,6 +310,30 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261027_009&menu_site_id=performance_detail"
   },
   {
+    "id": "phcf-EVT_20261028_001",
+    "org": "포항시 일원",
+    "orgShort": "포항시 일원",
+    "title": "2026 포항국제음악제 프린지_바람의 선율 음악을 품다",
+    "place": "포항시 일원",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-11-13",
+    "schedule": "2026.10.29 ~ 11.13",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261028_001&menu_site_id=performance_detail"
+  },
+  {
     "id": "phcf-FST_ETC_2026_001",
     "org": "포항문화예술회관",
     "orgShort": "포항문화예술회관",
@@ -462,7 +486,7 @@
     "target": "초등 2~3학년",
     "fee": "무료",
     "capacity": 15,
-    "enrolled": 11,
+    "enrolled": 10,
     "waitCapacity": 5,
     "waitEnrolled": 0,
     "openAt": "2026-10-21 10:00",
