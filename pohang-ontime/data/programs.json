@@ -167,30 +167,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261013_002&menu_site_id=performance_detail"
   },
   {
-    "id": "phcf-EVT_20261020_001",
-    "org": "귀비고",
-    "orgShort": "귀비고",
-    "title": "가무백희 10월 공연 [공동체: 삶과 축제]",
-    "place": "귀비고/신라마을 신라마을 초정",
-    "target": "전체",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-10-31",
-    "schedule": "2026.10.31 13:30~14:30 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing",
-      "weekend"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261020_001&menu_site_id=performance_detail"
-  },
-  {
     "id": "phcf-EVT_20261022_002",
     "org": "머신아트랩",
     "orgShort": "머신아트랩",
@@ -309,30 +285,6 @@
       "weekend"
     ],
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261028_001&menu_site_id=performance_detail"
-  },
-  {
-    "id": "phcf-EVT_20261029_002",
-    "org": "꿈틀로 문화공판장",
-    "orgShort": "꿈틀로 문화공판장",
-    "title": "2026 장삼이사 영상제",
-    "place": "꿈틀로 문화공판장",
-    "target": "누구나",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-10-31",
-    "schedule": "2026.10.31 19:00~20:30 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing",
-      "weekend"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261029_002&menu_site_id=performance_detail"
   },
   {
     "id": "phcf-EVT_20261029_003",
@@ -573,54 +525,6 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3621"
   },
   {
-    "id": "phlib-3622",
-    "org": "대잠도서관",
-    "orgShort": "대잠",
-    "title": "2026년 대잠도서관 북스타트 59기",
-    "place": "대잠도서관 3층 세오녀방",
-    "target": "19~35개월 유아 및 양육자",
-    "fee": "무료",
-    "capacity": 10,
-    "enrolled": 10,
-    "waitCapacity": 5,
-    "waitEnrolled": 4,
-    "openAt": "2026-10-23 10:00",
-    "deadline": "2026-11-06 18:00",
-    "eventEnd": "2026-11-21",
-    "schedule": "2026.11.07 ~ 11.21 매주 토 15:30 ~ 17:00",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "kid",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=64&teach_idx=3622"
-  },
-  {
-    "id": "phlib-3624",
-    "org": "포은오천도서관",
-    "orgShort": "포은오천",
-    "title": "북스타트 53기",
-    "place": "포은오천도서관 1층 실감놀이터",
-    "target": "유아 4~5세 및 양육자",
-    "fee": "무료",
-    "capacity": 8,
-    "enrolled": 8,
-    "waitCapacity": 5,
-    "waitEnrolled": 4,
-    "openAt": "2026-10-22 10:00",
-    "deadline": "2026-11-04 17:00",
-    "eventEnd": "2026-11-28",
-    "schedule": "2026.11.07 ~ 11.28 매주 토 10:00 ~ 11:30",
-    "applyRule": "guest-ok",
-    "unit": "명",
-    "presets": [
-      "kid",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=80&teach_idx=3624"
-  },
-  {
     "id": "phlib-3625",
     "org": "포은중앙도서관",
     "orgShort": "포은중앙",
@@ -677,7 +581,7 @@
     "target": "초등1~5학년",
     "fee": "무료",
     "capacity": 8,
-    "enrolled": 2,
+    "enrolled": 3,
     "waitCapacity": 2,
     "waitEnrolled": 0,
     "openAt": "2025-10-24 17:00",
@@ -691,5 +595,52 @@
       "weekend"
     ],
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3630"
+  },
+  {
+    "id": "phlib-3631",
+    "org": "용흥 솔개재작은도서관",
+    "orgShort": "용흥 솔개재",
+    "title": "쉼표 그림책 독서회",
+    "place": "용흥 솔개재작은도서관",
+    "target": "성인",
+    "fee": "무료",
+    "capacity": 5,
+    "enrolled": 1,
+    "waitCapacity": 3,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-30 10:00",
+    "deadline": "2026-11-05 18:00",
+    "eventEnd": "2026-12-04",
+    "schedule": "2026.11.06 ~ 12.04 매주 금 10:00 ~ 12:00",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "morning"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3631"
+  },
+  {
+    "id": "phlib-3632",
+    "org": "흥해내맏이작은도서관",
+    "orgShort": "흥해내맏이",
+    "title": "가족과 그림책 읽고, 보드게임 한 판!",
+    "place": "흥해내맏이작은도서관",
+    "target": "초등2~5학년 및 보호자",
+    "fee": "무료",
+    "capacity": 2,
+    "enrolled": 1,
+    "waitCapacity": 1,
+    "waitEnrolled": 0,
+    "openAt": "2026-10-31 13:00",
+    "deadline": "2026-11-06 16:00",
+    "eventEnd": "2026-11-07",
+    "schedule": "2026.11.07(토) 10:00 ~ 11:30 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "elem",
+      "weekend"
+    ],
+    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3632"
   }
 ]
