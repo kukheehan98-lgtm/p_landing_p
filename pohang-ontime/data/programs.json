@@ -549,30 +549,6 @@
     "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3621"
   },
   {
-    "id": "phlib-3630",
-    "org": "해도 바다섬 작은도서관",
-    "orgShort": "해도 바다섬",
-    "title": "(보드게임)동물 친구들과 함께 떠나는 생각여행",
-    "place": "해도 바다섬 작은도서관",
-    "target": "초등1~5학년",
-    "fee": "무료",
-    "capacity": 6,
-    "enrolled": 3,
-    "waitCapacity": 2,
-    "waitEnrolled": 0,
-    "openAt": "2025-10-24 17:00",
-    "deadline": "2026-11-06 17:00",
-    "eventEnd": "2026-11-21",
-    "schedule": "2026.11.07 ~ 11.21 매주 토 10:00 ~ 11:30",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://phlib.pohang.go.kr/phlib/module/teach/detail.do?menu_idx=24&group_idx=98&teach_idx=3630"
-  },
-  {
     "id": "phlib-3633",
     "org": "포은중앙도서관",
     "orgShort": "포은중앙",
