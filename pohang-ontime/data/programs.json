@@ -8,7 +8,7 @@
     "target": "중·고등학생, 학무모, 지역주민",
     "fee": "무료",
     "capacity": 19,
-    "enrolled": 13,
+    "enrolled": 17,
     "waitCapacity": 1,
     "waitEnrolled": 1,
     "openAt": "2026-11-03 10:30",
@@ -309,30 +309,6 @@
       "weekend"
     ],
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261029_003&menu_site_id=performance_detail"
-  },
-  {
-    "id": "phcf-EVT_20261030_002",
-    "org": "포은중앙도서관",
-    "orgShort": "포은중앙도서관",
-    "title": "2026 포항국제음악제 찾아가는 음악회 Ⅰ<목관 오중주>",
-    "place": "포은중앙도서관",
-    "target": "누구나",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-11-07",
-    "schedule": "2026.11.07 11:00~12:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing",
-      "weekend"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261030_002&menu_site_id=performance_detail"
   },
   {
     "id": "phcf-EVT_20261030_003",
