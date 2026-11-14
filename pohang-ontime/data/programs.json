@@ -167,54 +167,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261027_003&menu_site_id=performance_detail"
   },
   {
-    "id": "phcf-EVT_20261027_006",
-    "org": "포항시 일원",
-    "orgShort": "포항시 일원",
-    "title": "2026 포항국제음악제 프린지",
-    "place": "포항시 일원",
-    "target": "누구나",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-11-13",
-    "schedule": "2026.10.29 ~ 11.13",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing",
-      "weekend"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261027_006&menu_site_id=performance_detail"
-  },
-  {
-    "id": "phcf-EVT_20261028_001",
-    "org": "포항시 일원",
-    "orgShort": "포항시 일원",
-    "title": "2026 포항국제음악제 프린지_바람의 선율 음악을 품다",
-    "place": "포항시 일원",
-    "target": "누구나",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-11-13",
-    "schedule": "2026.10.29 ~ 11.13",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing",
-      "weekend"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261028_001&menu_site_id=performance_detail"
-  },
-  {
     "id": "phcf-EVT_20261029_003",
     "org": "SPACE 298",
     "orgShort": "SPACE 298",
@@ -309,6 +261,30 @@
       "weekend"
     ],
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261111_002&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-EVT_20261113_001",
+    "org": "문화예술팩토리",
+    "orgShort": "문화예술팩토리",
+    "title": "2026 지역 축제담(談)",
+    "place": "문화예술팩토리 3층 멀티미디어홀",
+    "target": "전체",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2026-11-28",
+    "schedule": "2026.11.28 14:00~18:00 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261113_001&menu_site_id=performance_detail"
   },
   {
     "id": "phcf-FST_LIGHT_2026_001",
