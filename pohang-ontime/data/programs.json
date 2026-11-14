@@ -1,5 +1,29 @@
 [
   {
+    "id": "gbelib-yi-16546",
+    "org": "경상북도교육청 영일도서관",
+    "orgShort": "영일",
+    "title": "슈링클스 캐릭터 키링 만들기",
+    "place": "제1평생학습실",
+    "target": "초등 1~6학년",
+    "fee": "무료",
+    "capacity": 20,
+    "enrolled": 19,
+    "waitCapacity": 5,
+    "waitEnrolled": 0,
+    "openAt": "2026-11-10 10:30",
+    "deadline": "2026-11-19 23:59",
+    "eventEnd": "2026-11-21",
+    "schedule": "2026.11.21(토) 13:00 ~ 15:00 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "elem",
+      "weekend"
+    ],
+    "url": "https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=3&teach_idx=16546"
+  },
+  {
     "id": "gbelib-yi-16598",
     "org": "경상북도교육청 영일도서관",
     "orgShort": "영일",
