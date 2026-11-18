@@ -1,22 +1,20 @@
-실행 2026-11-17 11:58 KST
-수집 시작 — 2026-11-17T02:58:40.841Z
+실행 2026-11-18 11:27 KST
+수집 시작 — 2026-11-18T02:27:53.656Z
   포항시립도서관: 실패 — 응답이 310자뿐 — https://phlib.pohang.go.kr/phlib/module/teach/index.do?menu_idx=24
       돌아온 내용: <br> <br> <center> <h2> The request / response that are contrary to the Web firewall security policies have been blocked. </h2> <table> <tr> <td>Detect time</td> <td></td> </tr> <tr> <td>Detect client IP</td> <td></td> <
   경상북도교육청 영일도서관: 목록 2건
   경상북도교육청과학원: 목록 20건
-  포항문화재단: 목록 759건
-수집 합계 781건 (실패한 기관: phlib)
+  포항문화재단: 목록 760건
+수집 합계 782건 (실패한 기관: phlib)
   이어받은 기존 강좌 5건
 큐레이션 후 15건
   기준일은 2026-11-07 — 아직 확인 못 한 기관이 있습니다
-완료 — 데이터가 바뀌었습니다
+완료 — 강좌 내용은 그대로 (기준일만 확인)
 --- 만들어진 파일 ---
 total 36
-drwxr-xr-x 2 runner runner  4096 Nov 17 02:58 .
-drwxr-xr-x 4 runner runner  4096 Nov 17 02:58 ..
--rw-r--r-- 1 runner runner 13538 Nov 17 02:58 fill-log.csv
--rw-r--r-- 1 runner runner 10439 Nov 17 02:58 programs.json
+drwxr-xr-x 2 runner runner  4096 Nov 18 02:27 .
+drwxr-xr-x 4 runner runner  4096 Nov 18 02:27 ..
+-rw-r--r-- 1 runner runner 13538 Nov 18 02:27 fill-log.csv
+-rw-r--r-- 1 runner runner 10527 Nov 18 02:28 programs.json
 --- 바뀐 파일 ---
  M pohang-ontime/crawler/last-run.log
- M pohang-ontime/data/programs.json
- M pohang-ontime/index.html
