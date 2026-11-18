@@ -1,29 +1,5 @@
 [
   {
-    "id": "gbelib-yi-16546",
-    "org": "경상북도교육청 영일도서관",
-    "orgShort": "영일",
-    "title": "슈링클스 캐릭터 키링 만들기",
-    "place": "제1평생학습실",
-    "target": "초등 1~6학년",
-    "fee": "무료",
-    "capacity": 20,
-    "enrolled": 19,
-    "waitCapacity": 5,
-    "waitEnrolled": 0,
-    "openAt": "2026-11-10 10:30",
-    "deadline": "2026-11-19 23:59",
-    "eventEnd": "2026-11-21",
-    "schedule": "2026.11.21(토) 13:00 ~ 15:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "elem",
-      "weekend"
-    ],
-    "url": "https://www.gbelib.kr/yi/module/teach/detail.do?menu_idx=209&group_idx=3&teach_idx=16546"
-  },
-  {
     "id": "gbelib-yi-16598",
     "org": "경상북도교육청 영일도서관",
     "orgShort": "영일",
@@ -32,9 +8,9 @@
     "target": "청소년 및 성인",
     "fee": "무료",
     "capacity": 28,
-    "enrolled": 16,
+    "enrolled": 24,
     "waitCapacity": 2,
-    "waitEnrolled": 1,
+    "waitEnrolled": 2,
     "openAt": "2026-11-17 10:00",
     "deadline": "2026-11-20 13:00",
     "eventEnd": "2026-11-21",
@@ -55,7 +31,7 @@
     "target": "가족 (2~5인)",
     "fee": "무료",
     "capacity": 6,
-    "enrolled": 0,
+    "enrolled": 2,
     "waitCapacity": 2,
     "waitEnrolled": 0,
     "openAt": "2026-11-18 09:00",
@@ -213,6 +189,30 @@
       "weekend"
     ],
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261113_001&menu_site_id=performance_detail"
+  },
+  {
+    "id": "phcf-EVT_20261117_001",
+    "org": "동빈문화창고1969",
+    "orgShort": "동빈문화창고1969",
+    "title": "[해양 콘텐츠 기반 미디어 퍼포먼스] 해원(海願) : 바다와 기억, 목소리로 엮는 동시대의 의례",
+    "place": "동빈문화창고1969",
+    "target": "누구나",
+    "fee": "무료",
+    "capacity": 30,
+    "enrolled": 0,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": "2026-11-17",
+    "deadline": "2026-11-20",
+    "eventEnd": "2026-11-22",
+    "schedule": "2026.11.22 16:00~18:00 (1회)",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing",
+      "weekend"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261117_001&menu_site_id=performance_detail"
   },
   {
     "id": "phcf-FST_LIGHT_2026_001",
