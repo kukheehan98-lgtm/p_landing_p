@@ -144,30 +144,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261113_001&menu_site_id=performance_detail"
   },
   {
-    "id": "phcf-EVT_20261117_001",
-    "org": "동빈문화창고1969",
-    "orgShort": "동빈문화창고1969",
-    "title": "[해양 콘텐츠 기반 미디어 퍼포먼스] 해원(海願) : 바다와 기억, 목소리로 엮는 동시대의 의례",
-    "place": "동빈문화창고1969",
-    "target": "누구나",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-11-22",
-    "schedule": "2026.11.22 16:00~18:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing",
-      "weekend"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261117_001&menu_site_id=performance_detail"
-  },
-  {
     "id": "phcf-EVT_20261119_001",
     "org": "동빈문화창고1969",
     "orgShort": "동빈문화창고1969",
