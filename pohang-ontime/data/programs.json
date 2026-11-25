@@ -168,29 +168,6 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261120_001&menu_site_id=performance_detail"
   },
   {
-    "id": "phcf-EVT_20261124_001",
-    "org": "인디플러스 포항",
-    "orgShort": "인디플러스 포항",
-    "title": "2026 꿈다락 문화예술학교 <레디, 액션! 우리들의 첫 단편영화 1기·2기 상영회>",
-    "place": "인디플러스 포항/중앙아트홀",
-    "target": "누구나",
-    "fee": "무료 관람",
-    "capacity": null,
-    "enrolled": null,
-    "waitCapacity": 0,
-    "waitEnrolled": 0,
-    "openAt": null,
-    "deadline": null,
-    "eventEnd": "2026-11-24",
-    "schedule": "2026.11.24 19:00~20:00 (1회)",
-    "applyRule": "",
-    "unit": "명",
-    "presets": [
-      "outing"
-    ],
-    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261124_001&menu_site_id=performance_detail"
-  },
-  {
     "id": "phlib-3620",
     "org": "장량꿈마루작은도서관",
     "orgShort": "장량꿈마루",
