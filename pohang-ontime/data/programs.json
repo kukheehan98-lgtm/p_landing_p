@@ -192,6 +192,29 @@
     "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=EVT_20261126_001&menu_site_id=performance_detail"
   },
   {
+    "id": "phcf-FST_HOMIGOT_2026_001",
+    "org": "호미곶해맞이광장",
+    "orgShort": "호미곶해맞이광장",
+    "title": "제29회 호미곶한민족해맞이축전",
+    "place": "호미곶해맞이광장",
+    "target": "누구나",
+    "fee": "무료 관람",
+    "capacity": null,
+    "enrolled": null,
+    "waitCapacity": 0,
+    "waitEnrolled": 0,
+    "openAt": null,
+    "deadline": null,
+    "eventEnd": "2027-01-01",
+    "schedule": "2026.12.31 ~ 2027.01.01",
+    "applyRule": "",
+    "unit": "명",
+    "presets": [
+      "outing"
+    ],
+    "url": "https://phcf.or.kr/phcf/performance_detail/view.do?eventId=FST_HOMIGOT_2026_001&menu_site_id=performance_detail"
+  },
+  {
     "id": "phlib-3620",
     "org": "장량꿈마루작은도서관",
     "orgShort": "장량꿈마루",
